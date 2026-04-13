@@ -114,7 +114,7 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="max-w-md text-base md:text-lg text-white/50 font-light leading-relaxed"
             >
-              Graphic & Motion Designer — crafting high-end visual identities and motion graphics that drive brand growth and audience engagement. Based in Accra, Ghana.
+              Graphic & Motion Designer — crafting high-end visual identities and motion graphics that drive brand growth and audience engagement.
             </motion.p>
           </div>
 
@@ -192,10 +192,11 @@ export default function Hero() {
               >
                 <X size={20} />
               </button>
-              <iframe 
-                src="https://streamable.com/e/1rn30v?autoplay=1" 
+              <iframe
+                src="https://www.youtube.com/embed/sjDxL0-elBE?si=4RnOgqYO4vxJBpAi&autoplay=1"
                 className="w-full h-full border-none"
-                allow="autoplay; fullscreen"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
               />
             </motion.div>
           </div>

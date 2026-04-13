@@ -17,7 +17,7 @@ const PROJECTS = [
     category: "PORTFOLIO DESIGN",
     localSrc: "/sharpe-designed-it.mp4",
     video: "",
-    description: "Personal portfolio for Clifford Sharpe — graphic and motion designer based in Accra, Ghana. Built with kinetic animations, a custom cursor, and a dark editorial aesthetic that captures the full range of brand, motion, and digital work.",
+    description: "Personal portfolio for Clifford Sharpe — graphic and motion designer. Built with kinetic animations, a custom cursor, and a dark editorial aesthetic that captures the full range of brand, motion, and digital work.",
   },
   {
     id: "03",
@@ -158,7 +158,7 @@ export default function AIAgency() {
               We Build Killer<br />Landing Pages
             </h1>
             <div className="flex justify-center gap-4">
-              <span className="text-[10px] font-bold text-[#00ff00]/60 tracking-[0.5em]">KINETIC.FORGE</span>
+              <span className="text-[10px] font-bold text-[#00ff00]/60 tracking-[0.5em]">THE.AGENCY</span>
               <span className="text-[10px] font-bold text-white/20 tracking-[0.5em]">EST.2099</span>
             </div>
           </motion.div>
@@ -456,15 +456,15 @@ export default function AIAgency() {
           </div>
         </section>
 
-        {/* ── KINETIC FORGE FOOTER ── */}
+        {/* ── AGENCY FOOTER ── */}
         <footer className="mt-24 pt-12 border-t border-white/5 space-y-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
 
             {/* Brand */}
             <div className="space-y-4">
-              <div className="text-[10px] font-bold text-[#00ff00] uppercase tracking-[0.4em]">KINETIC.FORGE</div>
+              <div className="text-[10px] font-bold text-[#00ff00] uppercase tracking-[0.4em]">THE.AGENCY</div>
               <p className="text-[9px] text-white/30 uppercase leading-relaxed tracking-widest">
-                Clifford Sharpe — Graphic & Motion Designer. Forging high-performance digital architectures from Accra, Ghana.
+                Clifford Sharpe — Graphic & Motion Designer. Forging high-performance digital architectures for brands worldwide.
               </p>
             </div>
 
@@ -512,11 +512,11 @@ export default function AIAgency() {
           </div>
 
           <div className="flex justify-between items-center py-8 text-[8px] uppercase tracking-[0.5em] text-white/10 border-t border-white/5">
-            <div>© 2026 CLIFFORD SHARPE // KINETIC.FORGE // ALL RIGHTS RESERVED</div>
+            <div>© 2026 CLIFFORD SHARPE // THE AGENCY // ALL RIGHTS RESERVED</div>
             <div className="hidden md:flex items-center gap-4">
               <span>clifford.sharpe007@gmail.com</span>
               <div className="w-4 h-[1px] bg-white/5" />
-              <span>Accra, Ghana</span>
+              <span>clifford.sharpe007@gmail.com</span>
             </div>
           </div>
         </footer>

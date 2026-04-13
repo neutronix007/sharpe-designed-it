@@ -13,7 +13,7 @@ const experiences = [
   {
     company: "Beda Consult Ltd",
     role: "Graphic Designer (Contract)",
-    location: "Remote, Ghana",
+    location: "Remote",
     period: "Sep 2023 – Present",
     description: "Produced 52+ high-quality graphics monthly across 13+ client accounts. Designed 5+ unique logos and brand guidelines, achieving a 30% engagement increase and a 15% improvement in project turnaround through collaborative design platforms."
   },
