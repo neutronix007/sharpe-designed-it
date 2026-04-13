@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import gsap from "gsap";
 import { ArrowUpRight, Play, X } from "lucide-react";
 import Slideshow from "./Slideshow";
+import SEO from "./SEO";
 
 const tags = [
   "Motion Graphics",
@@ -50,6 +51,12 @@ export default function Hero() {
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center lg:justify-start overflow-hidden pt-20 lg:pt-48 pb-20 lg:pb-40">
+      <SEO
+        title="Sharpe.Designed.It | Motion & Visual Identity Designer"
+        description="Clifford Sharpe — Graphic & Motion Designer crafting high-end visual identities, motion graphics, and brand systems that drive measurable growth."
+        image="/homepage preview thumbnail link.jpeg"
+        path="/"
+      />
       {/* Background Video */}
       <div className="absolute inset-0 z-0 h-full w-full pointer-events-none overflow-hidden">
         <div className="absolute inset-0">

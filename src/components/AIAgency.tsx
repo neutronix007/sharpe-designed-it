@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll } from "motion/react";
 import { Plus, ChevronRight, ChevronLeft, Quote, Monitor, X } from "lucide-react";
+import SEO from "./SEO";
 
 const PROJECTS = [
   {
@@ -136,6 +137,13 @@ export default function AIAgency() {
       <div className="fixed inset-0 z-[2] opacity-5 pointer-events-none">
         <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(circle, #ffffff 1px, transparent 1px)`, backgroundSize: "40px 40px" }} />
       </div>
+
+      <SEO
+        title="The Agency | Sharpe.Designed.It — We Build Killer Landing Pages"
+        description="High-performance landing pages and digital experiences powered by kinetic motion and brand strategy. Engineered for conversion, built for the next frontier."
+        image="/ai agency preview thumbnail link.jpeg"
+        path="/ai-agency"
+      />
 
       <div className="relative z-20 w-full flex flex-col p-8 md:p-12">
 

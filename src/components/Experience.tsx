@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { useState, FormEvent } from "react";
+import SEO from "./SEO";
 
 const experiences = [
   {
@@ -61,6 +62,12 @@ export default function Experience() {
 
   return (
     <section className="relative min-h-screen bg-[#050505] flex flex-col lg:flex-row items-center justify-between px-8 md:px-20 pt-32 pb-20 overflow-x-hidden">
+      <SEO
+        title="Experience | Sharpe.Designed.It"
+        description="Design career spanning Zeme Inc, Beda Consult, Onyin Technologies, and global freelance — delivering measurable results through motion and brand design."
+        image="/experience page preview thumbnail link.jpeg"
+        path="/experience"
+      />
       {/* Background Video with Overlay */}
       <div className="absolute inset-0 z-0">
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>

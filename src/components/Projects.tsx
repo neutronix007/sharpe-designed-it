@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, X, ExternalLink } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
+import SEO from "./SEO";
 
 const YT_EMBED = "https://www.youtube.com/embed/sjDxL0-elBE?si=4RnOgqYO4vxJBpAi&autoplay=1&mute=1&controls=0&loop=1&playlist=sjDxL0-elBE&modestbranding=1";
 const YT_MODAL = "https://www.youtube.com/embed/sjDxL0-elBE?si=4RnOgqYO4vxJBpAi&autoplay=1&controls=1";
@@ -199,6 +200,12 @@ export default function Projects() {
 
   return (
     <section className="relative bg-[#050505] pt-24 pb-24 overflow-hidden">
+      <SEO
+        title="Projects | Sharpe.Designed.It"
+        description="A curated collection of motion design, brand identity, and social media work — Google Real Estate Expo, UTA Music App, Pony Decor, and more."
+        image="/projects page preview thumbnail link.jpeg"
+        path="/projects"
+      />
 
       {/* ── Floating interactive pills ── */}
       <motion.div ref={bluePillRef}

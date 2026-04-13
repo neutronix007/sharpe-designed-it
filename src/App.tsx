@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion, useSpring, useMotionValue } from "motion/react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Projects from "./components/Projects";
@@ -81,10 +82,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <Router>
-      <main className="relative min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black">
-        <AppContent />
-      </main>
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <main className="relative min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black">
+          <AppContent />
+        </main>
+      </Router>
+    </HelmetProvider>
   );
 }
