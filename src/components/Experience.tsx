@@ -65,7 +65,7 @@ export default function Experience() {
       <SEO
         title="Experience | Sharpe.Designed.It"
         description="Design career spanning Zeme Inc, Beda Consult, Onyin Technologies, and global freelance — delivering measurable results through motion and brand design."
-        image="/experience page preview thumbnail link.jpeg"
+        image="/og-experience.jpeg"
         path="/experience"
       />
       {/* Background Video with Overlay */}

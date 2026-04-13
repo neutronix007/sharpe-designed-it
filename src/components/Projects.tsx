@@ -203,7 +203,7 @@ export default function Projects() {
       <SEO
         title="Projects | Sharpe.Designed.It"
         description="A curated collection of motion design, brand identity, and social media work — Google Real Estate Expo, UTA Music App, Pony Decor, and more."
-        image="/projects page preview thumbnail link.jpeg"
+        image="/og-projects.jpeg"
         path="/projects"
       />
 

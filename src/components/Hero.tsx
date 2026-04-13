@@ -54,7 +54,7 @@ export default function Hero() {
       <SEO
         title="Sharpe.Designed.It | Motion & Visual Identity Designer"
         description="Clifford Sharpe — Graphic & Motion Designer crafting high-end visual identities, motion graphics, and brand systems that drive measurable growth."
-        image="/homepage preview thumbnail link.jpeg"
+        image="/og-home.jpeg"
         path="/"
       />
       {/* Background Video */}
