@@ -5,22 +5,25 @@ import { Plus, ChevronRight, ChevronLeft, Quote, Monitor, X } from "lucide-react
 const PROJECTS = [
   {
     id: "01",
-    title: "NEURAL.INTERFACE",
-    category: "AI ARCHITECTURE",
-    video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
-    description: "High-performance landing page for a neural computing startup. Delivered a 3× conversion uplift through kinetic scroll interactions, real-time particle systems, and GPU-accelerated motion design. Built to scale from seed to Series A.",
+    title: "OCEAN.ODYSSEY",
+    category: "INTERGALACTIC EXPERIENCE",
+    localSrc: "/ocean odyssey.mp4",
+    video: "",
+    description: "Immersive digital experience for an intergalactic ocean where astronauts explore uncharted deep-space waters. Cinematic scroll-driven visuals, bioluminescent motion design, and zero-gravity UI built for the next frontier of space tourism.",
   },
   {
     id: "02",
-    title: "KINETIC.FLOW",
-    category: "MOTION DESIGN",
-    video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
-    description: "Dynamic visual identity system for a global logistics firm spanning 12 brand touchpoints — from landing pages and pitch decks to social motion and out-of-home. Delivered at 60fps across all platforms.",
+    title: "SHARPE.PORTFOLIO",
+    category: "PORTFOLIO DESIGN",
+    localSrc: "/sharpe-designed-it.mp4",
+    video: "",
+    description: "Personal portfolio for Clifford Sharpe — graphic and motion designer based in Accra, Ghana. Built with kinetic animations, a custom cursor, and a dark editorial aesthetic that captures the full range of brand, motion, and digital work.",
   },
   {
     id: "03",
     title: "VOID.SYSTEMS",
     category: "WEB3 DEPLOY",
+    localSrc: "",
     video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
     description: "Immersive 3D environment for a decentralised finance protocol. Wallet-connect integration, generative on-chain asset previews, and a live countdown to token launch — all wrapped in a cinematic dark UI.",
   },
@@ -28,6 +31,7 @@ const PROJECTS = [
     id: "04",
     title: "AXIOM.BRAND",
     category: "VISUAL IDENTITY",
+    localSrc: "",
     video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
     description: "Full brand system for a next-gen AI hardware company — custom wordmark, motion design guidelines, and a launch film that reached 2M organic views in 72 hours across LinkedIn and X.",
   },
@@ -35,8 +39,17 @@ const PROJECTS = [
     id: "05",
     title: "FLUX.MOTION",
     category: "SOCIAL MEDIA",
+    localSrc: "",
     video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
     description: "High-volume social motion content for a global fintech brand. 30+ deliverables per sprint at broadcast quality — achieving a sustained 15% average CTR improvement across paid and organic channels.",
+  },
+  {
+    id: "06",
+    title: "PHANTOM.LAUNCH",
+    category: "LAUNCH CAMPAIGN",
+    localSrc: "",
+    video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
+    description: "End-to-end launch campaign for a stealth-mode AI startup — brand identity, motion package, and a high-converting waitlist landing page that captured 50K signups in the first 48 hours of going live.",
   },
 ];
 
@@ -77,10 +90,20 @@ export default function AIAgency() {
   const containerRef = useRef(null);
   useScroll({ target: containerRef, offset: ["start start", "end end"] });
 
-  const [projectIdx, setProjectIdx] = useState(0);
   const [selectedProject, setSelectedProject] = useState<typeof PROJECTS[0] | null>(null);
+  // Aspect ratio detected from the video's natural dimensions; falls back to 16/9 for iframes
+  const [modalAspect, setModalAspect] = useState<number>(16 / 9);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [testimonialDir, setTestimonialDir] = useState(1);
+
+  // Hero video ready state — text animates in first, video fades in when ready
+  const [heroVideoReady, setHeroVideoReady] = useState(false);
+
+  // Fallback: show video after 2.5s even on slow connections
+  useEffect(() => {
+    const fallback = setTimeout(() => setHeroVideoReady(true), 2500);
+    return () => clearTimeout(fallback);
+  }, []);
 
   // Auto-advance testimonials every 5s
   useEffect(() => {
@@ -101,11 +124,6 @@ export default function AIAgency() {
     setTestimonialIdx((i) => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
   };
 
-  const VISIBLE = 3;
-  const MAX_IDX = PROJECTS.length - VISIBLE; // 2
-  const nextProject = () => setProjectIdx((i) => Math.min(i + 1, MAX_IDX));
-  const prevProject = () => setProjectIdx((i) => Math.max(i - 1, 0));
-
   const variants = {
     enter: (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
     center: { x: 0, opacity: 1 },
@@ -122,41 +140,18 @@ export default function AIAgency() {
       <div className="relative z-20 w-full flex flex-col p-8 md:p-12">
 
         {/* ── HERO ── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="relative min-h-[90vh] flex flex-col items-center justify-center gap-6 md:gap-8 p-8 md:p-16"
-        >
+        {/* Text animates in first; video fades in after it's ready */}
+        <div className="relative min-h-[90vh] flex flex-col items-center justify-center gap-6 md:gap-8 p-8 md:p-16">
           <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-[#00ff00]/40 z-30" />
           <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-[#00ff00]/40 z-30" />
           <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-[#00ff00]/40 z-30" />
           <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-[#00ff00]/40 z-30" />
 
+          {/* Title — animates in immediately */}
           <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="relative w-full max-w-4xl overflow-hidden order-1 z-40"
-          >
-            <video
-              src="/kinetic-forge-video.mp4"
-              autoPlay muted loop playsInline
-              className="w-full h-auto max-h-[50vh] object-contain mx-auto block"
-            />
-            {/* Original Cinema8 player — uncomment to compare
-            <cinema8-player media-id="5J7z734X" style={{ position:'absolute', top:0, left:0, width:'100%', height:'100%' }} controls="false" loop autoplay="1" muted="1" />
-            */}
-            <div className="absolute inset-0 bg-black/10 z-[1] pointer-events-none" />
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
-          </motion.div>
-
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={{ y: 24, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
             className="text-center order-2 space-y-2"
           >
             <h1 className="text-[6vw] md:text-[3.8vw] font-tech font-bold leading-tight tracking-tight uppercase max-w-5xl mx-auto">
@@ -168,11 +163,11 @@ export default function AIAgency() {
             </div>
           </motion.div>
 
+          {/* Subtitle — animates in second */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.7, ease: "easeOut" }}
             className="max-w-xl space-y-3 text-center order-3"
           >
             <div className="flex items-center gap-3 justify-center">
@@ -185,11 +180,11 @@ export default function AIAgency() {
             </p>
           </motion.div>
 
+          {/* CTA button — animates in third */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.7, ease: "easeOut" }}
             className="order-5 relative group"
           >
             <div className="absolute -inset-[2px] rounded-sm overflow-hidden pointer-events-none">
@@ -208,9 +203,29 @@ export default function AIAgency() {
               Initialize Project <ChevronRight size={14} />
             </a>
           </motion.div>
-        </motion.div>
 
-        {/* ── DIGITAL ARTIFACTS CAROUSEL ── */}
+          {/* Video — fades in once loaded (or after 2.5s fallback) */}
+          <motion.div
+            initial={{ scale: 0.97, opacity: 0 }}
+            animate={{ scale: 1, opacity: heroVideoReady ? 1 : 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="relative w-full max-w-4xl overflow-hidden order-1 z-40"
+          >
+            <video
+              src="/kinetic-forge-video.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              onCanPlay={() => setHeroVideoReady(true)}
+              className="w-full h-auto max-h-[50vh] object-contain mx-auto block"
+            />
+            <div className="absolute inset-0 bg-black/10 z-[1] pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
+          </motion.div>
+        </div>
+
+        {/* ── DIGITAL ARTIFACTS GRID ── */}
         <section className="mt-32 space-y-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -225,80 +240,60 @@ export default function AIAgency() {
             <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">Digital.Artifacts</h2>
           </motion.div>
 
-          {/* 3-up sliding track */}
-          <div className="relative">
-            <div className="overflow-hidden">
+          {/* 3×2 grid — all 6 visible at once */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {PROJECTS.map((project, i) => (
               <motion.div
-                className="flex gap-4"
-                animate={{ x: `calc(-${projectIdx} * (100% / 3 + 0.55rem))` }}
-                transition={{ type: "spring", stiffness: 260, damping: 30 }}
+                key={project.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.07 }}
+                className="flex flex-col gap-3 cursor-pointer group"
+                onClick={() => { setModalAspect(16 / 9); setSelectedProject(project); }}
               >
-                {PROJECTS.map((project) => (
-                  <div
-                    key={project.id}
-                    className="w-full md:w-[calc(33.333%-0.75rem)] flex-shrink-0 flex flex-col gap-3 cursor-pointer group"
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    <div className="relative aspect-[4/5] overflow-hidden border border-white/10 bg-white/5">
-                      <iframe
-                        src={project.video}
-                        className="w-full h-full border-none pointer-events-none scale-[1.3] grayscale group-hover:grayscale-0 transition-all duration-700"
-                        allow="autoplay; fullscreen"
-                      />
-                      <div className="absolute inset-0 bg-black/50 group-hover:bg-black/20 transition-colors duration-300" />
-                      <div className="absolute top-3 left-3 text-[10px] font-bold text-[#00ff00]">{project.id}</div>
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <div className="text-[9px] text-white/40 uppercase tracking-widest mb-1">{project.category}</div>
-                        <div className="text-base font-bold uppercase tracking-tight">{project.title}</div>
-                      </div>
-                      {/* Expand hint */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="border border-[#00ff00]/40 text-[#00ff00] text-[9px] uppercase tracking-widest px-3 py-1.5">
-                          View Details
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-[9px] text-white/30 uppercase leading-relaxed px-1 line-clamp-2">
-                      {project.description}
-                    </p>
+                <div className="relative aspect-[4/5] overflow-hidden border border-white/10 bg-white/5">
+                  {project.localSrc ? (
+                    <video
+                      src={project.localSrc}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="w-full h-full object-cover pointer-events-none grayscale group-hover:grayscale-0 transition-all duration-700"
+                    />
+                  ) : (
+                    <iframe
+                      src={project.video}
+                      className="w-full h-full border-none pointer-events-none scale-[1.3] grayscale group-hover:grayscale-0 transition-all duration-700"
+                      allow="autoplay; fullscreen"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-black/50 group-hover:bg-black/20 transition-colors duration-300" />
+                  <div className="absolute top-3 left-3 text-[10px] font-bold text-[#00ff00]">{project.id}</div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="text-[9px] text-white/40 uppercase tracking-widest mb-1">{project.category}</div>
+                    <div className="text-base font-bold uppercase tracking-tight">{project.title}</div>
                   </div>
-                ))}
+                  {/* Expand hint */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="border border-[#00ff00]/40 text-[#00ff00] text-[9px] uppercase tracking-widest px-3 py-1.5">
+                      View Details
+                    </div>
+                  </div>
+                </div>
+                <p className="text-[9px] text-white/30 uppercase leading-relaxed px-1 line-clamp-2">
+                  {project.description}
+                </p>
               </motion.div>
-            </div>
-
-            {/* Arrows */}
-            <button
-              onClick={prevProject}
-              disabled={projectIdx === 0}
-              className="absolute -left-6 top-[40%] -translate-y-1/2 w-10 h-10 border border-white/10 bg-black flex items-center justify-center text-white/40 hover:text-[#00ff00] hover:border-[#00ff00]/40 transition-all disabled:opacity-20 disabled:cursor-not-allowed z-10"
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <button
-              onClick={nextProject}
-              disabled={projectIdx === MAX_IDX}
-              className="absolute -right-6 top-[40%] -translate-y-1/2 w-10 h-10 border border-white/10 bg-black flex items-center justify-center text-white/40 hover:text-[#00ff00] hover:border-[#00ff00]/40 transition-all disabled:opacity-20 disabled:cursor-not-allowed z-10"
-            >
-              <ChevronRight size={18} />
-            </button>
-          </div>
-
-          {/* Position dots — 3 positions */}
-          <div className="flex justify-center gap-3">
-            {Array.from({ length: MAX_IDX + 1 }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setProjectIdx(i)}
-                className={`w-6 h-[2px] transition-all ${i === projectIdx ? "bg-[#00ff00]" : "bg-white/20"}`}
-              />
             ))}
           </div>
         </section>
 
-        {/* ── PROJECT MODAL ── */}
+        {/* ── PROJECT MODAL — portrait / tall layout ── */}
         <AnimatePresence>
           {selectedProject && (
-            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-12">
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -307,40 +302,63 @@ export default function AIAgency() {
                 className="absolute inset-0 bg-black/90 backdrop-blur-xl"
               />
               <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                initial={{ opacity: 0, scale: 0.94, y: 24 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                transition={{ duration: 0.3 }}
-                className="relative w-[95vw] max-h-[90vh] bg-black border border-white/10 flex flex-col md:flex-row overflow-hidden"
+                exit={{ opacity: 0, scale: 0.94, y: 24 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="relative w-full max-w-3xl bg-black border border-white/10 flex flex-col overflow-hidden"
+                style={{ maxHeight: "92vh" }}
               >
                 {/* Corner accents */}
-                <div className="absolute top-0 left-0 w-5 h-5 border-t border-l border-[#00ff00]/60 z-10" />
-                <div className="absolute top-0 right-0 w-5 h-5 border-t border-r border-[#00ff00]/60 z-10" />
-                <div className="absolute bottom-0 left-0 w-5 h-5 border-b border-l border-[#00ff00]/60 z-10" />
-                <div className="absolute bottom-0 right-0 w-5 h-5 border-b border-r border-[#00ff00]/60 z-10" />
+                <div className="absolute top-0 left-0 w-5 h-5 border-t border-l border-[#00ff00]/60 z-10 pointer-events-none" />
+                <div className="absolute top-0 right-0 w-5 h-5 border-t border-r border-[#00ff00]/60 z-10 pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-5 h-5 border-b border-l border-[#00ff00]/60 z-10 pointer-events-none" />
+                <div className="absolute bottom-0 right-0 w-5 h-5 border-b border-r border-[#00ff00]/60 z-10 pointer-events-none" />
 
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="absolute top-4 right-4 z-20 w-8 h-8 border border-white/20 flex items-center justify-center text-white/50 hover:text-[#00ff00] hover:border-[#00ff00]/40 transition-all"
+                  className="absolute top-4 right-4 z-20 w-8 h-8 border border-white/20 flex items-center justify-center text-white/50 hover:text-[#00ff00] hover:border-[#00ff00]/40 transition-all bg-black"
                 >
                   <X size={16} />
                 </button>
 
-                {/* Video */}
-                <div className="w-full md:w-3/5 aspect-video md:aspect-auto bg-black">
-                  <iframe
-                    src={selectedProject.video}
-                    className="w-full h-full border-none"
-                    allow="autoplay; fullscreen"
-                  />
+                {/* Video — aspect ratio auto-detected from the file; iframes fall back to 16/9 */}
+                <div
+                  className="relative w-full bg-black flex-shrink-0"
+                  style={{ aspectRatio: modalAspect }}
+                >
+                  {selectedProject.localSrc ? (
+                    <video
+                      src={selectedProject.localSrc}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      onLoadedMetadata={(e) => {
+                        const v = e.currentTarget;
+                        if (v.videoWidth && v.videoHeight) {
+                          setModalAspect(v.videoWidth / v.videoHeight);
+                        }
+                      }}
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <iframe
+                      src={selectedProject.video}
+                      className="w-full h-full border-none"
+                      allow="autoplay; fullscreen"
+                    />
+                  )}
+                  {/* Bottom fade */}
+                  <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black to-transparent pointer-events-none z-[1]" />
                 </div>
 
-                {/* Info */}
-                <div className="w-full md:w-2/5 p-8 md:p-12 flex flex-col justify-center space-y-8 border-t md:border-t-0 md:border-l border-white/5">
-                  <div className="space-y-3">
+                {/* Info panel */}
+                <div className="flex-shrink-0 p-6 md:p-8 space-y-4 border-t border-white/5">
+                  <div className="space-y-1">
                     <div className="text-[9px] text-[#00ff00] font-bold uppercase tracking-[0.4em]">{selectedProject.category}</div>
                     <div className="text-[10px] text-white/30 uppercase tracking-widest">{selectedProject.id}</div>
-                    <h3 className="text-2xl md:text-3xl font-bold uppercase tracking-tight">{selectedProject.title}</h3>
+                    <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight">{selectedProject.title}</h3>
                   </div>
                   <p className="text-[11px] text-white/50 uppercase leading-relaxed tracking-wide">
                     {selectedProject.description}
@@ -349,7 +367,7 @@ export default function AIAgency() {
                     href="https://www.behance.net/cliffordsharpe"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#00ff00] border border-[#00ff00]/30 px-6 py-3 hover:bg-[#00ff00] hover:text-black transition-all w-fit"
+                    className="inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#00ff00] border border-[#00ff00]/30 px-5 py-3 hover:bg-[#00ff00] hover:text-black transition-all w-fit"
                   >
                     View on Behance <ChevronRight size={12} />
                   </a>

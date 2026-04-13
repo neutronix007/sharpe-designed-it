@@ -15,6 +15,13 @@ const tags = [
 export default function Hero() {
   const slideshowRef = useRef<HTMLDivElement>(null);
   const [isShowreelOpen, setIsShowreelOpen] = useState(false);
+  const [videoBgReady, setVideoBgReady] = useState(false);
+
+  // Fallback: always show background video after 2s on slow connections
+  useEffect(() => {
+    const fallback = setTimeout(() => setVideoBgReady(true), 2000);
+    return () => clearTimeout(fallback);
+  }, []);
 
   useEffect(() => {
     const element = slideshowRef.current;
@@ -46,14 +53,15 @@ export default function Hero() {
       {/* Background Video */}
       <div className="absolute inset-0 z-0 h-full w-full pointer-events-none overflow-hidden">
         <div className="absolute inset-0">
-          {/* Local video — faster load from assets */}
+          {/* Local video — text content animates first, video fades in when ready */}
           <video
             src="/home-page-video.mp4"
             autoPlay
             muted
             loop
             playsInline
-            className="w-full h-full object-cover"
+            onCanPlay={() => setVideoBgReady(true)}
+            className={`w-full h-full object-cover transition-opacity duration-1000 ${videoBgReady ? "opacity-100" : "opacity-0"}`}
           />
           {/* Original streaming source — uncomment to compare
           <div className="absolute inset-0 scale-[1.5] lg:scale-[1.2]">
