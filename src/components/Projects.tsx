@@ -13,7 +13,7 @@ const projects = [
     id: 1,
     title: "Google Real Estate Expo — Zeme Inc",
     category: "Motion Design",
-    image: "https://picsum.photos/seed/neon/800/1000",
+    image: "https://img.youtube.com/vi/sjDxL0-elBE/maxresdefault.jpg",
     videoEmbed: YT_EMBED,
     videoModal: YT_MODAL,
     user: "@sharpe.motion",
@@ -94,7 +94,7 @@ const projects = [
     id: 8,
     title: "New York Real Estate Expo — Zeme Inc",
     category: "Motion Graphics",
-    image: "https://picsum.photos/seed/vibrant/800/1000",
+    image: "",
     videoEmbed: "/Real Estate Expo Oct 2024 with Sound V3.mp4",
     videoModal: "",
     user: "@sharpe.zeme",
@@ -141,7 +141,7 @@ function ProjectCard({
       {project.videoEmbed && project.videoEmbed.startsWith("/") ? (
         <video
           src={project.videoEmbed}
-          poster={project.image}
+          {...(project.image ? { poster: project.image } : {})}
           autoPlay muted loop playsInline
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
@@ -317,7 +317,7 @@ export default function Projects() {
                   ) : selectedProject.videoEmbed && selectedProject.videoEmbed.startsWith("/") ? (
                     <video
                       src={selectedProject.videoEmbed}
-                      poster={selectedProject.image}
+                      {...(selectedProject.image ? { poster: selectedProject.image } : {})}
                       autoPlay controls
                       className="w-full h-full object-contain bg-black"
                     />
