@@ -231,6 +231,32 @@ export default function AIAgency() {
             <div className="absolute inset-0 bg-black/10 z-[1] pointer-events-none" />
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
           </motion.div>
+
+          {/* ── Scroll indicator ── */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.6, duration: 0.8 }}
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 order-6 z-30 pointer-events-none"
+          >
+            <span className="text-[8px] font-bold tracking-[0.5em] uppercase text-white/30">Scroll</span>
+            {/* animated line + arrowhead */}
+            <div className="relative flex flex-col items-center gap-0">
+              <motion.div
+                animate={{ scaleY: [1, 0.4, 1], opacity: [0.4, 1, 0.4] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                className="w-px h-8 bg-gradient-to-b from-[#00ff00]/60 to-transparent origin-top"
+              />
+              <motion.div
+                animate={{ y: [0, 5, 0], opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <svg width="10" height="7" viewBox="0 0 10 7" fill="none">
+                  <path d="M1 1L5 5.5L9 1" stroke="#00ff00" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7" />
+                </svg>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
 
         {/* ── DIGITAL ARTIFACTS GRID ── */}

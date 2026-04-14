@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion, useSpring, useMotionValue } from "motion/react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -83,6 +83,7 @@ function AppContent() {
         {!isAIAgency && <Navbar />}
         <Routes>
           <Route path="/" element={<Hero />} />
+          <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/experience" element={<Experience />} />
           <Route path="/ai-agency" element={<AIAgency />} />
