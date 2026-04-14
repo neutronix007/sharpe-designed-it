@@ -63,8 +63,8 @@ export default function Experience() {
   return (
     <section className="relative min-h-screen bg-[#050505] flex flex-col lg:flex-row items-center justify-between px-8 md:px-20 pt-32 pb-20 overflow-x-hidden">
       <SEO
-        title="Experience | Sharpe.Designed.It"
-        description="Design career spanning Zeme Inc, Beda Consult, Onyin Technologies, and global freelance — delivering measurable results through motion and brand design."
+        title="Experience | Clifford Sharpe"
+        description="My design career spanning Zeme Inc, Beda Consult, Onyin Technologies, and global freelance — delivering measurable results through motion and brand design."
         image="/og-experience.jpeg"
         path="/experience"
       />

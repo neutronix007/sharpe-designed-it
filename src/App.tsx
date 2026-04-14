@@ -13,6 +13,7 @@ import AIAgency from "./components/AIAgency";
 
 function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(false);
   const location = useLocation();
 
   const mouseX = useMotionValue(0);
@@ -22,19 +23,29 @@ function AppContent() {
   const glowX = useSpring(mouseX, springConfig);
   const glowY = useSpring(mouseY, springConfig);
 
+  // Detect desktop (mouse) vs mobile (touch) — only show glow on desktop
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: fine)");
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   // Reset scroll on route change
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
   useEffect(() => {
+    if (!isDesktop) return;
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
+  }, [isDesktop, mouseX, mouseY]);
 
   const isAIAgency = location.pathname === "/ai-agency";
 
@@ -42,16 +53,18 @@ function AppContent() {
     <>
       <CustomCursor />
 
-      {/* Micro-Parallax Background Glow */}
-      <motion.div
-        className="fixed top-0 left-0 w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px] pointer-events-none z-0"
-        style={{
-          x: glowX,
-          y: glowY,
-          translateX: "-50%",
-          translateY: "-50%",
-        }}
-      />
+      {/* Micro-Parallax Background Glow — desktop only */}
+      {isDesktop && (
+        <motion.div
+          className="fixed top-0 left-0 w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px] pointer-events-none z-0"
+          style={{
+            x: glowX,
+            y: glowY,
+            translateX: "-50%",
+            translateY: "-50%",
+          }}
+        />
+      )}
 
       <AnimatePresence mode="wait">
         {isLoading && (

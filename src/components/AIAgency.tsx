@@ -139,7 +139,7 @@ export default function AIAgency() {
       </div>
 
       <SEO
-        title="The Agency | Sharpe.Designed.It — We Build Killer Landing Pages"
+        title="The Agency | Clifford Sharpe — We Build Killer Landing Pages"
         description="High-performance landing pages and digital experiences powered by kinetic motion and brand strategy. Engineered for conversion, built for the next frontier."
         image="/og-agency.jpeg"
         path="/ai-agency"

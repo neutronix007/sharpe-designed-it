@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 
-const BASE_URL = "https://sharpe.designed.it";
+// Update this to your custom domain once it's configured on Vercel
+const BASE_URL = "https://sharpe-designed-it.vercel.app";
 
 interface SEOProps {
   title: string;

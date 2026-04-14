@@ -52,8 +52,8 @@ export default function Hero() {
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center lg:justify-start overflow-hidden pt-20 lg:pt-48 pb-20 lg:pb-40">
       <SEO
-        title="Sharpe.Designed.It | Motion & Visual Identity Designer"
-        description="Clifford Sharpe — Graphic & Motion Designer crafting high-end visual identities, motion graphics, and brand systems that drive measurable growth."
+        title="Clifford Sharpe | Motion & Visual Identity Designer"
+        description="Hi, I'm Clifford — Graphic & Motion Designer crafting high-end visual identities and motion graphics that drive brand growth and audience engagement."
         image="/og-home.jpeg"
         path="/"
       />

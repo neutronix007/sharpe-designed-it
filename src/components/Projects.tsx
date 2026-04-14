@@ -201,8 +201,8 @@ export default function Projects() {
   return (
     <section className="relative bg-[#050505] pt-24 pb-24 overflow-hidden">
       <SEO
-        title="Projects | Sharpe.Designed.It"
-        description="A curated collection of motion design, brand identity, and social media work — Google Real Estate Expo, UTA Music App, Pony Decor, and more."
+        title="Projects | Clifford Sharpe"
+        description="A curated collection of my most impactful work — motion design, brand identity, and social media across Google Real Estate Expo, UTA Music App, Pony Decor, and more."
         image="/og-projects.jpeg"
         path="/projects"
       />
