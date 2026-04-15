@@ -1,21 +1,22 @@
-import { useState, FormEvent } from "react";
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Send, CheckCircle2 } from "lucide-react";
+import { useForm, ValidationError } from "@formspree/react";
 
 interface ContactFormProps {
   onClose: () => void;
 }
 
 export default function ContactForm({ onClose }: ContactFormProps) {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [state, handleSubmit] = useForm("xdayaoyz");
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => {
-      onClose();
-    }, 2500);
-  };
+  // Auto-close after successful submission
+  useEffect(() => {
+    if (state.succeeded) {
+      const timer = setTimeout(onClose, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [state.succeeded, onClose]);
 
   return (
     <motion.div
@@ -24,7 +25,7 @@ export default function ContactForm({ onClose }: ContactFormProps) {
       exit={{ opacity: 0, scale: 0.9 }}
       className="w-full max-w-lg glass-card p-8 rounded-3xl relative overflow-hidden min-h-[500px] flex flex-col justify-center"
     >
-      <button 
+      <button
         onClick={onClose}
         className="absolute top-6 right-6 text-white/40 hover:text-white transition-colors z-10"
       >
@@ -32,7 +33,7 @@ export default function ContactForm({ onClose }: ContactFormProps) {
       </button>
 
       <AnimatePresence mode="wait">
-        {!isSubmitted ? (
+        {!state.succeeded ? (
           <motion.div
             key="form"
             initial={{ opacity: 0, y: 20 }}
@@ -42,42 +43,64 @@ export default function ContactForm({ onClose }: ContactFormProps) {
           >
             <div className="space-y-2">
               <h2 className="text-3xl font-display font-bold">Let's Talk</h2>
-              <p className="text-white/40 text-sm">Have a project in mind? Let's build something amazing together.</p>
+              <p className="text-white/40 text-sm">
+                Have a project in mind? Let's build something amazing together.
+              </p>
             </div>
 
             <form className="space-y-4" onSubmit={handleSubmit}>
+              {/* Hidden fields for context */}
+              <input type="hidden" name="_subject" value="New message from sharpe-designed-it.vercel.app" />
+              <input type="hidden" name="source" value="Portfolio contact form" />
+
               <div className="space-y-1">
-                <label className="text-xs font-medium text-white/60 uppercase tracking-widest">Name</label>
-                <input 
+                <label className="text-xs font-medium text-white/60 uppercase tracking-widest">
+                  Name
+                </label>
+                <input
                   required
-                  type="text" 
+                  type="text"
+                  name="name"
                   placeholder="Your name"
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                 />
+                <ValidationError field="name" prefix="Name" errors={state.errors} className="text-red-400 text-xs mt-1" />
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-medium text-white/60 uppercase tracking-widest">Email</label>
-                <input 
+                <label className="text-xs font-medium text-white/60 uppercase tracking-widest">
+                  Email
+                </label>
+                <input
                   required
-                  type="email" 
+                  type="email"
+                  name="email"
                   placeholder="your@email.com"
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors"
                 />
+                <ValidationError field="email" prefix="Email" errors={state.errors} className="text-red-400 text-xs mt-1" />
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-medium text-white/60 uppercase tracking-widest">Message</label>
-                <textarea 
+                <label className="text-xs font-medium text-white/60 uppercase tracking-widest">
+                  Message
+                </label>
+                <textarea
                   required
+                  name="message"
                   rows={4}
                   placeholder="Tell me about your project..."
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors resize-none"
                 />
+                <ValidationError field="message" prefix="Message" errors={state.errors} className="text-red-400 text-xs mt-1" />
               </div>
 
-              <button type="submit" className="w-full py-4 glass-pill rounded-xl font-bold flex items-center justify-center gap-2 group">
-                Send Message
+              <button
+                type="submit"
+                disabled={state.submitting}
+                className="w-full py-4 glass-pill rounded-xl font-bold flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+              >
+                {state.submitting ? "Sending…" : "Send Message"}
                 <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </button>
             </form>
@@ -99,7 +122,9 @@ export default function ContactForm({ onClose }: ContactFormProps) {
             </motion.div>
             <div className="space-y-2">
               <h2 className="text-3xl font-display font-bold">Message Sent!</h2>
-              <p className="text-white/40">Thank you for reaching out. I'll get back to you shortly.</p>
+              <p className="text-white/40">
+                Thank you for reaching out. I'll get back to you shortly.
+              </p>
             </div>
           </motion.div>
         )}

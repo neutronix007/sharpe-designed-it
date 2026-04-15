@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
-import { useState, FormEvent } from "react";
-import SEO from "./SEO";
+import { useForm, ValidationError } from "@formspree/react";
+// (SEO is handled centrally by HomePage)
 
 const experiences = [
   {
@@ -48,26 +48,10 @@ const tools = [
 ];
 
 export default function Experience() {
-  const [email, setEmail] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleEmailSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      setIsSubmitted(true);
-      setTimeout(() => setIsSubmitted(false), 3000);
-      setEmail("");
-    }
-  };
+  const [state, handleEmailSubmit] = useForm("xdayaoyz");
 
   return (
     <section className="relative min-h-screen bg-[#050505] flex flex-col lg:flex-row items-center justify-between px-8 md:px-20 pt-32 pb-20 overflow-x-hidden">
-      <SEO
-        title="Experience | Clifford Sharpe"
-        description="My design career spanning Zeme Inc, Beda Consult, Onyin Technologies, and global freelance — delivering measurable results through motion and brand design."
-        image="/og-experience.jpeg"
-        path="/experience"
-      />
       {/* Background Video with Overlay */}
       <div className="absolute inset-0 z-0">
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -155,11 +139,11 @@ export default function Experience() {
           </motion.div>
         </motion.div>
 
-        {/* Email Input (Reference Image Style) */}
+        {/* Email — "Get in touch" strip */}
         <div className="relative max-w-md">
           <AnimatePresence mode="wait">
-            {!isSubmitted ? (
-              <motion.form 
+            {!state.succeeded ? (
+              <motion.form
                 key="email-form"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -167,20 +151,29 @@ export default function Experience() {
                 onSubmit={handleEmailSubmit}
                 className="flex items-center bg-white/5 border border-white/10 rounded-full p-1 pl-6 backdrop-blur-md"
               >
-                <input 
+                {/* Hidden context fields */}
+                <input type="hidden" name="_subject" value="Get in touch — sharpe-designed-it.vercel.app" />
+                <input type="hidden" name="source" value="Experience section — get in touch bar" />
+                <input type="hidden" name="message" value="Visitor submitted their email via the Experience section get-in-touch bar." />
+
+                <input
                   required
-                  type="email" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email" 
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
                   className="bg-transparent border-none outline-none text-white w-full text-sm"
                 />
-                <button type="submit" className="bg-white text-black px-6 py-2 rounded-full text-sm font-bold hover:bg-white/90 transition-all whitespace-nowrap">
-                  Get in touch
+                <ValidationError field="email" prefix="Email" errors={state.errors} className="text-red-400 text-xs" />
+                <button
+                  type="submit"
+                  disabled={state.submitting}
+                  className="bg-white text-black px-6 py-2 rounded-full text-sm font-bold hover:bg-white/90 transition-all whitespace-nowrap disabled:opacity-50"
+                >
+                  {state.submitting ? "Sending…" : "Get in touch"}
                 </button>
               </motion.form>
             ) : (
-              <motion.div 
+              <motion.div
                 key="email-success"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -188,7 +181,7 @@ export default function Experience() {
                 className="flex items-center justify-center gap-3 bg-white/10 border border-white/20 rounded-full py-3 px-6 backdrop-blur-md text-white"
               >
                 <CheckCircle2 size={20} className="text-green-400" />
-                <span className="text-sm font-medium">Thanks! We'll be in touch.</span>
+                <span className="text-sm font-medium">Thanks! I'll be in touch.</span>
               </motion.div>
             )}
           </AnimatePresence>

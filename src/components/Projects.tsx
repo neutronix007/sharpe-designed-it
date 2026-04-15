@@ -2,7 +2,37 @@ import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, X, ExternalLink } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
-import SEO from "./SEO";
+// (SEO is handled centrally by HomePage)
+
+// ── Lazy-loaded video: only starts loading/playing when near the viewport ──
+function LazyVideo({ src, poster, className }: { src: string; poster?: string; className: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setInView(true); observer.disconnect(); } },
+      { rootMargin: "300px" }   // start loading 300px before entering viewport
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} className="absolute inset-0">
+      {inView && (
+        <video
+          src={src}
+          {...(poster ? { poster } : {})}
+          autoPlay muted loop playsInline
+          className={className}
+        />
+      )}
+    </div>
+  );
+}
 
 const YT_EMBED = "https://www.youtube.com/embed/sjDxL0-elBE?si=4RnOgqYO4vxJBpAi&autoplay=1&mute=1&controls=0&loop=1&playlist=sjDxL0-elBE&modestbranding=1";
 const YT_MODAL = "https://www.youtube.com/embed/sjDxL0-elBE?si=4RnOgqYO4vxJBpAi&autoplay=1&controls=1";
@@ -139,15 +169,14 @@ function ProjectCard({
     >
       {/* Background — local video, YouTube, or image */}
       {project.videoEmbed && project.videoEmbed.startsWith("/") ? (
-        <video
+        <LazyVideo
           src={project.videoEmbed}
-          {...(project.image ? { poster: project.image } : {})}
-          autoPlay muted loop playsInline
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          poster={project.image || undefined}
+          className="w-full h-full object-cover pointer-events-none"
         />
       ) : project.videoEmbed ? (
         <>
-          <img src={project.image} alt={project.title} referrerPolicy="no-referrer"
+          <img src={project.image} alt={project.title} referrerPolicy="no-referrer" loading="lazy"
             className="absolute inset-0 w-full h-full object-cover" />
           <iframe src={project.videoEmbed}
             className="absolute inset-0 w-full h-full border-none pointer-events-none scale-[1.15]"
@@ -155,7 +184,7 @@ function ProjectCard({
             allowFullScreen />
         </>
       ) : (
-        <img src={project.image} alt={project.title} referrerPolicy="no-referrer"
+        <img src={project.image} alt={project.title} referrerPolicy="no-referrer" loading="lazy"
           className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105 scale-100" />
       )}
 
@@ -200,13 +229,6 @@ export default function Projects() {
 
   return (
     <section className="relative bg-[#050505] pt-24 pb-24 overflow-hidden">
-      <SEO
-        title="Projects | Clifford Sharpe"
-        description="A curated collection of my most impactful work — motion design, brand identity, and social media across Google Real Estate Expo, UTA Music App, Pony Decor, and more."
-        image="/og-projects.jpeg"
-        path="/projects"
-      />
-
       {/* ── Floating interactive pills ── */}
       <motion.div ref={bluePillRef}
         initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
