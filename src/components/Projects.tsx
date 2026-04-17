@@ -259,33 +259,33 @@ export default function Projects() {
       </div>
 
       {/* ── Masonry grid — 8 projects, 5 rows ── */}
-      <div className="max-w-6xl mx-auto px-6 md:px-12 space-y-4 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-5 relative z-10">
 
         {/* Row 1 — full-width hero */}
         <ProjectCard project={projects[0]} variant="hero"
-          cardHeight="h-[260px] md:h-[420px]" delay={0} onClick={() => open(projects[0])} />
+          cardHeight="h-[300px] md:h-[520px]" delay={0} onClick={() => open(projects[0])} />
 
         {/* Row 2 — wide (2/3) + narrow (1/3) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <ProjectCard project={projects[1]} variant="fromLeft" className="md:col-span-2" cardHeight="h-[260px] md:h-[340px]" delay={0.05} onClick={() => open(projects[1])} />
-          <ProjectCard project={projects[2]} variant="fromRight" className="md:col-span-1" cardHeight="h-[260px] md:h-[340px]" delay={0.15} onClick={() => open(projects[2])} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <ProjectCard project={projects[1]} variant="fromLeft" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[1])} />
+          <ProjectCard project={projects[2]} variant="fromRight" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[2])} />
         </div>
 
         {/* Row 3 — narrow (1/3) + wide (2/3) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <ProjectCard project={projects[3]} variant="fromLeft" className="md:col-span-1" cardHeight="h-[260px] md:h-[340px]" delay={0.05} onClick={() => open(projects[3])} />
-          <ProjectCard project={projects[4]} variant="fromRight" className="md:col-span-2" cardHeight="h-[260px] md:h-[340px]" delay={0.15} onClick={() => open(projects[4])} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <ProjectCard project={projects[3]} variant="fromLeft" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[3])} />
+          <ProjectCard project={projects[4]} variant="fromRight" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[4])} />
         </div>
 
         {/* Row 4 — wide (2/3) + narrow (1/3) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <ProjectCard project={projects[5]} variant="fromLeft" className="md:col-span-2" cardHeight="h-[260px] md:h-[340px]" delay={0.05} onClick={() => open(projects[5])} />
-          <ProjectCard project={projects[6]} variant="fromRight" className="md:col-span-1" cardHeight="h-[260px] md:h-[340px]" delay={0.15} onClick={() => open(projects[6])} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <ProjectCard project={projects[5]} variant="fromLeft" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[5])} />
+          <ProjectCard project={projects[6]} variant="fromRight" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[6])} />
         </div>
 
         {/* Row 5 — full-width hero */}
         <ProjectCard project={projects[7]} variant="hero"
-          cardHeight="h-[260px] md:h-[360px]" delay={0.05} onClick={() => open(projects[7])} />
+          cardHeight="h-[300px] md:h-[480px]" delay={0.05} onClick={() => open(projects[7])} />
       </div>
 
       {/* ── Description & CTA ── */}
@@ -311,26 +311,26 @@ export default function Projects() {
       {/* ── Quick-view modal ── */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 md:p-6">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 md:p-5">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={close} className="absolute inset-0 bg-black/85 backdrop-blur-lg" />
+              onClick={close} className="absolute inset-0 bg-black/90 backdrop-blur-xl" />
 
             {hasVideo(selectedProject) ? (
-              /* ── VIDEO modal: full-width 16:9 + info strip below ── */
+              /* ── VIDEO modal — cinematic, near-fullscreen ── */
               <motion.div
                 initial={{ opacity: 0, scale: 0.93, y: 24 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.93, y: 24 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className="relative w-full max-w-5xl glass-card rounded-3xl overflow-hidden flex flex-col"
+                className="relative w-full max-w-[92vw] max-h-[92vh] glass-card rounded-3xl overflow-y-auto flex flex-col"
               >
                 <button onClick={close}
-                  className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/60 transition-colors">
-                  <X size={18} />
+                  className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/70 transition-colors">
+                  <X size={20} />
                 </button>
 
-                {/* Video — true 16:9, fills the full width */}
-                <div className="w-full aspect-video bg-black">
+                {/* Video fills full width in 16:9 */}
+                <div className="w-full aspect-video bg-black shrink-0">
                   {selectedProject.videoModal ? (
                     <iframe src={selectedProject.videoModal}
                       className="w-full h-full border-none"
@@ -351,12 +351,12 @@ export default function Projects() {
                   )}
                 </div>
 
-                {/* Info strip below video */}
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 px-6 md:px-8 py-5 border-t border-white/5">
+                {/* Info strip */}
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 px-6 md:px-10 py-5 border-t border-white/5 shrink-0">
                   <div className="flex-1 min-w-0">
                     <p className="text-[#2563eb] font-medium tracking-widest uppercase text-[10px] mb-0.5">{selectedProject.category}</p>
-                    <h3 className="text-lg md:text-xl font-display font-bold truncate">{selectedProject.title}</h3>
-                    <p className="text-white/50 text-xs leading-relaxed mt-1 line-clamp-2">{selectedProject.description}</p>
+                    <h3 className="text-xl md:text-2xl font-display font-bold truncate">{selectedProject.title}</h3>
+                    <p className="text-white/50 text-sm leading-relaxed mt-1 line-clamp-2 max-w-2xl">{selectedProject.description}</p>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
                     <div className="px-3 py-2 glass-pill rounded-xl text-white/40 text-xs font-medium hidden md:block">
@@ -370,29 +370,29 @@ export default function Projects() {
                 </div>
               </motion.div>
             ) : (
-              /* ── IMAGE modal: side-by-side ── */
+              /* ── IMAGE modal — large, side-by-side ── */
               <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                initial={{ opacity: 0, scale: 0.92, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="relative w-full max-w-4xl glass-card rounded-[40px] overflow-hidden flex flex-col md:flex-row"
+                exit={{ opacity: 0, scale: 0.92, y: 20 }}
+                className="relative w-full max-w-[85vw] max-h-[90vh] glass-card rounded-[40px] overflow-hidden flex flex-col md:flex-row"
               >
                 <button onClick={close}
                   className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/40 transition-colors">
                   <X size={20} />
                 </button>
 
-                <div className="w-full md:w-1/2 aspect-[3/4] md:aspect-auto">
+                <div className="w-full md:w-1/2 min-h-[260px] md:min-h-0">
                   <img src={selectedProject.image} alt={selectedProject.title}
                     className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
 
-                <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center space-y-8">
+                <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col justify-center space-y-8 overflow-y-auto">
                   <div className="space-y-2">
                     <p className="text-[#2563eb] font-medium tracking-widest uppercase text-xs">{selectedProject.category}</p>
-                    <h3 className="text-4xl md:text-5xl font-display font-bold">{selectedProject.title}</h3>
+                    <h3 className="text-4xl md:text-5xl font-display font-bold leading-tight">{selectedProject.title}</h3>
                   </div>
-                  <p className="text-white/60 leading-relaxed">{selectedProject.description}</p>
+                  <p className="text-white/60 leading-relaxed text-base">{selectedProject.description}</p>
                   <div className="flex items-center gap-4 pt-4">
                     <a href={selectedProject.behance} target="_blank" rel="noopener noreferrer"
                       className="flex-1 py-4 bg-white text-black rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-white/90 transition-all">

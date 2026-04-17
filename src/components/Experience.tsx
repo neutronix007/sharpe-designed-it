@@ -51,7 +51,7 @@ export default function Experience() {
   const [state, handleEmailSubmit] = useForm("xdayaoyz");
 
   return (
-    <section className="relative min-h-screen bg-[#050505] flex flex-col lg:flex-row items-center justify-between px-8 md:px-20 pt-32 pb-20 overflow-x-hidden">
+    <section className="relative min-h-screen bg-[#050505] pt-32 pb-20 overflow-x-hidden">
       {/* Background Video with Overlay */}
       <div className="absolute inset-0 z-0">
         <div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -80,8 +80,11 @@ export default function Experience() {
         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent z-10" />
       </div>
 
+      {/* ── Content constrained to match site-wide max-width ── */}
+      <div className="relative z-20 max-w-7xl mx-auto px-8 md:px-12 w-full flex flex-col lg:flex-row items-center justify-between gap-12">
+
       {/* Left Content: Hero Text & Marquee */}
-      <div className="relative z-20 w-full lg:w-1/2 space-y-12 mb-12 lg:mb-0">
+      <div className="w-full lg:w-1/2 space-y-12 mb-12 lg:mb-0">
         <div className="space-y-6">
           <motion.h1 
             initial={{ opacity: 0, x: -50 }}
@@ -189,7 +192,7 @@ export default function Experience() {
       </div>
 
       {/* Right Content: Scrollable Experience Boxes */}
-      <div className="relative z-20 w-full lg:w-[45%] lg:h-[70vh] lg:overflow-y-auto lg:pr-4 custom-scrollbar">
+      <div className="w-full lg:w-[45%] lg:h-[70vh] lg:overflow-y-auto lg:pr-4 custom-scrollbar">
         <div className="space-y-6 py-4">
           {experiences.map((exp, i) => (
             <motion.div 
@@ -223,6 +226,7 @@ export default function Experience() {
         </div>
       </div>
 
+      </div>{/* end max-w-7xl container */}
     </section>
   );
 }
