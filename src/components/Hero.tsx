@@ -60,18 +60,6 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/50 z-10" />
       </div>
 
-      {/* Background watermark text */}
-      <div className="absolute bottom-0 left-0 w-full flex justify-center pointer-events-none select-none overflow-hidden z-0">
-        <motion.h1
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 0.08 }}
-          transition={{ duration: 1.5, ease: "circOut" }}
-          className="text-[25vw] font-display font-extrabold tracking-tighter text-white leading-none mb-[-5vw] whitespace-nowrap"
-        >
-          SHARPE
-        </motion.h1>
-      </div>
-
       {/* ── Main content grid ── */}
       <div className="relative z-10 w-full max-w-7xl px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mt-8 lg:mt-0">
 
@@ -82,7 +70,8 @@ export default function Hero() {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-5xl md:text-8xl font-display font-bold tracking-tight leading-[0.9]"
+              className="font-display font-bold tracking-tight leading-[0.88]"
+              style={{ fontSize: "clamp(3.5rem, 10vw, 11rem)" }}
             >
               Hi, I'm <br />
               <span className="text-white/40 font-loader italic">Clifford.</span>
@@ -92,7 +81,7 @@ export default function Hero() {
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="max-w-md text-base md:text-lg text-white/50 font-light leading-relaxed"
+              className="max-w-lg text-lg md:text-xl text-white/50 font-light leading-relaxed"
             >
               Graphic & Motion Designer — crafting high-end visual identities and motion graphics that drive brand growth and audience engagement.
             </motion.p>

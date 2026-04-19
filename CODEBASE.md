@@ -75,6 +75,11 @@ sharpe.designed.it studio/
     ├── App.tsx                 ← Router, loading screen, glow, scroll logic, route definitions
     ├── index.css               ← Global styles, font imports, custom classes (glass-card, glass-pill, etc.)
     │
+    ├── data/
+    │   └── projects.ts         ← SINGLE SOURCE OF TRUTH for all project data
+    │                             Imported by both Projects.tsx and Slideshow.tsx
+    │                             Edit here to update both the grid and the hero slideshow
+    │
     └── components/
         ├── HomePage.tsx        ← Single-page wrapper: Hero + Projects + Experience stacked
         ├── Hero.tsx            ← Home hero section + showreel modal
