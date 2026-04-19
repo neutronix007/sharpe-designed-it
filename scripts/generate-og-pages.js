@@ -12,22 +12,22 @@ const pages = [
     file: "projects.html",
     title: "Projects | Clifford Sharpe",
     description: "Motion graphics, brand identities, and social media campaigns — a curated selection of Clifford Sharpe's design work.",
-    image: "https://sharpe-designed-it.vercel.app/og-projects.jpeg",
-    url: "https://sharpe-designed-it.vercel.app/projects",
+    image: "https://cliffordsharpe.com/og-projects.jpeg",
+    url: "https://cliffordsharpe.com/projects",
   },
   {
     file: "experience.html",
     title: "Experience | Clifford Sharpe",
     description: "My design career spanning Zeme Inc, Beda Consult, Onyin Technologies, and global freelance — delivering measurable results through motion and brand design.",
-    image: "https://sharpe-designed-it.vercel.app/og-experience.jpeg",
-    url: "https://sharpe-designed-it.vercel.app/experience",
+    image: "https://cliffordsharpe.com/og-experience.jpeg",
+    url: "https://cliffordsharpe.com/experience",
   },
   {
     file: "ai-agency.html",
     title: "The Agency | Clifford Sharpe — We Build Killer Landing Pages",
     description: "High-converting landing pages and digital experiences built for brands that mean business.",
-    image: "https://sharpe-designed-it.vercel.app/og-agency.jpeg",
-    url: "https://sharpe-designed-it.vercel.app/ai-agency",
+    image: "https://cliffordsharpe.com/og-agency.jpeg",
+    url: "https://cliffordsharpe.com/ai-agency",
   },
 ];
 
