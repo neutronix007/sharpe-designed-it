@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronRight, X, ExternalLink } from "lucide-react";
-import { projects } from "../data/projects";
+import { featuredProjects as projects } from "../data/projects";
 
 export default function Slideshow() {
   const [index, setIndex] = useState(0);

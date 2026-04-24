@@ -4,7 +4,7 @@ import { ArrowUpRight, X, ExternalLink, Play } from "lucide-react";
 import { projects } from "../data/projects";
 
 // ── Filter categories — add new ones here as you expand your work ──
-const FILTERS = ["All", "Motion Graphics", "Brand Identity", "Social Media", "UI Design"];
+const FILTERS = ["All", "Motion Graphics", "Loading Animation", "Brand Identity", "Social Media", "UI Design"];
 
 export default function Archive() {
   const [activeFilter, setActiveFilter] = useState("All");
