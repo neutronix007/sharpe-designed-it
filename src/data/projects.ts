@@ -1,6 +1,7 @@
 // ── Shared project data ───────────────────────────────────────────────────────
-// Single source of truth used by both Projects.tsx and Slideshow.tsx.
-// To add / edit a project, change it here and both sections update automatically.
+// Single source of truth used by Projects.tsx, Slideshow.tsx, and Archive.tsx.
+// To add / edit a project, change it here and all sections update automatically.
+// tags[] drives the Archive filter pills — a project can belong to multiple categories.
 
 export const YT_EMBED =
   "https://www.youtube.com/embed/sjDxL0-elBE?si=4RnOgqYO4vxJBpAi&autoplay=1&mute=1&controls=0&loop=1&playlist=sjDxL0-elBE&modestbranding=1";
@@ -11,6 +12,7 @@ export interface Project {
   id: number;
   title: string;
   category: string;
+  tags: string[];       // filter keys used by Archive page — can be multiple
   image: string;        // poster / card background (path from /public or absolute URL)
   videoEmbed: string;   // local: "/file.mp4" | YouTube embed URL | "": image-only
   videoModal: string;   // YouTube URL for modal (HD). Blank = reuse videoEmbed
@@ -25,6 +27,7 @@ export const projects: Project[] = [
     id: 1,
     title: "Google Real Estate Expo — Zeme Inc",
     category: "Motion Design",
+    tags: ["Motion Graphics"],
     image: "https://img.youtube.com/vi/sjDxL0-elBE/maxresdefault.jpg",
     videoEmbed: YT_EMBED,
     videoModal: YT_MODAL,
@@ -38,6 +41,7 @@ export const projects: Project[] = [
     id: 2,
     title: "Social Media Posts for Beda Consult",
     category: "Social Media Design",
+    tags: ["Social Media"],
     image: "/Social media posts for beda consult.jpg",
     videoEmbed: "/Social media posts for beda consult.mp4",
     videoModal: "",
@@ -50,6 +54,7 @@ export const projects: Project[] = [
     id: 3,
     title: "Social Media Designs for Vintage Travel Consult",
     category: "Social Media Design",
+    tags: ["Social Media"],
     image: "/Social media designs for vintage travel consult.jpg",
     videoEmbed: "",
     videoModal: "",
@@ -63,6 +68,7 @@ export const projects: Project[] = [
     id: 4,
     title: "Social Media Designs for NOS POS",
     category: "Social Media Design",
+    tags: ["Social Media"],
     image: "/Social media designsfor NOS.jpg",
     videoEmbed: "",
     videoModal: "",
@@ -75,6 +81,7 @@ export const projects: Project[] = [
     id: 5,
     title: "UTA Music App — Logo Design & Brand Identity",
     category: "UI Design & Brand Identity",
+    tags: ["Brand Identity", "UI Design"],
     image: "/Cover image brand guidelines.jpg",
     videoEmbed: "/uta music app.mp4",
     videoModal: "",
@@ -88,6 +95,7 @@ export const projects: Project[] = [
     id: 6,
     title: "Sharpe Designed.It Brand Identity",
     category: "Brand Identity",
+    tags: ["Brand Identity"],
     image: "/sharpe designed it square cover image.jpg",
     videoEmbed: "",
     videoModal: "",
@@ -100,6 +108,7 @@ export const projects: Project[] = [
     id: 7,
     title: "Pony Decor — Logo Design & Brand Identity",
     category: "Brand Identity",
+    tags: ["Brand Identity"],
     image: "/pony decor thumbnail.jpg",
     videoEmbed: "",
     videoModal: "",
@@ -113,6 +122,7 @@ export const projects: Project[] = [
     id: 8,
     title: "New York Real Estate Expo — Zeme Inc",
     category: "Motion Graphics",
+    tags: ["Motion Graphics"],
     image: "",
     videoEmbed: "/Real Estate Expo Oct 2024 with Sound V3.mp4",
     videoModal: "",

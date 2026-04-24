@@ -45,6 +45,9 @@ export default function Navbar() {
           <button onClick={() => goToSection("projects")} className="hover:text-white transition-colors">
             Projects
           </button>
+          <Link to="/archive" className="hover:text-white transition-colors">
+            Archive
+          </Link>
           <button onClick={() => goToSection("experience")} className="hover:text-white transition-colors">
             Experience
           </button>
@@ -115,6 +118,9 @@ export default function Navbar() {
             <button onClick={() => goToSection("projects")} className="text-3xl font-display font-bold hover:text-white/60 transition-colors">
               Projects
             </button>
+            <Link to="/archive" onClick={() => setIsOpen(false)} className="text-3xl font-display font-bold hover:text-white/60 transition-colors">
+              Archive
+            </Link>
             <button onClick={() => goToSection("experience")} className="text-3xl font-display font-bold hover:text-white/60 transition-colors">
               Experience
             </button>

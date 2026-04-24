@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight, X, ExternalLink } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { projects, YT_EMBED, YT_MODAL } from "../data/projects";
 // (SEO is handled centrally by HomePage)
@@ -160,52 +161,55 @@ export default function Projects() {
         </motion.h2>
       </div>
 
-      {/* ── Masonry grid — 8 projects, 5 rows ── */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-5 relative z-10">
+      {/* ── Masonry grid — 8 projects, 5 rows — with gradient fade + Archive CTA ── */}
+      <div className="relative">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-5 relative z-10">
 
-        {/* Row 1 — full-width hero */}
-        <ProjectCard project={projects[0]} variant="hero"
-          cardHeight="h-[300px] md:h-[520px]" delay={0} onClick={() => open(projects[0])} />
+          {/* Row 1 — full-width hero */}
+          <ProjectCard project={projects[0]} variant="hero"
+            cardHeight="h-[300px] md:h-[520px]" delay={0} onClick={() => open(projects[0])} />
 
-        {/* Row 2 — wide (2/3) + narrow (1/3) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <ProjectCard project={projects[1]} variant="fromLeft" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[1])} />
-          <ProjectCard project={projects[2]} variant="fromRight" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[2])} />
+          {/* Row 2 — wide (2/3) + narrow (1/3) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <ProjectCard project={projects[1]} variant="fromLeft" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[1])} />
+            <ProjectCard project={projects[2]} variant="fromRight" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[2])} />
+          </div>
+
+          {/* Row 3 — narrow (1/3) + wide (2/3) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <ProjectCard project={projects[3]} variant="fromLeft" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[3])} />
+            <ProjectCard project={projects[4]} variant="fromRight" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[4])} />
+          </div>
+
+          {/* Row 4 — wide (2/3) + narrow (1/3) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <ProjectCard project={projects[5]} variant="fromLeft" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[5])} />
+            <ProjectCard project={projects[6]} variant="fromRight" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[6])} />
+          </div>
+
+          {/* Row 5 — full-width hero */}
+          <ProjectCard project={projects[7]} variant="hero"
+            cardHeight="h-[300px] md:h-[480px]" delay={0.05} onClick={() => open(projects[7])} />
         </div>
 
-        {/* Row 3 — narrow (1/3) + wide (2/3) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <ProjectCard project={projects[3]} variant="fromLeft" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[3])} />
-          <ProjectCard project={projects[4]} variant="fromRight" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[4])} />
+        {/* Gradient fade — bleeds over the last row, CTA sits inside it */}
+        <div className="absolute bottom-0 left-0 right-0 h-80 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-transparent z-20 flex items-end justify-center pb-12 pointer-events-none">
+          <Link
+            to="/archive"
+            className="pointer-events-auto flex items-center gap-2.5 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-white/90 active:scale-95 transition-all shadow-2xl text-sm group"
+          >
+            View Full Archive
+            <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+          </Link>
         </div>
-
-        {/* Row 4 — wide (2/3) + narrow (1/3) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <ProjectCard project={projects[5]} variant="fromLeft" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[5])} />
-          <ProjectCard project={projects[6]} variant="fromRight" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[6])} />
-        </div>
-
-        {/* Row 5 — full-width hero */}
-        <ProjectCard project={projects[7]} variant="hero"
-          cardHeight="h-[300px] md:h-[480px]" delay={0.05} onClick={() => open(projects[7])} />
       </div>
 
-      {/* ── Description & CTA ── */}
-      <div className="mt-14 text-center space-y-6 px-8 z-10 relative">
-        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 0.3 }} viewport={{ once: true }}
-          className="max-w-xl mx-auto text-white/40 text-xs md:text-sm leading-relaxed">
-          As a motion and graphic designer, I transform complex ideas into visually stunning narratives.
-          Explore a curated selection of works that push the boundaries of digital form.
-        </motion.p>
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} viewport={{ once: true }}
-          className="flex flex-col md:flex-row items-center justify-center gap-4">
+      {/* ── Collaborate CTA ── */}
+      <div className="mt-10 text-center z-10 relative">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} viewport={{ once: true }}>
           <a href="https://cal.com/clifford-sharpe" target="_blank" rel="noopener noreferrer"
-            className="px-6 py-2 bg-white text-black rounded-full font-bold hover:bg-white/90 transition-all shadow-lg text-sm">
-            Collaborate with me
-          </a>
-          <a href="https://www.behance.net/cliffordsharpe" target="_blank" rel="noopener noreferrer"
-            className="text-white/60 hover:text-white transition-colors font-medium flex items-center gap-2 text-sm">
-            View full archive <ArrowUpRight size={16} />
+            className="px-6 py-2 bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 rounded-full font-medium transition-all text-sm">
+            Want to collaborate? Let's talk →
           </a>
         </motion.div>
       </div>

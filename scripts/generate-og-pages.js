@@ -23,6 +23,13 @@ const pages = [
     url: "https://cliffordsharpe.com/experience",
   },
   {
+    file: "archive.html",
+    title: "Archive | Clifford Sharpe",
+    description: "Every project by Clifford Sharpe — motion graphics, brand identities, social media design, and more. Browse and filter by discipline.",
+    image: "https://cliffordsharpe.com/og-projects.jpeg",
+    url: "https://cliffordsharpe.com/archive",
+  },
+  {
     file: "ai-agency.html",
     title: "The Agency | Clifford Sharpe — We Build Killer Landing Pages",
     description: "High-converting landing pages and digital experiences built for brands that mean business.",

@@ -9,8 +9,9 @@ import LoadingScreen from "./components/LoadingScreen";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./components/Footer";
 
-// Code-split the heavy Agency page — only loads when user navigates there
+// Code-split heavy pages — only load when user navigates there
 const AIAgency = lazy(() => import("./components/AIAgency"));
+const Archive  = lazy(() => import("./components/Archive"));
 
 function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +36,7 @@ function AppContent() {
 
   // Reset scroll on route change — skip for section-based routes (they scroll to a section instead)
   useEffect(() => {
-    const sectionRoutes = ["/projects", "/experience"];
+    const sectionRoutes = ["/projects", "/experience", "/archive"];
     if (!sectionRoutes.includes(location.pathname)) {
       window.scrollTo(0, 0);
     }
@@ -102,6 +103,16 @@ function AppContent() {
           {/* These routes render the same full page and auto-scroll to the relevant section */}
           <Route path="/projects" element={<HomePage />} />
           <Route path="/experience" element={<HomePage />} />
+
+          {/* Archive — full project library with filter pills */}
+          <Route
+            path="/archive"
+            element={
+              <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}>
+                <Archive />
+              </Suspense>
+            }
+          />
 
           {/* Agency — separate page, code-split */}
           <Route
