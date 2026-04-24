@@ -83,13 +83,25 @@ export default function Archive() {
                 onClick={() => setSelectedProject(project)}
                 className="relative h-[280px] md:h-[320px] rounded-2xl overflow-hidden cursor-pointer group"
               >
-                {/* Background — image or dark placeholder for video-only cards */}
+                {/* Background — image, local video first-frame, or dark placeholder */}
                 {project.image ? (
                   <img
                     src={project.image}
                     alt={project.title}
                     loading="lazy"
                     referrerPolicy="no-referrer"
+                    className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105 scale-100"
+                  />
+                ) : project.videoEmbed && project.videoEmbed.startsWith("/") ? (
+                  // Seek to 0.1 s after metadata loads so a real frame shows, not black
+                  <video
+                    src={project.videoEmbed}
+                    preload="metadata"
+                    muted
+                    playsInline
+                    onLoadedMetadata={(e) => {
+                      (e.target as HTMLVideoElement).currentTime = 0.1;
+                    }}
                     className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105 scale-100"
                   />
                 ) : (
