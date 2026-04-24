@@ -126,6 +126,9 @@ export default function Projects() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  // Look up by id so Projects.tsx is unaffected by array order in projects.ts
+  const byId = (id: number) => projects.find((p) => p.id === id)!;
+
   const open = (p: typeof projects[0]) => setSelectedProject(p);
   const close = () => setSelectedProject(null);
   const hasVideo = (p: typeof projects[0]) => !!(p.videoEmbed || p.videoModal);
@@ -166,30 +169,30 @@ export default function Projects() {
         <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-5 relative z-10">
 
           {/* Row 1 — full-width hero */}
-          <ProjectCard project={projects[0]} variant="hero"
-            cardHeight="h-[300px] md:h-[520px]" delay={0} onClick={() => open(projects[0])} />
+          <ProjectCard project={byId(1)} variant="hero"
+            cardHeight="h-[300px] md:h-[520px]" delay={0} onClick={() => open(byId(1))} />
 
           {/* Row 2 — wide (2/3) + narrow (1/3) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <ProjectCard project={projects[1]} variant="fromLeft" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[1])} />
-            <ProjectCard project={projects[2]} variant="fromRight" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[2])} />
+            <ProjectCard project={byId(2)} variant="fromLeft" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(byId(2))} />
+            <ProjectCard project={byId(3)} variant="fromRight" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(byId(3))} />
           </div>
 
           {/* Row 3 — narrow (1/3) + wide (2/3) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <ProjectCard project={projects[3]} variant="fromLeft" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[3])} />
-            <ProjectCard project={projects[4]} variant="fromRight" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[4])} />
+            <ProjectCard project={byId(4)} variant="fromLeft" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(byId(4))} />
+            <ProjectCard project={byId(5)} variant="fromRight" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(byId(5))} />
           </div>
 
           {/* Row 4 — wide (2/3) + narrow (1/3) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <ProjectCard project={projects[5]} variant="fromLeft" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(projects[5])} />
-            <ProjectCard project={projects[6]} variant="fromRight" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(projects[6])} />
+            <ProjectCard project={byId(6)} variant="fromLeft" className="md:col-span-2" cardHeight="h-[280px] md:h-[420px]" delay={0.05} onClick={() => open(byId(6))} />
+            <ProjectCard project={byId(7)} variant="fromRight" className="md:col-span-1" cardHeight="h-[280px] md:h-[420px]" delay={0.15} onClick={() => open(byId(7))} />
           </div>
 
           {/* Row 5 — full-width hero */}
-          <ProjectCard project={projects[7]} variant="hero"
-            cardHeight="h-[300px] md:h-[480px]" delay={0.05} onClick={() => open(projects[7])} />
+          <ProjectCard project={byId(8)} variant="hero"
+            cardHeight="h-[300px] md:h-[480px]" delay={0.05} onClick={() => open(byId(8))} />
         </div>
 
         {/* Gradient fade — bleeds over the last row, CTA sits inside it */}

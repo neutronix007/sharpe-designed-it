@@ -5,6 +5,9 @@
 // featured: true  → appears in the Hero Slideshow + homepage Projects grid
 // featured: false → Archive page only
 // tags[]          → drives the Archive filter pills (can be multiple)
+//
+// Array order controls Archive display order.
+// Projects.tsx uses byId() so the homepage grid is unaffected by reordering.
 
 export const YT_EMBED =
   "https://www.youtube.com/embed/sjDxL0-elBE?si=4RnOgqYO4vxJBpAi&autoplay=1&mute=1&controls=0&loop=1&playlist=sjDxL0-elBE&modestbranding=1";
@@ -26,8 +29,11 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  // ── Featured — shown in Hero Slideshow + homepage Projects grid ────
-
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Featured — shown in Hero Slideshow + homepage Projects grid (byId in Projects.tsx)
+  // Array order here controls Archive display order for these entries.
+  // Motion Graphics filter order: id 1 → id 8 → id 5 (UTA 3rd) → archive-only
+  // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 1,
     title: "Google Real Estate Expo — Zeme Inc",
@@ -84,19 +90,20 @@ export const projects: Project[] = [
       "A focused social media design package for NOS-POS, translating their brand into scroll-stopping digital content. Adaptable across post formats while maintaining visual consistency, built to support the brand's online communication goals.",
     behance: "https://www.behance.net/gallery/172884727/Social-Media-Designs-For-NOS-POS-1",
   },
+  // id 8 placed here so Motion Graphics filter shows: 1 → 8 → 5 (UTA third)
   {
-    id: 5,
-    title: "UTA Music App — Logo Design & Brand Identity",
-    category: "UI Design & Brand Identity",
-    tags: ["Brand Identity", "UI Design"],
+    id: 8,
+    title: "New York Real Estate Expo — Zeme Inc",
+    category: "Motion Graphics",
+    tags: ["Motion Graphics"],
     featured: true,
-    image: "/Cover image brand guidelines.jpg",
-    videoEmbed: "/uta music app.mp4",
+    image: "",
+    videoEmbed: "/Real Estate Expo Oct 2024 with Sound V3.mp4",
     videoModal: "",
-    user: "@sharpe.uta",
+    user: "@sharpe.zeme",
     description:
-      "Logo design and full brand identity system for UTA, a music streaming app. Crafted a distinctive visual language — wordmark, iconography, colour system, and UI guidelines — that bridges music culture with a clean, modern digital product experience.",
-    behance: "https://www.behance.net/gallery/182086685/Uta-Music-App-Logo-Design-and-Brand-Identity",
+      "High-impact product video and motion graphics produced for Zeme Inc's October Real Estate Expo. Full end-to-end production — script to screen — delivering broadcast-quality visuals that drove measurable engagement at the event and across social platforms.",
+    behance: "https://www.behance.net/cliffordsharpe",
   },
   {
     id: 6,
@@ -126,23 +133,25 @@ export const projects: Project[] = [
       "Full logo design and brand identity system for Pony Decor, an interior décor brand. Developed a refined visual language — custom wordmark, colour palette, and brand guidelines — that captures the brand's elegance and positions it confidently in the luxury home décor market.",
     behance: "https://www.behance.net/gallery/176240365/Pony-Decor-Logo-Design-and-Brand-Identity",
   },
+  // UTA — cross-discipline: appears in Motion Graphics (3rd), Brand Identity, Social Media, UI Design
   {
-    id: 8,
-    title: "New York Real Estate Expo — Zeme Inc",
-    category: "Motion Graphics",
-    tags: ["Motion Graphics"],
+    id: 5,
+    title: "UTA Music App — Logo Design & Brand Identity",
+    category: "UI Design & Brand Identity",
+    tags: ["Motion Graphics", "Brand Identity", "Social Media", "UI Design"],
     featured: true,
-    image: "",
-    videoEmbed: "/Real Estate Expo Oct 2024 with Sound V3.mp4",
+    image: "/Cover image brand guidelines.jpg",
+    videoEmbed: "/uta music app.mp4",
     videoModal: "",
-    user: "@sharpe.zeme",
+    user: "@sharpe.uta",
     description:
-      "High-impact product video and motion graphics produced for Zeme Inc's October Real Estate Expo. Full end-to-end production — script to screen — delivering broadcast-quality visuals that drove measurable engagement at the event and across social platforms.",
-    behance: "https://www.behance.net/cliffordsharpe",
+      "Logo design and full brand identity system for UTA, a music streaming app. Crafted a distinctive visual language — wordmark, iconography, colour system, and UI guidelines — that bridges music culture with a clean, modern digital product experience.",
+    behance: "https://www.behance.net/gallery/182086685/Uta-Music-App-Logo-Design-and-Brand-Identity",
   },
 
-  // ── Archive only — not shown in Hero Slideshow ─────────────────────
-
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Archive only — not shown in Hero Slideshow
+  // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 9,
     title: "Zeme Website — Loading Animations",
@@ -213,9 +222,23 @@ export const projects: Project[] = [
       "A motion graphics tutorial guiding real estate agents through the Zeme platform — breaking down core tools, workflows, and features through dynamic, engaging animation that makes onboarding clear and compelling.",
     behance: "https://www.behance.net/cliffordsharpe",
   },
+  {
+    id: 14,
+    title: "Zeme App — Search & Apply",
+    category: "Motion Graphics",
+    tags: ["Motion Graphics"],
+    featured: false,
+    image: "",
+    videoEmbed: "/motion graphic project 3.mp4",
+    videoModal: "",
+    user: "@sharpe.zeme",
+    description:
+      "A vertical-format motion graphics video demonstrating how users can search for property listings and apply instantly through the Zeme app — designed to highlight the platform's speed and simplicity in a mobile-native format.",
+    behance: "https://www.behance.net/cliffordsharpe",
+  },
 ];
 
 // ── Convenience exports ────────────────────────────────────────────────────────
-// featuredProjects → Hero Slideshow only
-// projects         → full list for Archive
+// featuredProjects → Hero Slideshow only (featured: true)
+// projects         → full list for Archive page
 export const featuredProjects = projects.filter((p) => p.featured);
