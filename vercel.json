@@ -3,10 +3,7 @@
     { "source": "/projects",    "destination": "/projects.html" },
     { "source": "/experience",  "destination": "/experience.html" },
     { "source": "/archive",     "destination": "/archive.html" },
-    { "source": "/ai-agency",   "destination": "/ai-agency.html" },
+    { "source": "/agency",      "destination": "/agency.html" },
     { "source": "/(.*)",        "destination": "/index.html" }
-  ],
-  "env": {
-    "AGENCY_SUBDOMAIN": "agency.cliffordsharpe.com"
-  }
+  ]
 }

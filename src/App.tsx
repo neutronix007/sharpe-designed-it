@@ -75,7 +75,7 @@ function AppContent() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [isDesktop, mouseX, mouseY]);
 
-  const isAIAgency = location.pathname === "/ai-agency";
+  const isAIAgency = location.pathname === "/agency";
 
   return (
     <>
@@ -124,7 +124,7 @@ function AppContent() {
 
           {/* Agency — separate page, code-split */}
           <Route
-            path="/ai-agency"
+            path="/agency"
             element={
               <Suspense fallback={<div className="min-h-screen bg-black" />}>
                 <AIAgency />

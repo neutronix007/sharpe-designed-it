@@ -144,7 +144,7 @@ export default function AIAgency() {
         title="The Agency | Clifford Sharpe — We Build Killer Landing Pages"
         description="Custom landing pages and websites built to convert. Beautiful design, smooth animations, and fast performance. We help brands stand out online."
         image="/og-agency.jpeg"
-        path="/ai-agency"
+        path="/agency"
       />
 
       <div className="relative z-20 w-full flex flex-col p-8 md:p-12">
