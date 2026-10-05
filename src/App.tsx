@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState, useEffect } from "react";
 import { AnimatePresence, motion, useSpring, useMotionValue } from "motion/react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -17,6 +17,7 @@ function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [isDesktop, setIsDesktop] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -24,6 +25,13 @@ function AppContent() {
   const springConfig = { damping: 30, stiffness: 100 };
   const glowX = useSpring(mouseX, springConfig);
   const glowY = useSpring(mouseY, springConfig);
+
+  // Auto-route to agency page if accessed via agency subdomain
+  useEffect(() => {
+    if (window.location.hostname === "agency.cliffordsharpe.com" && location.pathname === "/") {
+      navigate("/ai-agency", { replace: true });
+    }
+  }, [location.pathname, navigate]);
 
   // Detect desktop (mouse) vs mobile (touch)
   useEffect(() => {
