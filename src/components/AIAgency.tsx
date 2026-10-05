@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useScroll } from "motion/react";
 import { Plus, ChevronRight, ChevronLeft, Quote, Monitor, X } from "lucide-react";
 import SEO from "./SEO";
 import ContactForm from "./ContactForm";
+import PromoForm from "./PromoForm";
 import PromoBanner from "./PromoBanner";
 
 const PROJECTS = [
@@ -95,6 +96,7 @@ export default function AIAgency() {
 
   const [selectedProject, setSelectedProject] = useState<typeof PROJECTS[0] | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isPromoFormOpen, setIsPromoFormOpen] = useState(false);
   // Aspect ratio detected from the video's natural dimensions; falls back to 16/9 for iframes
   const [modalAspect, setModalAspect] = useState<number>(16 / 9);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
@@ -137,7 +139,7 @@ export default function AIAgency() {
   return (
     <div ref={containerRef} className="relative min-h-screen bg-black text-white overflow-x-hidden font-mono selection:bg-[#00ff00] selection:text-black">
       {/* Promo Banner */}
-      <PromoBanner onCtaClick={() => setIsContactOpen(true)} />
+      <PromoBanner onCtaClick={() => setIsPromoFormOpen(true)} />
 
       {/* Background Grid */}
       <div className="fixed inset-0 z-[2] opacity-5 pointer-events-none">
@@ -151,7 +153,7 @@ export default function AIAgency() {
         path="/agency"
       />
 
-      <div className="relative z-20 w-full flex flex-col p-8 md:p-12 pt-20 md:pt-24">
+      <div className="relative z-20 w-full flex flex-col p-8 md:p-12" style={{ paddingTop: isContactOpen ? "2rem" : "0" }}>
 
         {/* ── HERO ── */}
         {/* Text animates in first; video fades in after it's ready */}
@@ -575,6 +577,22 @@ export default function AIAgency() {
               className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             />
             <ContactForm onClose={() => setIsContactOpen(false)} />
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Promo Form Modal */}
+      <AnimatePresence>
+        {isPromoFormOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsPromoFormOpen(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <PromoForm onClose={() => setIsPromoFormOpen(false)} />
           </div>
         )}
       </AnimatePresence>
