@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useScroll } from "motion/react";
 import { Plus, ChevronRight, ChevronLeft, Quote, Monitor, X } from "lucide-react";
 import SEO from "./SEO";
 import ContactForm from "./ContactForm";
+import PromoBanner from "./PromoBanner";
 
 const PROJECTS = [
   {
@@ -135,6 +136,9 @@ export default function AIAgency() {
 
   return (
     <div ref={containerRef} className="relative min-h-screen bg-black text-white overflow-x-hidden font-mono selection:bg-[#00ff00] selection:text-black">
+      {/* Promo Banner */}
+      <PromoBanner onCtaClick={() => setIsContactOpen(true)} />
+
       {/* Background Grid */}
       <div className="fixed inset-0 z-[2] opacity-5 pointer-events-none">
         <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(circle, #ffffff 1px, transparent 1px)`, backgroundSize: "40px 40px" }} />
@@ -147,7 +151,7 @@ export default function AIAgency() {
         path="/agency"
       />
 
-      <div className="relative z-20 w-full flex flex-col p-8 md:p-12">
+      <div className="relative z-20 w-full flex flex-col p-8 md:p-12 pt-20 md:pt-24">
 
         {/* ── HERO ── */}
         {/* Text animates in first; video fades in after it's ready */}
