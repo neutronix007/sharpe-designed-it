@@ -19,7 +19,7 @@ export default function PromoBanner({ onCtaClick }: PromoBannerProps) {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -100, opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="fixed top-0 left-0 right-0 z-[200] bg-gradient-to-r from-[#00ff00]/20 to-[#00ff00]/10 border-b border-[#00ff00]/40 backdrop-blur-sm"
+          className="fixed top-5 left-0 right-0 z-[200] bg-gradient-to-r from-[#00ff00]/20 to-[#00ff00]/10 border-b border-[#00ff00]/40 backdrop-blur-sm mx-5 md:mx-8 rounded-lg"
         >
           <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 md:py-4 flex items-center justify-between gap-4">
             {/* Left: Icon + Text */}
