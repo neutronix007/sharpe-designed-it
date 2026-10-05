@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll } from "motion/react";
 import { Plus, ChevronRight, ChevronLeft, Quote, Monitor, X } from "lucide-react";
 import SEO from "./SEO";
+import ContactForm from "./ContactForm";
 
 const PROJECTS = [
   {
@@ -92,6 +93,7 @@ export default function AIAgency() {
   useScroll({ target: containerRef, offset: ["start start", "end end"] });
 
   const [selectedProject, setSelectedProject] = useState<typeof PROJECTS[0] | null>(null);
+  const [isContactOpen, setIsContactOpen] = useState(false);
   // Aspect ratio detected from the video's natural dimensions; falls back to 16/9 for iframes
   const [modalAspect, setModalAspect] = useState<number>(16 / 9);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
@@ -198,14 +200,12 @@ export default function AIAgency() {
                 className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_300deg,#00ff00_360deg)]"
               />
             </div>
-            <a
-              href="https://cal.com/clifford-sharpe"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setIsContactOpen(true)}
               className="relative z-10 px-8 py-4 bg-black text-[#00ff00] border border-[#00ff00]/20 font-bold text-[10px] uppercase tracking-[0.2em] flex items-center gap-3 hover:bg-[#00ff00] hover:text-black transition-all"
             >
-              Start a Project <ChevronRight size={14} />
-            </a>
+              Get in Touch <ChevronRight size={14} />
+            </button>
           </motion.div>
 
           {/* Video — fades in once loaded (or after 2.5s fallback) */}
@@ -513,7 +513,7 @@ export default function AIAgency() {
             <div className="space-y-4">
               <div className="text-[9px] font-bold text-white/40 uppercase tracking-widest">Connect</div>
               <div className="flex flex-col gap-2 text-[9px] uppercase tracking-widest text-white/20">
-                <a href="mailto:clifford.sharpe007@gmail.com" className="hover:text-[#00ff00] transition-colors">Email</a>
+                <a href="mailto:info@cliffordsharpe.com" className="hover:text-[#00ff00] transition-colors">Email</a>
                 <a href="https://www.linkedin.com/in/clifford-sharpe/" target="_blank" rel="noopener noreferrer" className="hover:text-[#00ff00] transition-colors">LinkedIn</a>
                 <a href="https://github.com/neutronix007/PortfolioProjects" target="_blank" rel="noopener noreferrer" className="hover:text-[#00ff00] transition-colors">GitHub</a>
                 <a href="https://www.behance.net/cliffordsharpe" target="_blank" rel="noopener noreferrer" className="hover:text-[#00ff00] transition-colors">Behance</a>
@@ -544,9 +544,9 @@ export default function AIAgency() {
           <div className="flex justify-between items-center py-8 text-[8px] uppercase tracking-[0.5em] text-white/10 border-t border-white/5">
             <div>© 2026 CLIFFORD SHARPE // THE AGENCY // ALL RIGHTS RESERVED</div>
             <div className="hidden md:flex items-center gap-4">
-              <span>clifford.sharpe007@gmail.com</span>
+              <span>info@cliffordsharpe.com</span>
               <div className="w-4 h-[1px] bg-white/5" />
-              <span>clifford.sharpe007@gmail.com</span>
+              <span>info@cliffordsharpe.com</span>
             </div>
           </div>
         </footer>
@@ -558,6 +558,22 @@ export default function AIAgency() {
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         className="fixed -top-20 -right-20 w-64 h-64 border border-white/5 rounded-full pointer-events-none"
       />
+
+      {/* Contact Modal */}
+      <AnimatePresence>
+        {isContactOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsContactOpen(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <ContactForm onClose={() => setIsContactOpen(false)} />
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
