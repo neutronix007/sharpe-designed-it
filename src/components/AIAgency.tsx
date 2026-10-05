@@ -7,10 +7,10 @@ const PROJECTS = [
   {
     id: "01",
     title: "OCEAN.ODYSSEY",
-    category: "INTERGALACTIC EXPERIENCE",
+    category: "INTERACTIVE EXPERIENCE",
     localSrc: "/ocean odyssey.mp4",
     video: "",
-    description: "Immersive digital experience for an intergalactic ocean where astronauts explore uncharted deep-space waters. Cinematic scroll-driven visuals, bioluminescent motion design, and zero-gravity UI built for the next frontier of space tourism.",
+    description: "Immersive digital experience with smooth animations and stunning visuals. Designed to be engaging and easy to navigate, perfect for showcasing innovative products.",
   },
   {
     id: "02",
@@ -18,23 +18,23 @@ const PROJECTS = [
     category: "PORTFOLIO DESIGN",
     localSrc: "/sharpe-designed-it.mp4",
     video: "",
-    description: "Personal portfolio for Clifford Sharpe — graphic and motion designer. Built with kinetic animations, a custom cursor, and a dark editorial aesthetic that captures the full range of brand, motion, and digital work.",
+    description: "Professional portfolio showcasing design and animation work. Features smooth animations, custom interactions, and a clean dark design that highlights creative projects.",
   },
   {
     id: "03",
     title: "VOID.SYSTEMS",
-    category: "WEB3 DEPLOY",
+    category: "WEB3 PROJECT",
     localSrc: "",
     video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
-    description: "Immersive 3D environment for a decentralised finance protocol. Wallet-connect integration, generative on-chain asset previews, and a live countdown to token launch — all wrapped in a cinematic dark UI.",
+    description: "Modern web3 platform with interactive 3D design. Features wallet integration, real-time updates, and a sleek user interface built for crypto and blockchain products.",
   },
   {
     id: "04",
     title: "AXIOM.BRAND",
-    category: "VISUAL IDENTITY",
+    category: "BRAND IDENTITY",
     localSrc: "",
     video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
-    description: "Full brand system for a next-gen AI hardware company — custom wordmark, motion design guidelines, and a launch film that reached 2M organic views in 72 hours across LinkedIn and X.",
+    description: "Complete brand design for an AI hardware company. Includes logo, brand guidelines, and launch video. The video went viral with 2M views organically in the first 72 hours.",
   },
   {
     id: "05",
@@ -42,15 +42,15 @@ const PROJECTS = [
     category: "SOCIAL MEDIA",
     localSrc: "",
     video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
-    description: "High-volume social motion content for a global fintech brand. 30+ deliverables per sprint at broadcast quality — achieving a sustained 15% average CTR improvement across paid and organic channels.",
+    description: "Social media animation content for a fintech brand. 30+ high-quality videos per month that increased engagement by 15%. Perfect for reaching audiences on social platforms.",
   },
   {
     id: "06",
     title: "PHANTOM.LAUNCH",
-    category: "LAUNCH CAMPAIGN",
+    category: "PRODUCT LAUNCH",
     localSrc: "",
     video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
-    description: "End-to-end launch campaign for a stealth-mode AI startup — brand identity, motion package, and a high-converting waitlist landing page that captured 50K signups in the first 48 hours of going live.",
+    description: "Complete launch campaign for an AI startup. Includes brand design, animations, and a landing page that collected 50,000 signups in the first 48 hours.",
   },
 ];
 
@@ -165,10 +165,6 @@ export default function AIAgency() {
             <h1 className="text-[6vw] md:text-[3.8vw] font-tech font-bold leading-tight tracking-tight uppercase max-w-5xl mx-auto">
               We Build Killer<br />Landing Pages
             </h1>
-            <div className="flex justify-center gap-4">
-              <span className="text-[10px] font-bold text-[#00ff00]/60 tracking-[0.5em]">THE.AGENCY</span>
-              <span className="text-[10px] font-bold text-white/20 tracking-[0.5em]">EST.2099</span>
-            </div>
           </motion.div>
 
           {/* Subtitle — animates in second */}
@@ -208,7 +204,7 @@ export default function AIAgency() {
               rel="noopener noreferrer"
               className="relative z-10 px-8 py-4 bg-black text-[#00ff00] border border-[#00ff00]/20 font-bold text-[10px] uppercase tracking-[0.2em] flex items-center gap-3 hover:bg-[#00ff00] hover:text-black transition-all"
             >
-              Initialize Project <ChevronRight size={14} />
+              Start a Project <ChevronRight size={14} />
             </a>
           </motion.div>
 
@@ -271,7 +267,7 @@ export default function AIAgency() {
               <Monitor size={14} className="text-[#00ff00]" />
               <span className="text-[10px] font-bold uppercase tracking-[0.5em]">Selected.Works</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">Digital.Artifacts</h2>
+            <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">Our.Work</h2>
           </motion.div>
 
           {/* 3×2 grid — all 6 visible at once */}
