@@ -36,12 +36,14 @@ export default function Navbar() {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-white/60">
-          <Link
-            to="/ai-agency"
+          <a
+            href="https://agency.cliffordsharpe.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-white font-bold tracking-widest uppercase text-[10px] border border-white/20 px-3 py-1 hover:bg-white hover:text-black transition-all"
           >
             Agency
-          </Link>
+          </a>
           <button onClick={() => goToSection("projects")} className="hover:text-white transition-colors">
             Projects
           </button>
@@ -112,9 +114,9 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -20 }}
             className="fixed inset-0 z-[55] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
           >
-            <Link to="/ai-agency" onClick={() => setIsOpen(false)} className="text-3xl font-display font-bold hover:text-white/60 transition-colors">
+            <a href="https://agency.cliffordsharpe.com" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)} className="text-3xl font-display font-bold hover:text-white/60 transition-colors">
               Agency
-            </Link>
+            </a>
             <button onClick={() => goToSection("projects")} className="text-3xl font-display font-bold hover:text-white/60 transition-colors">
               Projects
             </button>
