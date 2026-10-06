@@ -51,8 +51,8 @@ const PROJECTS: {
     localSrc: "/kivo-web.mp4",
     thumbSrc: "/thumbs/kivo.mp4",
     video: "",
-    liveUrl: "",
-    description: "Bold product launch site for a food or spice brand. Immersive product showcase, scroll animations and storytelling built to turn visitors into buyers.",
+    liveUrl: "https://scorch.cliffordsharpe.com",
+    description: "Bold product launch site for a food or spice brand. Immersive product showcase, scroll animations and storytelling built to turn visitors into buyers. The live demo runs under a sample brand, Scorch.",
   },
   {
     id: "04",
@@ -130,6 +130,17 @@ const PROJECTS: {
     video: "",
     liveUrl: "",
     description: "Immersive, cinematic site for adventure, travel and experience brands. Bold visuals and smooth animations that make visitors want to be there.",
+  },
+  {
+    id: "11",
+    title: "ONYIN.TECH",
+    category: "RETAIL TECHNOLOGY",
+    kind: "client",
+    localSrc: "/onyin-web.mp4",
+    thumbSrc: "/thumbs/onyin.mp4",
+    video: "",
+    liveUrl: "",
+    description: "Website for Onyin Technologies and NOS POS, their point-of-sale app for businesses, retailers and shoppers. Built around their promise of solution, speed and security.",
   },
 ];
 
