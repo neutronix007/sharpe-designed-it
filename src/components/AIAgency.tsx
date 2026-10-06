@@ -1,61 +1,73 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll } from "motion/react";
-import { Plus, ChevronRight, ChevronLeft, Quote, Monitor, X } from "lucide-react";
+import { ChevronRight, ChevronLeft, Quote, Monitor, X } from "lucide-react";
 import SEO from "./SEO";
 import ContactForm from "./ContactForm";
 import PromoForm from "./PromoForm";
 import PromoBanner from "./PromoBanner";
+import AgencyNavbar from "./AgencyNavbar";
+import GlowButton from "./GlowButton";
 
 const PROJECTS = [
   {
     id: "01",
-    title: "OCEAN.ODYSSEY",
-    category: "INTERACTIVE EXPERIENCE",
-    localSrc: "/ocean odyssey.mp4",
+    title: "SELIX.FINANCE",
+    category: "PAYMENT PLATFORM",
+    localSrc: "/selix.mp4",
+    thumbSrc: "/thumbs/selix.mp4",
     video: "",
-    description: "Immersive digital experience with smooth animations and stunning visuals. Designed to be engaging and easy to navigate, perfect for showcasing innovative products.",
+    liveUrl: "",
+    description: "Cross-border payment platform for cryptocurrency and fiat currencies. Features seamless on/off-ramping, wallet integration, and enterprise-grade security. Built for fintech companies and individuals who need real-time global transactions.",
   },
   {
     id: "02",
-    title: "SHARPE.PORTFOLIO",
-    category: "PORTFOLIO DESIGN",
-    localSrc: "/sharpe-designed-it.mp4",
+    title: "KIVO.PEPPER",
+    category: "E-COMMERCE",
+    localSrc: "/kivo-web.mp4",
+    thumbSrc: "/thumbs/kivo.mp4",
     video: "",
-    description: "Professional portfolio showcasing design and animation work. Features smooth animations, custom interactions, and a clean dark design that highlights creative projects.",
+    liveUrl: "",
+    description: "Premium spice brand with immersive product showcase. Custom animations and creative storytelling bring the product to life. Features interactive design and premium aesthetics that drive conversion.",
   },
   {
     id: "03",
-    title: "VOID.SYSTEMS",
-    category: "WEB3 PROJECT",
-    localSrc: "",
-    video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
-    description: "Modern web3 platform with interactive 3D design. Features wallet integration, real-time updates, and a sleek user interface built for crypto and blockchain products.",
+    title: "NEXORA.AI",
+    category: "AI AUTOMATION",
+    localSrc: "/nexora-web.mp4",
+    thumbSrc: "/thumbs/nexora.mp4",
+    video: "",
+    liveUrl: "",
+    description: "Enterprise automation platform powered by AI and GPT-5. Features interactive dashboard preview, real-time metrics, and workflow automation. Built for teams seeking smarter, faster automation solutions.",
   },
   {
     id: "04",
-    title: "AXIOM.BRAND",
-    category: "BRAND IDENTITY",
-    localSrc: "",
-    video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
-    description: "Complete brand design for an AI hardware company. Includes logo, brand guidelines, and launch video. The video went viral with 2M views organically in the first 72 hours.",
+    title: "OCEAN.ODYSSEY",
+    category: "INTERACTIVE EXPERIENCE",
+    localSrc: "/ocean odyssey.mp4",
+    thumbSrc: "/thumbs/ocean-odyssey.mp4",
+    video: "",
+    liveUrl: "",
+    description: "Immersive digital experience with smooth animations and stunning visuals. Designed to be engaging and easy to navigate, perfect for showcasing innovative products.",
   },
   {
     id: "05",
-    title: "FLUX.MOTION",
-    category: "SOCIAL MEDIA",
-    localSrc: "",
-    video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
-    description: "Social media animation content for a fintech brand. 30+ high-quality videos per month that increased engagement by 15%. Perfect for reaching audiences on social platforms.",
-  },
-  {
-    id: "06",
-    title: "PHANTOM.LAUNCH",
-    category: "PRODUCT LAUNCH",
-    localSrc: "",
-    video: "https://streamable.com/e/ocgsz2?muted=1&nocontrols=1&autoplay=1&loop=1",
-    description: "Complete launch campaign for an AI startup. Includes brand design, animations, and a landing page that collected 50,000 signups in the first 48 hours.",
+    title: "TEXTZEME.AI",
+    category: "RENTAL PLATFORM",
+    localSrc: "/textzeme-web.mp4",
+    thumbSrc: "/thumbs/textzeme.mp4",
+    video: "",
+    liveUrl: "",
+    description: "AI-powered rental discovery platform integrated directly into iMessage. Find your perfect apartment in New York through intelligent search and real-time recommendations. Revolutionary approach to apartment hunting through conversational AI.",
   },
 ];
+
+// React sets `muted` only as a DOM property; browsers check the attribute before allowing autoplay of videos with audio tracks.
+const forceMutedAutoplay = (el: HTMLVideoElement | null) => {
+  if (!el) return;
+  el.muted = true;
+  el.defaultMuted = true;
+  el.setAttribute("muted", "");
+};
 
 const TESTIMONIALS = [
   {
@@ -97,6 +109,7 @@ export default function AIAgency() {
   const [selectedProject, setSelectedProject] = useState<typeof PROJECTS[0] | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isPromoFormOpen, setIsPromoFormOpen] = useState(false);
+  const [isBannerVisible, setIsBannerVisible] = useState(true);
   // Aspect ratio detected from the video's natural dimensions; falls back to 16/9 for iframes
   const [modalAspect, setModalAspect] = useState<number>(16 / 9);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
@@ -139,7 +152,8 @@ export default function AIAgency() {
   return (
     <div ref={containerRef} className="relative min-h-screen bg-black text-white overflow-x-hidden font-mono selection:bg-[#00ff00] selection:text-black">
       {/* Promo Banner */}
-      <PromoBanner onCtaClick={() => setIsPromoFormOpen(true)} />
+      <PromoBanner onCtaClick={() => setIsPromoFormOpen(true)} onClose={() => setIsBannerVisible(false)} />
+      <AgencyNavbar top={isBannerVisible ? 70 : 20} onContactClick={() => setIsContactOpen(true)} />
 
       {/* Background Grid */}
       <div className="fixed inset-0 z-[2] opacity-5 pointer-events-none">
@@ -153,11 +167,11 @@ export default function AIAgency() {
         path="/agency"
       />
 
-      <div className="relative z-20 w-full flex flex-col p-8 md:p-12" style={{ paddingTop: isContactOpen ? "2rem" : "0" }}>
+      <div className="relative z-20 w-full flex flex-col p-8 md:p-12" style={{ paddingTop: isBannerVisible ? "9.5rem" : "6.5rem", transition: "padding-top 0.4s ease" }}>
 
         {/* ── HERO ── */}
         {/* Text animates in first; video fades in after it's ready */}
-        <div className="relative min-h-[90vh] flex flex-col items-center justify-center gap-6 md:gap-8 p-8 md:p-16">
+        <div className="relative min-h-[calc(100vh-11rem)] flex flex-col items-center justify-center gap-5 md:gap-6 px-8 md:px-16 py-10 md:py-12">
           <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-[#00ff00]/40 z-30" />
           <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-[#00ff00]/40 z-30" />
           <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-[#00ff00]/40 z-30" />
@@ -168,7 +182,7 @@ export default function AIAgency() {
             initial={{ y: 24, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-            className="text-center order-2 space-y-2"
+            className="relative z-50 text-center order-2 space-y-2 -mt-16 md:-mt-28"
           >
             <h1 className="text-[6vw] md:text-[3.8vw] font-tech font-bold leading-tight tracking-tight uppercase max-w-5xl mx-auto">
               We Build Killer<br />Landing Pages
@@ -182,10 +196,6 @@ export default function AIAgency() {
             transition={{ delay: 0.3, duration: 0.7, ease: "easeOut" }}
             className="max-w-xl space-y-3 text-center order-3"
           >
-            <div className="flex items-center gap-3 justify-center">
-              <Plus size={12} className="text-[#00ff00]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Built for Results</span>
-            </div>
             <p className="text-[10px] md:text-[11px] leading-relaxed text-white/50 uppercase tracking-widest font-light px-4">
               We build landing pages that convert. Beautiful design. Smooth animations. Fast load times.
               Everything your brand needs to stand out and drive results.
@@ -199,19 +209,7 @@ export default function AIAgency() {
             transition={{ delay: 0.5, duration: 0.7, ease: "easeOut" }}
             className="order-5 relative group"
           >
-            <div className="absolute -inset-[2px] rounded-sm overflow-hidden pointer-events-none">
-              <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-[-100%] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_300deg,#00ff00_360deg)]"
-              />
-            </div>
-            <button
-              onClick={() => setIsContactOpen(true)}
-              className="relative z-10 px-8 py-4 bg-black text-[#00ff00] border border-[#00ff00]/20 font-bold text-[10px] uppercase tracking-[0.2em] flex items-center gap-3 hover:bg-[#00ff00] hover:text-black transition-all"
-            >
-              Get in Touch <ChevronRight size={14} />
-            </button>
+            <GlowButton onClick={() => setIsContactOpen(true)}>Start a Project</GlowButton>
           </motion.div>
 
           {/* Video — fades in once loaded (or after 2.5s fallback) */}
@@ -228,7 +226,7 @@ export default function AIAgency() {
               loop
               playsInline
               onCanPlay={() => setHeroVideoReady(true)}
-              className="w-full h-auto max-h-[50vh] object-contain mx-auto block"
+              className="w-full h-auto max-h-[46vh] object-contain mx-auto block"
             />
             <div className="absolute inset-0 bg-black/10 z-[1] pointer-events-none" />
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent z-[2] pointer-events-none" />
@@ -262,7 +260,7 @@ export default function AIAgency() {
         </div>
 
         {/* ── DIGITAL ARTIFACTS GRID ── */}
-        <section className="mt-32 space-y-12">
+        <section id="work" className="mt-32 space-y-12 scroll-mt-40">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -288,14 +286,18 @@ export default function AIAgency() {
                 className="flex flex-col gap-3 cursor-pointer group"
                 onClick={() => { setModalAspect(16 / 9); setSelectedProject(project); }}
               >
-                <div className="relative aspect-[4/5] overflow-hidden border border-white/10 bg-white/5">
+                <div className="relative aspect-video overflow-hidden border border-white/10 bg-white/5">
                   {project.localSrc ? (
                     <video
-                      src={project.localSrc}
+                      src={project.thumbSrc}
+                      ref={forceMutedAutoplay}
                       autoPlay
                       muted
                       loop
                       playsInline
+                      preload="auto"
+                      onCanPlay={(e) => e.currentTarget.play().catch(() => {})}
+                      onPause={(e) => { if (!document.hidden) e.currentTarget.play().catch(() => {}); }}
                       className="w-full h-full object-cover pointer-events-none grayscale group-hover:grayscale-0 transition-all duration-700"
                     />
                   ) : (
@@ -305,7 +307,8 @@ export default function AIAgency() {
                       allow="autoplay; fullscreen"
                     />
                   )}
-                  <div className="absolute inset-0 bg-black/50 group-hover:bg-black/20 transition-colors duration-300" />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
+                  <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
                   <div className="absolute top-3 left-3 text-[10px] font-bold text-[#00ff00]">{project.id}</div>
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="text-[9px] text-white/40 uppercase tracking-widest mb-1">{project.category}</div>
@@ -318,103 +321,13 @@ export default function AIAgency() {
                     </div>
                   </div>
                 </div>
-                <p className="text-[9px] text-white/30 uppercase leading-relaxed px-1 line-clamp-2">
-                  {project.description}
-                </p>
               </motion.div>
             ))}
           </div>
         </section>
 
-        {/* ── PROJECT MODAL — portrait / tall layout ── */}
-        <AnimatePresence>
-          {selectedProject && (
-            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setSelectedProject(null)}
-                className="absolute inset-0 bg-black/90 backdrop-blur-xl"
-              />
-              <motion.div
-                initial={{ opacity: 0, scale: 0.94, y: 24 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.94, y: 24 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="relative w-full max-w-3xl bg-black border border-white/10 flex flex-col overflow-hidden"
-                style={{ maxHeight: "92vh" }}
-              >
-                {/* Corner accents */}
-                <div className="absolute top-0 left-0 w-5 h-5 border-t border-l border-[#00ff00]/60 z-10 pointer-events-none" />
-                <div className="absolute top-0 right-0 w-5 h-5 border-t border-r border-[#00ff00]/60 z-10 pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-5 h-5 border-b border-l border-[#00ff00]/60 z-10 pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-5 h-5 border-b border-r border-[#00ff00]/60 z-10 pointer-events-none" />
-
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="absolute top-4 right-4 z-20 w-8 h-8 border border-white/20 flex items-center justify-center text-white/50 hover:text-[#00ff00] hover:border-[#00ff00]/40 transition-all bg-black"
-                >
-                  <X size={16} />
-                </button>
-
-                {/* Video — aspect ratio auto-detected from the file; iframes fall back to 16/9 */}
-                <div
-                  className="relative w-full bg-black flex-shrink-0"
-                  style={{ aspectRatio: modalAspect }}
-                >
-                  {selectedProject.localSrc ? (
-                    <video
-                      src={selectedProject.localSrc}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      onLoadedMetadata={(e) => {
-                        const v = e.currentTarget;
-                        if (v.videoWidth && v.videoHeight) {
-                          setModalAspect(v.videoWidth / v.videoHeight);
-                        }
-                      }}
-                      className="w-full h-full object-contain"
-                    />
-                  ) : (
-                    <iframe
-                      src={selectedProject.video}
-                      className="w-full h-full border-none"
-                      allow="autoplay; fullscreen"
-                    />
-                  )}
-                  {/* Bottom fade */}
-                  <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black to-transparent pointer-events-none z-[1]" />
-                </div>
-
-                {/* Info panel */}
-                <div className="flex-shrink-0 p-6 md:p-8 space-y-4 border-t border-white/5">
-                  <div className="space-y-1">
-                    <div className="text-[9px] text-[#00ff00] font-bold uppercase tracking-[0.4em]">{selectedProject.category}</div>
-                    <div className="text-[10px] text-white/30 uppercase tracking-widest">{selectedProject.id}</div>
-                    <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight">{selectedProject.title}</h3>
-                  </div>
-                  <p className="text-[11px] text-white/50 uppercase leading-relaxed tracking-wide">
-                    {selectedProject.description}
-                  </p>
-                  <a
-                    href="https://www.behance.net/cliffordsharpe"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#00ff00] border border-[#00ff00]/30 px-5 py-3 hover:bg-[#00ff00] hover:text-black transition-all w-fit"
-                  >
-                    View on Behance <ChevronRight size={12} />
-                  </a>
-                </div>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
-
         {/* ── TESTIMONIALS SLIDESHOW ── */}
-        <section className="mt-48 mb-32 space-y-16">
+        <section id="results" className="mt-48 mb-32 space-y-16 scroll-mt-40">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -565,10 +478,100 @@ export default function AIAgency() {
         className="fixed -top-20 -right-20 w-64 h-64 border border-white/5 rounded-full pointer-events-none"
       />
 
+      {/* ── PROJECT MODAL — portrait / tall layout ── */}
+      <AnimatePresence>
+        {selectedProject && (
+          <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 md:p-8">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
+              className="absolute inset-0 bg-black/90 backdrop-blur-xl"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 24 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: 24 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+              className="relative w-full max-w-3xl bg-black border border-white/10 flex flex-col overflow-hidden"
+              style={{ maxHeight: "92vh" }}
+            >
+              {/* Corner accents */}
+              <div className="absolute top-0 left-0 w-5 h-5 border-t border-l border-[#00ff00]/60 z-10 pointer-events-none" />
+              <div className="absolute top-0 right-0 w-5 h-5 border-t border-r border-[#00ff00]/60 z-10 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-5 h-5 border-b border-l border-[#00ff00]/60 z-10 pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-5 h-5 border-b border-r border-[#00ff00]/60 z-10 pointer-events-none" />
+
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-4 right-4 z-20 w-8 h-8 border border-white/20 flex items-center justify-center text-white/50 hover:text-[#00ff00] hover:border-[#00ff00]/40 transition-all bg-black"
+              >
+                <X size={16} />
+              </button>
+
+              {/* Video — aspect ratio auto-detected from the file; iframes fall back to 16/9 */}
+              <div
+                className="relative w-full bg-black flex-shrink-0"
+                style={{ aspectRatio: modalAspect }}
+              >
+                {selectedProject.localSrc ? (
+                  <video
+                    src={selectedProject.localSrc}
+                    ref={forceMutedAutoplay}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    onLoadedMetadata={(e) => {
+                      const v = e.currentTarget;
+                      if (v.videoWidth && v.videoHeight) {
+                        setModalAspect(v.videoWidth / v.videoHeight);
+                      }
+                    }}
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <iframe
+                    src={selectedProject.video}
+                    className="w-full h-full border-none"
+                    allow="autoplay; fullscreen"
+                  />
+                )}
+                {/* Bottom fade */}
+                <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black to-transparent pointer-events-none z-[1]" />
+              </div>
+
+              {/* Info panel */}
+              <div className="flex-shrink-0 p-6 md:p-8 space-y-4 border-t border-white/5">
+                <div className="space-y-1">
+                  <div className="text-[9px] text-[#00ff00] font-bold uppercase tracking-[0.4em]">{selectedProject.category}</div>
+                  <div className="text-[10px] text-white/30 uppercase tracking-widest">{selectedProject.id}</div>
+                  <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight">{selectedProject.title}</h3>
+                </div>
+                <p className="text-[11px] text-white/50 uppercase leading-relaxed tracking-wide">
+                  {selectedProject.description}
+                </p>
+                {selectedProject.liveUrl && (
+                  <a
+                    href={selectedProject.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#00ff00] border border-[#00ff00]/30 px-5 py-3 hover:bg-[#00ff00] hover:text-black transition-all w-fit"
+                  >
+                    Live Preview <ChevronRight size={12} />
+                  </a>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Contact Modal */}
       <AnimatePresence>
         {isContactOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+          <div className="fixed inset-0 z-[300] flex items-center justify-center p-6">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -584,7 +587,7 @@ export default function AIAgency() {
       {/* Promo Form Modal */}
       <AnimatePresence>
         {isPromoFormOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+          <div className="fixed inset-0 z-[300] flex items-center justify-center p-6">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
