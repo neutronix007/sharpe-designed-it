@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sharpe-designed-it",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  // www and agency subdomains are handled by cloudflare/redirects (separate worker)
+  "routes": [{ "pattern": "cliffordsharpe.com", "custom_domain": true }],
+  "assets": {
+    "directory": "./dist",
+    // /projects → projects.html etc. (pre-rendered OG pages), everything else → index.html
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "single-page-application"
+  }
+}
