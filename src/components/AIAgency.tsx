@@ -89,6 +89,17 @@ const PROJECTS: {
   },
   {
     id: "07",
+    title: "REPYOURNATION.WC26",
+    category: "FAN EXPERIENCE",
+    kind: "client",
+    localSrc: "/rep-your-nation-web.mp4",
+    thumbSrc: "/thumbs/rep-your-nation.mp4",
+    video: "",
+    liveUrl: "https://wc2026-fancard.vercel.app/",
+    description: "World Cup 2026 fan card generator. Fans pick their country, add their photo and name, and get a shareable card to rep their nation on social media.",
+  },
+  {
+    id: "08",
     title: "DENTAL.HEALTH",
     category: "HEALTHCARE",
     kind: "template",
@@ -99,7 +110,7 @@ const PROJECTS: {
     description: "Modern website for dental clinics and healthcare practices. Showcases services, cosmetic work and equipment, and builds trust so patients book with confidence.",
   },
   {
-    id: "08",
+    id: "09",
     title: "PRISMA.STUDIO",
     category: "CREATIVE STUDIO",
     kind: "template",
@@ -110,7 +121,7 @@ const PROJECTS: {
     description: "Portfolio site for filmmakers, visual artists and creative studios. Animated typography, work showcase and process sections that let the craft speak first.",
   },
   {
-    id: "09",
+    id: "10",
     title: "OCEAN.ODYSSEY",
     category: "INTERACTIVE EXPERIENCE",
     kind: "template",
@@ -617,47 +628,48 @@ export default function AIAgency() {
                 <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black to-transparent pointer-events-none z-[1]" />
               </div>
 
-              {/* Info panel */}
-              <div className="flex-shrink-0 p-6 md:p-8 space-y-4 border-t border-white/5">
-                <div className="space-y-1">
-                  <div className="text-[9px] text-[#00ff00] font-bold uppercase tracking-[0.4em]">{selectedProject.category}</div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[10px] text-white/30 uppercase tracking-widest">{selectedProject.id}</span>
-                    <KindBadge kind={selectedProject.kind} />
+              {/* Info panel: details left, badge and actions right */}
+              <div className="flex-shrink-0 p-6 md:p-8 border-t border-white/5 flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                <div className="space-y-3 min-w-0 md:flex-1">
+                  <div className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.4em]">
+                    <span className="text-[#00ff00]">{selectedProject.category}</span>
+                    <span className="text-white/30 tracking-widest">{selectedProject.id}</span>
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight">{selectedProject.title}</h3>
-                </div>
-                <p className="text-[11px] text-white/50 uppercase leading-relaxed tracking-wide">
-                  {selectedProject.description}
-                </p>
-                {selectedProject.kind === "client" && (
-                  <p className="flex items-center gap-2 text-[10px] text-[#f5c518]/80 uppercase tracking-widest">
-                    <Crown size={12} /> Built exclusively for this client. Not available as a template.
+                  <p className="text-[11px] text-white/50 uppercase leading-relaxed tracking-wide">
+                    {selectedProject.description}
                   </p>
-                )}
-                <div className="flex flex-wrap items-center gap-4">
-                {selectedProject.kind === "template" && (
-                  <GlowButton
-                    size="sm"
-                    onClick={() => {
-                      setContactTemplate(selectedProject.title);
-                      setSelectedProject(null);
-                      setIsContactOpen(true);
-                    }}
-                  >
-                    Start with this template
-                  </GlowButton>
-                )}
-                {selectedProject.liveUrl && (
-                  <a
-                    href={selectedProject.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#00ff00] border border-[#00ff00]/30 px-5 py-3 hover:bg-[#00ff00] hover:text-black transition-all w-fit"
-                  >
-                    {selectedProject.kind === "client" ? "Visit Site" : "Live Demo"} <ChevronRight size={12} />
-                  </a>
-                )}
+                </div>
+
+                <div className="flex flex-col items-start md:items-stretch gap-3 md:w-64 md:flex-shrink-0">
+                  <div><KindBadge kind={selectedProject.kind} /></div>
+                  {selectedProject.kind === "client" && (
+                    <p className="flex items-start gap-2 text-[9px] text-[#f5c518]/80 uppercase tracking-widest leading-relaxed">
+                      <Crown size={11} className="flex-shrink-0 mt-px" /> Built exclusively for this client. Not available as a template.
+                    </p>
+                  )}
+                  {selectedProject.kind === "template" && (
+                    <GlowButton
+                      size="sm"
+                      onClick={() => {
+                        setContactTemplate(selectedProject.title);
+                        setSelectedProject(null);
+                        setIsContactOpen(true);
+                      }}
+                    >
+                      Start with this template
+                    </GlowButton>
+                  )}
+                  {selectedProject.liveUrl && (
+                    <a
+                      href={selectedProject.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#00ff00] border border-[#00ff00]/30 px-5 py-2.5 hover:bg-[#00ff00] hover:text-black transition-all"
+                    >
+                      {selectedProject.kind === "client" ? "Visit Site" : "Live Demo"} <ChevronRight size={12} />
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>
