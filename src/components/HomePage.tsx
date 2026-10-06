@@ -8,19 +8,19 @@ const seoConfig = {
   "/": {
     title: "Clifford Sharpe | Motion & Visual Identity Designer",
     description: "Hi, I'm Clifford — Graphic & Motion Designer crafting high-end visual identities and motion graphics that drive brand growth and audience engagement.",
-    image: "/og-home.jpeg",
+    image: "/og/home.jpg",
     path: "/",
   },
   "/projects": {
     title: "Projects | Clifford Sharpe",
     description: "A curated collection of my most impactful work — motion design, brand identity, and social media across Google Real Estate Expo, UTA Music App, Pony Decor, and more.",
-    image: "/og-projects.jpeg",
+    image: "/og/projects.jpg",
     path: "/projects",
   },
   "/experience": {
     title: "Experience | Clifford Sharpe",
     description: "My design career spanning Zeme Inc, Beda Consult, Onyin Technologies, and global freelance — delivering measurable results through motion and brand design.",
-    image: "/og-experience.jpeg",
+    image: "/og/experience.jpg",
     path: "/experience",
   },
 };

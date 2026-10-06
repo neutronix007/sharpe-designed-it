@@ -259,7 +259,7 @@ export default function AIAgency() {
       <SEO
         title="The Agency | Clifford Sharpe — We Build Killer Landing Pages"
         description="Custom landing pages and websites built to convert. Beautiful design, smooth animations, and fast performance. We help brands stand out online."
-        image="/og-agency.jpeg"
+        image="/og/agency.jpg"
         path="/agency"
       />
 
