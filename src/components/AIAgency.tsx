@@ -23,14 +23,14 @@ const PROJECTS: {
 }[] = [
   {
     id: "01",
-    title: "TEXTZEME.AI",
-    category: "RENTAL PLATFORM",
+    title: "CFAP.UK",
+    category: "TAX ADVISORY",
     kind: "client",
-    localSrc: "/textzeme-web.mp4",
-    thumbSrc: "/thumbs/textzeme.mp4",
+    localSrc: "/cfap-web.mp4",
+    thumbSrc: "/thumbs/cfap.mp4",
     video: "",
-    liveUrl: "",
-    description: "AI-powered rental discovery platform that lives in iMessage. Text Zeme once and get matching New York apartments in real time, the moment they hit the market.",
+    liveUrl: "https://cfap.uk",
+    description: "Website for an independent UK tax practice specialising in HMRC enquiries, compliance checks, tax disputes and appeals. Clear, credible and built to turn worried visitors into booked consultations.",
   },
   {
     id: "02",
@@ -62,7 +62,7 @@ const PROJECTS: {
     localSrc: "/nexora-web.mp4",
     thumbSrc: "/thumbs/nexora.mp4",
     video: "",
-    liveUrl: "",
+    liveUrl: "https://nexora.cliffordsharpe.com",
     description: "SaaS landing page for AI and automation products. Dashboard preview, how-it-works, metrics, testimonials and pricing sections built to drive demo bookings.",
   },
   {
@@ -73,33 +73,44 @@ const PROJECTS: {
     localSrc: "/lueur-web.mp4",
     thumbSrc: "/thumbs/lueur.mp4",
     video: "",
-    liveUrl: "",
+    liveUrl: "https://lueur.cliffordsharpe.com",
     description: "Elegant site for skincare and beauty brands. Soft video backgrounds, results-driven storytelling and social proof that make premium products feel worth it.",
   },
   {
     id: "06",
+    title: "TEXTZEME.AI",
+    category: "RENTAL PLATFORM",
+    kind: "client",
+    localSrc: "/textzeme-web.mp4",
+    thumbSrc: "/thumbs/textzeme.mp4",
+    video: "",
+    liveUrl: "",
+    description: "AI-powered rental discovery platform that lives in iMessage. Text Zeme once and get matching New York apartments in real time, the moment they hit the market.",
+  },
+  {
+    id: "07",
     title: "DENTAL.HEALTH",
     category: "HEALTHCARE",
     kind: "template",
     localSrc: "/dental-web.mp4",
     thumbSrc: "/thumbs/dental.mp4",
     video: "",
-    liveUrl: "",
+    liveUrl: "https://dental.cliffordsharpe.com",
     description: "Modern website for dental clinics and healthcare practices. Showcases services, cosmetic work and equipment, and builds trust so patients book with confidence.",
   },
   {
-    id: "07",
+    id: "08",
     title: "PRISMA.STUDIO",
     category: "CREATIVE STUDIO",
     kind: "template",
     localSrc: "/prism-web.mp4",
     thumbSrc: "/thumbs/prism.mp4",
     video: "",
-    liveUrl: "",
+    liveUrl: "https://prisma.cliffordsharpe.com",
     description: "Portfolio site for filmmakers, visual artists and creative studios. Animated typography, work showcase and process sections that let the craft speak first.",
   },
   {
-    id: "08",
+    id: "09",
     title: "OCEAN.ODYSSEY",
     category: "INTERACTIVE EXPERIENCE",
     kind: "template",
@@ -644,7 +655,7 @@ export default function AIAgency() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#00ff00] border border-[#00ff00]/30 px-5 py-3 hover:bg-[#00ff00] hover:text-black transition-all w-fit"
                   >
-                    Live Preview <ChevronRight size={12} />
+                    {selectedProject.kind === "client" ? "Visit Site" : "Live Demo"} <ChevronRight size={12} />
                   </a>
                 )}
                 </div>
