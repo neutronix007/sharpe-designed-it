@@ -30,11 +30,11 @@ const pages = [
     url: "https://cliffordsharpe.com/archive",
   },
   {
-    file: "ai-agency.html",
+    file: "agency.html",
     title: "The Agency | Clifford Sharpe — We Build Killer Landing Pages",
     description: "High-converting landing pages and digital experiences built for brands that mean business.",
     image: "https://cliffordsharpe.com/og-agency.jpeg",
-    url: "https://cliffordsharpe.com/ai-agency",
+    url: "https://cliffordsharpe.com/agency",
   },
 ];
 

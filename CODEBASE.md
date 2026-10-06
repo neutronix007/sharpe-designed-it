@@ -68,7 +68,7 @@ sharpe.designed.it studio/
 │   └── pony decor thumbnail.jpg
 │
 ├── scripts/
-│   └── generate-og-pages.js    ← Post-build: creates projects.html, experience.html, ai-agency.html
+│   └── generate-og-pages.js    ← Post-build: creates projects.html, experience.html, agency.html
 │
 └── src/
     ├── main.tsx                ← React root, mounts <App />
@@ -107,7 +107,7 @@ All routes are defined in `src/App.tsx` inside `<Routes>`.
 | `/home` | Redirect → `/` | Handles social share URL that used /home |
 | `/projects` | `<HomePage />` | Same page, auto-scrolls to `#projects` section |
 | `/experience` | `<HomePage />` | Same page, auto-scrolls to `#experience` section |
-| `/ai-agency` | `<AIAgency />` | Separate page, code-split chunk |
+| `/agency` | `<AIAgency />` | Separate page, code-split chunk |
 
 **How the scroll-to-section works (App.tsx):**
 ```
@@ -121,7 +121,7 @@ All routes are defined in `src/App.tsx` inside `<Routes>`.
 ```json
 /projects   → projects.html    (pre-rendered with projects OG tags)
 /experience → experience.html  (pre-rendered with experience OG tags)
-/ai-agency  → ai-agency.html   (pre-rendered with agency OG tags)
+/agency  → agency.html   (pre-rendered with agency OG tags)
 /*          → index.html       (catch-all SPA fallback)
 ```
 
@@ -134,7 +134,7 @@ All routes are defined in `src/App.tsx` inside `<Routes>`.
 - Manages `isLoading` state (passed to loading screen)
 - Runs the post-load scroll-to-section logic
 - Hosts the mouse-parallax background glow (desktop only)
-- Hides `<Navbar>` and `<Footer>` when on `/ai-agency`
+- Hides `<Navbar>` and `<Footer>` when on `/agency`
 - **To add a new route:** add `<Route path="/new" element={<NewComponent />} />` here
 
 ### `HomePage.tsx`
@@ -199,7 +199,7 @@ Row 5: full-width hero     → projects[7]  (NY Real Estate Expo)
 
 ### `AIAgency.tsx`
 - Completely separate page — NOT part of the single-page scroll
-- **Code-split:** loaded as its own JS chunk only when user navigates to `/ai-agency`
+- **Code-split:** loaded as its own JS chunk only when user navigates to `/agency`
 - Has its own navbar (inline back-arrow), footer, testimonials carousel
 - Hero video: `/public/kinetic-forge-video.mp4`
 - Scroll-down indicator at bottom of hero (animated green chevron)
@@ -208,7 +208,7 @@ Row 5: full-width hero     → projects[7]  (NY Real Estate Expo)
 - **To add a project card:** push to `PROJECTS` array; the 3×2 grid auto-reflows
 
 ### `Navbar.tsx`
-- Fixed, `z-60`, always visible (except on `/ai-agency`)
+- Fixed, `z-60`, always visible (except on `/agency`)
 - **Projects / Experience links** call `goToSection(id)`:
   - If `#projects` / `#experience` is already in the DOM → `scrollIntoView()`
   - If not (user is on Agency page) → `navigate("/projects")` and App.tsx scrolls after load
@@ -258,7 +258,7 @@ npm run build
   └─ vite build                        → dist/index.html (home OG tags)
   └─ node scripts/generate-og-pages.js → dist/projects.html
                                          dist/experience.html
-                                         dist/ai-agency.html
+                                         dist/agency.html
 ```
 
 `scripts/generate-og-pages.js`:
@@ -270,7 +270,7 @@ npm run build
 ```
 /projects   → /projects.html
 /experience → /experience.html
-/ai-agency  → /ai-agency.html
+/agency  → /agency.html
 /* (catch-all) → /index.html
 ```
 
@@ -321,7 +321,7 @@ Tracks: session recordings, heatmaps, click maps, scroll depth, rage clicks, dea
 | `og-home.jpeg` | Social preview for `/` (1200×630) |
 | `og-projects.jpeg` | Social preview for `/projects` |
 | `og-experience.jpeg` | Social preview for `/experience` |
-| `og-agency.jpeg` | Social preview for `/ai-agency` |
+| `og-agency.jpeg` | Social preview for `/agency` |
 | `home-page-video.mp4` | Hero section full-bleed background |
 | `experience-video.mp4` | Experience section full-bleed background |
 | `kinetic-forge-video.mp4` | Agency hero section video |
@@ -433,7 +433,7 @@ npm run lint
 - **Tailwind v4** — no `tailwind.config.js`. All customisation is in `src/index.css` using `@theme` and CSS custom properties.
 - **`glass-card` / `glass-pill`** — custom utility classes defined in `src/index.css`. Used throughout for the frosted-glass look.
 - **Video filenames have spaces** — public asset filenames like `uta music app.mp4` have spaces. In JSX they're referenced with `"/uta music app.mp4"` (quoted strings). Don't rename them without updating all references.
-- **Agency page is code-split** — `AIAgency.tsx` is loaded via `React.lazy()`. It only downloads when the user navigates to `/ai-agency`. Changes to it don't affect the main bundle size.
+- **Agency page is code-split** — `AIAgency.tsx` is loaded via `React.lazy()`. It only downloads when the user navigates to `/agency`. Changes to it don't affect the main bundle size.
 - **`scroll-mt-20`** — the `#projects` and `#experience` wrapper divs in `HomePage.tsx` use this Tailwind class. It adds 80px scroll-margin-top so the fixed navbar doesn't overlap content when `scrollIntoView` is called.
 - **Formspree free tier** — 50 submissions/month. Upgrade at formspree.io if volume grows.
 - **Clarity data lag** — new sessions appear in the Clarity dashboard with a ~2 hour delay. The script fires immediately but aggregation takes time.

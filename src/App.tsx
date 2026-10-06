@@ -29,7 +29,7 @@ function AppContent() {
   // Auto-route to agency page if accessed via agency subdomain
   useEffect(() => {
     if (window.location.hostname === "agency.cliffordsharpe.com" && location.pathname === "/") {
-      navigate("/ai-agency", { replace: true });
+      navigate("/agency", { replace: true });
     }
   }, [location.pathname, navigate]);
 
@@ -107,6 +107,7 @@ function AppContent() {
           {/* Home — all three sections on one scrollable page */}
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<Navigate to="/" replace />} />
+          <Route path="/ai-agency" element={<Navigate to="/agency" replace />} />
 
           {/* These routes render the same full page and auto-scroll to the relevant section */}
           <Route path="/projects" element={<HomePage />} />

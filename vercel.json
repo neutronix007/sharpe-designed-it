@@ -1,4 +1,7 @@
 {
+  "redirects": [
+    { "source": "/ai-agency", "destination": "/agency", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/projects",    "destination": "/projects.html" },
     { "source": "/experience",  "destination": "/experience.html" },
