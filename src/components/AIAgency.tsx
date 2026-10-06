@@ -34,13 +34,13 @@ const PROJECTS: {
   },
   {
     id: "02",
-    title: "SELIX.FINANCE",
+    title: "CORVANE.FINANCE",
     category: "PAYMENT PLATFORM",
     kind: "template",
     localSrc: "/selix.mp4",
     thumbSrc: "/thumbs/selix.mp4",
     video: "",
-    liveUrl: "",
+    liveUrl: "https://corvane.cliffordsharpe.com",
     description: "Cross-border payments site for fintech brands. Covers crypto and fiat on/off-ramping, custody and global payouts, with pricing, developer and resources pages ready to go.",
   },
   {
