@@ -5,9 +5,10 @@ import { useForm, ValidationError } from "@formspree/react";
 
 interface ContactFormProps {
   onClose: () => void;
+  template?: string;
 }
 
-export default function ContactForm({ onClose }: ContactFormProps) {
+export default function ContactForm({ onClose, template }: ContactFormProps) {
   const [state, handleSubmit] = useForm("xdayaoyz");
 
   // Auto-close after successful submission
@@ -42,15 +43,18 @@ export default function ContactForm({ onClose }: ContactFormProps) {
             className="space-y-6"
           >
             <div className="space-y-2">
-              <h2 className="text-3xl font-display font-bold">Let's Talk</h2>
+              <h2 className="text-3xl font-display font-bold">{template ? "Start Your Project" : "Let's Talk"}</h2>
               <p className="text-white/40 text-sm">
-                Have a project in mind? Let's build something amazing together.
+                {template
+                  ? <>Starting from the <span className="text-[#00ff00]">{template}</span> template. Tell us about your business and we'll make it yours.</>
+                  : "Have a project in mind? Let's build something amazing together."}
               </p>
             </div>
 
             <form className="space-y-4" onSubmit={handleSubmit}>
               {/* Hidden fields for context */}
-              <input type="hidden" name="_subject" value="New message from sharpe-designed-it.vercel.app" />
+              <input type="hidden" name="_subject" value={template ? `Template request: ${template}` : "New message from sharpe-designed-it.vercel.app"} />
+              {template && <input type="hidden" name="template" value={template} />}
               <input type="hidden" name="source" value="Portfolio contact form" />
 
               <div className="space-y-1">
@@ -89,7 +93,7 @@ export default function ContactForm({ onClose }: ContactFormProps) {
                   required
                   name="message"
                   rows={4}
-                  placeholder="Tell me about your project..."
+                  placeholder={template ? "Your business, what you'd change, and when you need it live..." : "Tell me about your project..."}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-colors resize-none"
                 />
                 <ValidationError field="message" prefix="Message" errors={state.errors} className="text-red-400 text-xs mt-1" />

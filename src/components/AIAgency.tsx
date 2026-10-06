@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll } from "motion/react";
-import { ChevronRight, ChevronLeft, Quote, Monitor, X } from "lucide-react";
+import { ChevronRight, ChevronLeft, Quote, Monitor, X, Crown, LayoutTemplate } from "lucide-react";
 import SEO from "./SEO";
 import ContactForm from "./ContactForm";
 import PromoForm from "./PromoForm";
@@ -8,60 +8,122 @@ import PromoBanner from "./PromoBanner";
 import AgencyNavbar from "./AgencyNavbar";
 import GlowButton from "./GlowButton";
 
-const PROJECTS = [
+type ProjectKind = "client" | "template";
+
+const PROJECTS: {
+  id: string;
+  title: string;
+  category: string;
+  kind: ProjectKind;
+  localSrc: string;
+  thumbSrc: string;
+  video: string;
+  liveUrl: string;
+  description: string;
+}[] = [
   {
     id: "01",
-    title: "SELIX.FINANCE",
-    category: "PAYMENT PLATFORM",
-    localSrc: "/selix.mp4",
-    thumbSrc: "/thumbs/selix.mp4",
-    video: "",
-    liveUrl: "",
-    description: "Cross-border payment platform for cryptocurrency and fiat currencies. Features seamless on/off-ramping, wallet integration, and enterprise-grade security. Built for fintech companies and individuals who need real-time global transactions.",
-  },
-  {
-    id: "02",
-    title: "KIVO.PEPPER",
-    category: "E-COMMERCE",
-    localSrc: "/kivo-web.mp4",
-    thumbSrc: "/thumbs/kivo.mp4",
-    video: "",
-    liveUrl: "",
-    description: "Premium spice brand with immersive product showcase. Custom animations and creative storytelling bring the product to life. Features interactive design and premium aesthetics that drive conversion.",
-  },
-  {
-    id: "03",
-    title: "NEXORA.AI",
-    category: "AI AUTOMATION",
-    localSrc: "/nexora-web.mp4",
-    thumbSrc: "/thumbs/nexora.mp4",
-    video: "",
-    liveUrl: "",
-    description: "Enterprise automation platform powered by AI and GPT-5. Features interactive dashboard preview, real-time metrics, and workflow automation. Built for teams seeking smarter, faster automation solutions.",
-  },
-  {
-    id: "04",
-    title: "OCEAN.ODYSSEY",
-    category: "INTERACTIVE EXPERIENCE",
-    localSrc: "/ocean odyssey.mp4",
-    thumbSrc: "/thumbs/ocean-odyssey.mp4",
-    video: "",
-    liveUrl: "",
-    description: "Immersive digital experience with smooth animations and stunning visuals. Designed to be engaging and easy to navigate, perfect for showcasing innovative products.",
-  },
-  {
-    id: "05",
     title: "TEXTZEME.AI",
     category: "RENTAL PLATFORM",
+    kind: "client",
     localSrc: "/textzeme-web.mp4",
     thumbSrc: "/thumbs/textzeme.mp4",
     video: "",
     liveUrl: "",
-    description: "AI-powered rental discovery platform integrated directly into iMessage. Find your perfect apartment in New York through intelligent search and real-time recommendations. Revolutionary approach to apartment hunting through conversational AI.",
+    description: "AI-powered rental discovery platform that lives in iMessage. Text Zeme once and get matching New York apartments in real time, the moment they hit the market.",
+  },
+  {
+    id: "02",
+    title: "SELIX.FINANCE",
+    category: "PAYMENT PLATFORM",
+    kind: "template",
+    localSrc: "/selix.mp4",
+    thumbSrc: "/thumbs/selix.mp4",
+    video: "",
+    liveUrl: "",
+    description: "Cross-border payments site for fintech brands. Covers crypto and fiat on/off-ramping, custody and global payouts, with pricing, developer and resources pages ready to go.",
+  },
+  {
+    id: "03",
+    title: "KIVO.PEPPER",
+    category: "E-COMMERCE",
+    kind: "template",
+    localSrc: "/kivo-web.mp4",
+    thumbSrc: "/thumbs/kivo.mp4",
+    video: "",
+    liveUrl: "",
+    description: "Bold product launch site for a food or spice brand. Immersive product showcase, scroll animations and storytelling built to turn visitors into buyers.",
+  },
+  {
+    id: "04",
+    title: "NEXORA.AI",
+    category: "AI AUTOMATION",
+    kind: "template",
+    localSrc: "/nexora-web.mp4",
+    thumbSrc: "/thumbs/nexora.mp4",
+    video: "",
+    liveUrl: "",
+    description: "SaaS landing page for AI and automation products. Dashboard preview, how-it-works, metrics, testimonials and pricing sections built to drive demo bookings.",
+  },
+  {
+    id: "05",
+    title: "LUEUR.SKINCARE",
+    category: "BEAUTY BRAND",
+    kind: "template",
+    localSrc: "/lueur-web.mp4",
+    thumbSrc: "/thumbs/lueur.mp4",
+    video: "",
+    liveUrl: "",
+    description: "Elegant site for skincare and beauty brands. Soft video backgrounds, results-driven storytelling and social proof that make premium products feel worth it.",
+  },
+  {
+    id: "06",
+    title: "DENTAL.HEALTH",
+    category: "HEALTHCARE",
+    kind: "template",
+    localSrc: "/dental-web.mp4",
+    thumbSrc: "/thumbs/dental.mp4",
+    video: "",
+    liveUrl: "",
+    description: "Modern website for dental clinics and healthcare practices. Showcases services, cosmetic work and equipment, and builds trust so patients book with confidence.",
+  },
+  {
+    id: "07",
+    title: "PRISMA.STUDIO",
+    category: "CREATIVE STUDIO",
+    kind: "template",
+    localSrc: "/prism-web.mp4",
+    thumbSrc: "/thumbs/prism.mp4",
+    video: "",
+    liveUrl: "",
+    description: "Portfolio site for filmmakers, visual artists and creative studios. Animated typography, work showcase and process sections that let the craft speak first.",
+  },
+  {
+    id: "08",
+    title: "OCEAN.ODYSSEY",
+    category: "INTERACTIVE EXPERIENCE",
+    kind: "template",
+    localSrc: "/ocean odyssey.mp4",
+    thumbSrc: "/thumbs/ocean-odyssey.mp4",
+    video: "",
+    liveUrl: "",
+    description: "Immersive, cinematic site for adventure, travel and experience brands. Bold visuals and smooth animations that make visitors want to be there.",
   },
 ];
 
 // React sets `muted` only as a DOM property; browsers check the attribute before allowing autoplay of videos with audio tracks.
+function KindBadge({ kind }: { kind: ProjectKind }) {
+  return kind === "client" ? (
+    <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-[#f5c518] text-black text-[8px] font-bold uppercase tracking-[0.2em]">
+      <Crown size={10} strokeWidth={2.5} /> Client Work
+    </div>
+  ) : (
+    <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-black/70 backdrop-blur-sm border border-[#00ff00]/40 text-[#00ff00] text-[8px] font-bold uppercase tracking-[0.2em]">
+      <LayoutTemplate size={10} strokeWidth={2.5} /> Template
+    </div>
+  );
+}
+
 const forceMutedAutoplay = (el: HTMLVideoElement | null) => {
   if (!el) return;
   el.muted = true;
@@ -108,6 +170,7 @@ export default function AIAgency() {
 
   const [selectedProject, setSelectedProject] = useState<typeof PROJECTS[0] | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [contactTemplate, setContactTemplate] = useState<string | undefined>();
   const [isPromoFormOpen, setIsPromoFormOpen] = useState(false);
   const [isBannerVisible, setIsBannerVisible] = useState(true);
   // Aspect ratio detected from the video's natural dimensions; falls back to 16/9 for iframes
@@ -310,6 +373,7 @@ export default function AIAgency() {
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
                   <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
                   <div className="absolute top-3 left-3 text-[10px] font-bold text-[#00ff00]">{project.id}</div>
+                  <div className="absolute top-3 right-3"><KindBadge kind={project.kind} /></div>
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="text-[9px] text-white/40 uppercase tracking-widest mb-1">{project.category}</div>
                     <div className="text-base font-bold uppercase tracking-tight">{project.title}</div>
@@ -494,7 +558,7 @@ export default function AIAgency() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: 24 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="relative w-full max-w-3xl bg-black border border-white/10 flex flex-col overflow-hidden"
+              className="relative w-full max-w-3xl bg-black border border-white/10 flex flex-col overflow-y-auto overscroll-contain"
               style={{ maxHeight: "92vh" }}
             >
               {/* Corner accents */}
@@ -513,7 +577,7 @@ export default function AIAgency() {
               {/* Video — aspect ratio auto-detected from the file; iframes fall back to 16/9 */}
               <div
                 className="relative w-full bg-black flex-shrink-0"
-                style={{ aspectRatio: modalAspect }}
+                style={{ aspectRatio: modalAspect, maxHeight: "60vh" }}
               >
                 {selectedProject.localSrc ? (
                   <video
@@ -546,12 +610,33 @@ export default function AIAgency() {
               <div className="flex-shrink-0 p-6 md:p-8 space-y-4 border-t border-white/5">
                 <div className="space-y-1">
                   <div className="text-[9px] text-[#00ff00] font-bold uppercase tracking-[0.4em]">{selectedProject.category}</div>
-                  <div className="text-[10px] text-white/30 uppercase tracking-widest">{selectedProject.id}</div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] text-white/30 uppercase tracking-widest">{selectedProject.id}</span>
+                    <KindBadge kind={selectedProject.kind} />
+                  </div>
                   <h3 className="text-xl md:text-2xl font-bold uppercase tracking-tight">{selectedProject.title}</h3>
                 </div>
                 <p className="text-[11px] text-white/50 uppercase leading-relaxed tracking-wide">
                   {selectedProject.description}
                 </p>
+                {selectedProject.kind === "client" && (
+                  <p className="flex items-center gap-2 text-[10px] text-[#f5c518]/80 uppercase tracking-widest">
+                    <Crown size={12} /> Built exclusively for this client. Not available as a template.
+                  </p>
+                )}
+                <div className="flex flex-wrap items-center gap-4">
+                {selectedProject.kind === "template" && (
+                  <GlowButton
+                    size="sm"
+                    onClick={() => {
+                      setContactTemplate(selectedProject.title);
+                      setSelectedProject(null);
+                      setIsContactOpen(true);
+                    }}
+                  >
+                    Start with this template
+                  </GlowButton>
+                )}
                 {selectedProject.liveUrl && (
                   <a
                     href={selectedProject.liveUrl}
@@ -562,6 +647,7 @@ export default function AIAgency() {
                     Live Preview <ChevronRight size={12} />
                   </a>
                 )}
+                </div>
               </div>
             </motion.div>
           </div>
@@ -576,10 +662,10 @@ export default function AIAgency() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsContactOpen(false)}
+              onClick={() => { setIsContactOpen(false); setContactTemplate(undefined); }}
               className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             />
-            <ContactForm onClose={() => setIsContactOpen(false)} />
+            <ContactForm template={contactTemplate} onClose={() => { setIsContactOpen(false); setContactTemplate(undefined); }} />
           </div>
         )}
       </AnimatePresence>
