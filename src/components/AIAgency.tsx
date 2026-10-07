@@ -214,6 +214,24 @@ export default function AIAgency() {
   // Hero video ready state — text animates in first, video fades in when ready
   const [heroVideoReady, setHeroVideoReady] = useState(false);
 
+  // Touch screens can't hover, so light up the card crossing the middle of the screen instead
+  const [focusedProject, setFocusedProject] = useState<string | null>(null);
+  useEffect(() => {
+    if (!window.matchMedia("(hover: none)").matches) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = (entry.target as HTMLElement).dataset.projectId ?? null;
+          if (entry.isIntersecting) setFocusedProject(id);
+          else setFocusedProject((current) => (current === id ? null : current));
+        }
+      },
+      { rootMargin: "-40% 0px -40% 0px" }
+    );
+    document.querySelectorAll("[data-project-id]").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   // Fallback: show video after 2.5s even on slow connections
   useEffect(() => {
     const fallback = setTimeout(() => setHeroVideoReady(true), 2500);
@@ -372,9 +390,12 @@ export default function AIAgency() {
 
           {/* 3×2 grid — all 6 visible at once */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {PROJECTS.map((project, i) => (
+            {PROJECTS.map((project, i) => {
+              const lit = focusedProject === project.id;
+              return (
               <motion.div
                 key={project.id}
+                data-project-id={project.id}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -394,16 +415,16 @@ export default function AIAgency() {
                       preload="auto"
                       onCanPlay={(e) => e.currentTarget.play().catch(() => {})}
                       onPause={(e) => { if (!document.hidden) e.currentTarget.play().catch(() => {}); }}
-                      className="w-full h-full object-cover pointer-events-none grayscale group-hover:grayscale-0 transition-all duration-700"
+                      className={`w-full h-full object-cover pointer-events-none transition-all duration-700 ${lit ? "grayscale-0" : "grayscale group-hover:grayscale-0"}`}
                     />
                   ) : (
                     <iframe
                       src={project.video}
-                      className="w-full h-full border-none pointer-events-none scale-[1.3] grayscale group-hover:grayscale-0 transition-all duration-700"
+                      className={`w-full h-full border-none pointer-events-none scale-[1.3] transition-all duration-700 ${lit ? "grayscale-0" : "grayscale group-hover:grayscale-0"}`}
                       allow="autoplay; fullscreen"
                     />
                   )}
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
+                  <div className={`absolute inset-0 transition-colors duration-500 ${lit ? "bg-transparent" : "bg-black/20 group-hover:bg-transparent"}`} />
                   <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
                   <div className="absolute top-3 left-3 text-[10px] font-bold text-[#00ff00]">{project.id}</div>
                   <div className="absolute top-3 right-3"><KindBadge kind={project.kind} /></div>
@@ -419,7 +440,8 @@ export default function AIAgency() {
                   </div>
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
