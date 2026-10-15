@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "sharpe-designed-it",
+  "account_id": "2acf21efe206c3073f373c2e257ccd65", // Clifford's own account (needed now that wrangler also sees client accounts)
   "compatibility_date": "2026-10-01",
   "workers_dev": true,
   // www and agency subdomains are handled by cloudflare/redirects (separate worker)
