@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useScroll } from "motion/react";
+import { useState, useEffect, useRef, type ReactNode, type Key } from "react";
+import { motion, AnimatePresence, useScroll, useReducedMotion } from "motion/react";
 import { ChevronRight, ChevronLeft, Quote, Monitor, X, Crown, LayoutTemplate } from "lucide-react";
 import SEO from "./SEO";
 import ContactForm from "./ContactForm";
@@ -10,10 +10,26 @@ import GlowButton from "./GlowButton";
 
 type ProjectKind = "client" | "template";
 
+// Broad groupings for the Industry filter (category stays as the specific label on each card)
+const INDUSTRIES = [
+  "Food & Drink",
+  "Health & Beauty",
+  "Finance",
+  "Property",
+  "Tech & SaaS",
+  "Hospitality & Travel",
+  "Creative & Media",
+] as const;
+type Industry = typeof INDUSTRIES[number];
+
+// Black-and-white cards that colour in on hover. Off for now so the work shows in full colour; flip to true to bring it back.
+const GRAYSCALE_CARDS = false;
+
 const PROJECTS: {
   id: string;
   title: string;
   category: string;
+  industry: Industry;
   kind: ProjectKind;
   localSrc: string;
   thumbSrc: string;
@@ -25,6 +41,7 @@ const PROJECTS: {
     id: "01",
     title: "PATERY.LUXE",
     category: "FOOD GIFTING",
+    industry: "Food & Drink",
     kind: "client",
     localSrc: "/patery-web.mp4",
     thumbSrc: "/thumbs/patery.mp4",
@@ -34,8 +51,21 @@ const PROJECTS: {
   },
   {
     id: "02",
+    title: "LATERITE.BUILD",
+    category: "CONSTRUCTION",
+    industry: "Property",
+    kind: "template",
+    localSrc: "/laterite-web.mp4",
+    thumbSrc: "/thumbs/laterite.mp4",
+    video: "",
+    liveUrl: "https://laterite.cliffordsharpe.com",
+    description: "Site for house builders and contractors. The signature section follows one house from bare plot to handover, stage by stage, with the money released at each step, plus a GH₵ build estimator that sends the quote straight to WhatsApp.",
+  },
+  {
+    id: "03",
     title: "CORVANE.FINANCE",
     category: "PAYMENT PLATFORM",
+    industry: "Finance",
     kind: "template",
     localSrc: "/selix.mp4",
     thumbSrc: "/thumbs/selix.mp4",
@@ -44,9 +74,10 @@ const PROJECTS: {
     description: "Cross-border payments site for fintech brands. Covers crypto and fiat on/off-ramping, custody and global payouts, with pricing, developer and resources pages ready to go.",
   },
   {
-    id: "03",
+    id: "04",
     title: "KIVO.PEPPER",
     category: "E-COMMERCE",
+    industry: "Food & Drink",
     kind: "template",
     localSrc: "/kivo-web.mp4",
     thumbSrc: "/thumbs/kivo.mp4",
@@ -55,9 +86,10 @@ const PROJECTS: {
     description: "Bold product launch site for a food or spice brand. Immersive product showcase, scroll animations and storytelling built to turn visitors into buyers. The live demo runs under a sample brand, Scorch.",
   },
   {
-    id: "04",
+    id: "05",
     title: "NEXORA.AI",
     category: "AI AUTOMATION",
+    industry: "Tech & SaaS",
     kind: "template",
     localSrc: "/nexora-web.mp4",
     thumbSrc: "/thumbs/nexora.mp4",
@@ -66,9 +98,10 @@ const PROJECTS: {
     description: "SaaS landing page for AI and automation products. Dashboard preview, how-it-works, metrics, testimonials and pricing sections built to drive demo bookings.",
   },
   {
-    id: "05",
+    id: "06",
     title: "LUEUR.SKINCARE",
     category: "BEAUTY BRAND",
+    industry: "Health & Beauty",
     kind: "template",
     localSrc: "/lueur-web.mp4",
     thumbSrc: "/thumbs/lueur.mp4",
@@ -77,9 +110,10 @@ const PROJECTS: {
     description: "Elegant site for skincare and beauty brands. Soft video backgrounds, results-driven storytelling and social proof that make premium products feel worth it.",
   },
   {
-    id: "06",
+    id: "07",
     title: "GRACEWORLD.VENTURES",
     category: "E-COMMERCE",
+    industry: "Health & Beauty",
     kind: "client",
     localSrc: "/graceworld-web.mp4",
     thumbSrc: "/thumbs/graceworld.mp4",
@@ -88,9 +122,10 @@ const PROJECTS: {
     description: "Website for Graceworld Ventures, delivering Kinoki foot pads across Ghana. Real customer chats and video, pay-on-delivery trust and an order form that sends the full request straight to WhatsApp.",
   },
   {
-    id: "07",
+    id: "08",
     title: "CFAP.UK",
     category: "TAX ADVISORY",
+    industry: "Finance",
     kind: "client",
     localSrc: "/cfap-web.mp4",
     thumbSrc: "/thumbs/cfap.mp4",
@@ -99,9 +134,10 @@ const PROJECTS: {
     description: "Website for an independent UK tax practice specialising in HMRC enquiries, compliance checks, tax disputes and appeals. Clear, credible and built to turn worried visitors into booked consultations.",
   },
   {
-    id: "08",
+    id: "09",
     title: "EDEN.RETREAT",
     category: "HOSPITALITY",
+    industry: "Hospitality & Travel",
     kind: "template",
     localSrc: "/eden-web.mp4",
     thumbSrc: "/thumbs/eden.mp4",
@@ -110,9 +146,10 @@ const PROJECTS: {
     description: "Calm, editorial site for boutique hotels and retreats. Restrained design, rich imagery and a waitlist that builds demand before opening day.",
   },
   {
-    id: "09",
+    id: "10",
     title: "DENTAL.HEALTH",
     category: "HEALTHCARE",
+    industry: "Health & Beauty",
     kind: "template",
     localSrc: "/dental-web.mp4",
     thumbSrc: "/thumbs/dental.mp4",
@@ -121,9 +158,10 @@ const PROJECTS: {
     description: "Modern website for dental clinics and healthcare practices. Showcases services, cosmetic work and equipment, and builds trust so patients book with confidence.",
   },
   {
-    id: "10",
+    id: "11",
     title: "PRISMA.STUDIO",
     category: "CREATIVE STUDIO",
+    industry: "Creative & Media",
     kind: "template",
     localSrc: "/prism-web.mp4",
     thumbSrc: "/thumbs/prism.mp4",
@@ -132,9 +170,10 @@ const PROJECTS: {
     description: "Portfolio site for filmmakers, visual artists and creative studios. Animated typography, work showcase and process sections that let the craft speak first.",
   },
   {
-    id: "11",
+    id: "12",
     title: "TEXTZEME.AI",
     category: "RENTAL PLATFORM",
+    industry: "Property",
     kind: "client",
     localSrc: "/textzeme-web.mp4",
     thumbSrc: "/thumbs/textzeme.mp4",
@@ -143,9 +182,10 @@ const PROJECTS: {
     description: "AI-powered rental discovery platform that lives in iMessage. Text Zeme once and get matching New York apartments in real time, the moment they hit the market.",
   },
   {
-    id: "12",
+    id: "13",
     title: "ARTERY.HEALTH",
     category: "HEALTH ANALYTICS",
+    industry: "Health & Beauty",
     kind: "template",
     localSrc: "/artery-web.mp4",
     thumbSrc: "/thumbs/artery.mp4",
@@ -154,9 +194,10 @@ const PROJECTS: {
     description: "Dark landing page for health and wellness apps. Clear insight dashboards, feature sections and pricing that make complex health data feel simple.",
   },
   {
-    id: "13",
+    id: "14",
     title: "ONYIN.TECH",
     category: "RETAIL TECHNOLOGY",
+    industry: "Tech & SaaS",
     kind: "client",
     localSrc: "/onyin-web.mp4",
     thumbSrc: "/thumbs/onyin.mp4",
@@ -165,9 +206,10 @@ const PROJECTS: {
     description: "Website for Onyin Technologies and NOS POS, their point-of-sale app for businesses, retailers and shoppers. Built around their promise of solution, speed and security.",
   },
   {
-    id: "14",
+    id: "15",
     title: "OCEAN.ODYSSEY",
     category: "INTERACTIVE EXPERIENCE",
+    industry: "Hospitality & Travel",
     kind: "template",
     localSrc: "/ocean odyssey.mp4",
     thumbSrc: "/thumbs/ocean-odyssey.mp4",
@@ -176,9 +218,10 @@ const PROJECTS: {
     description: "Immersive, cinematic site for adventure, travel and experience brands. Bold visuals and smooth animations that make visitors want to be there.",
   },
   {
-    id: "15",
+    id: "16",
     title: "REPYOURNATION.WC26",
     category: "FAN EXPERIENCE",
+    industry: "Creative & Media",
     kind: "client",
     localSrc: "/rep-your-nation-web.mp4",
     thumbSrc: "/thumbs/rep-your-nation.mp4",
@@ -201,7 +244,34 @@ function KindBadge({ kind }: { kind: ProjectKind }) {
   );
 }
 
-const forceMutedAutoplay = (el: HTMLVideoElement | null) => {
+function FilterRow({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
+      <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-white/30 md:w-20 md:text-right">{label}</span>
+      <div className="flex flex-wrap justify-center gap-2">{children}</div>
+    </div>
+  );
+}
+
+function FilterChip({ active, count, onClick, children }: { key?: Key; active: boolean; count: number; onClick: () => void; children: ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      aria-pressed={active}
+      disabled={count === 0 && !active}
+      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border text-[9px] font-bold uppercase tracking-[0.2em] transition-all disabled:opacity-25 disabled:cursor-not-allowed ${
+        active
+          ? "bg-[#00ff00] border-[#00ff00] text-black"
+          : "border-white/10 text-white/50 hover:text-[#00ff00] hover:border-[#00ff00]/40"
+      }`}
+    >
+      {children}
+      <span className={active ? "text-black/50" : "text-white/25"}>{count}</span>
+    </button>
+  );
+}
+
+const forceMutedAutoplay =(el: HTMLVideoElement | null) => {
   if (!el) return;
   el.muted = true;
   el.defaultMuted = true;
@@ -255,11 +325,29 @@ export default function AIAgency() {
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [testimonialDir, setTestimonialDir] = useState(1);
 
+  // Gentle breeze for the hero palms: rotate from the stem with a slight bend, looping forever. Off for reduced-motion users.
+  const reduceMotion = useReducedMotion();
+  const palmSway = (deg: number, duration: number, delay: number) =>
+    reduceMotion
+      ? {}
+      : {
+          animate: { rotate: [0, deg, -deg * 0.4, deg * 0.7, 0], skewX: [0, deg * 0.35, 0, -deg * 0.25, 0] },
+          transition: { duration, delay, repeat: Infinity, ease: "easeInOut" as const },
+        };
+
   // Hero video ready state — text animates in first, video fades in when ready
   const [heroVideoReady, setHeroVideoReady] = useState(false);
 
+  // Work filters: industry and client work vs template are independent
+  const [industryFilter, setIndustryFilter] = useState<Industry | "all">("all");
+  const [kindFilter, setKindFilter] = useState<ProjectKind | "all">("all");
+  const matchesKind = (p: typeof PROJECTS[0]) => kindFilter === "all" || p.kind === kindFilter;
+  const matchesIndustry = (p: typeof PROJECTS[0]) => industryFilter === "all" || p.industry === industryFilter;
+  const visibleProjects = PROJECTS.filter((p) => matchesKind(p) && matchesIndustry(p));
+
   // Touch screens can't hover, so light up the card crossing the middle of the screen instead
   const [focusedProject, setFocusedProject] = useState<string | null>(null);
+  const visibleKey = visibleProjects.map((p) => p.id).join(",");
   useEffect(() => {
     if (!window.matchMedia("(hover: none)").matches) return;
     const observer = new IntersectionObserver(
@@ -274,7 +362,7 @@ export default function AIAgency() {
     );
     document.querySelectorAll("[data-project-id]").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [visibleKey]);
 
   // Fallback: show video after 2.5s even on slow connections
   useEffect(() => {
@@ -317,6 +405,42 @@ export default function AIAgency() {
       <div className="fixed inset-0 z-[2] opacity-5 pointer-events-none">
         <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(circle, #ffffff 1px, transparent 1px)`, backgroundSize: "40px 40px" }} />
       </div>
+
+      {/* Palm fronds framing the hero: top-left, and the same frond mirrored at bottom-right. Bottom edge fades out to hide the cut stem.
+          Outer layer slides each frond in; inner layer sways it from the stem like a breeze, each on its own rhythm. */}
+      <motion.div
+        initial={{ opacity: 0, x: "-14%" }}
+        animate={{ opacity: 1, x: "-6%" }}
+        transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
+        className="absolute left-0 top-[7.5rem] z-[5] w-[38vw] md:w-[30vw] max-w-[600px] pointer-events-none select-none"
+      >
+        <motion.div style={{ originX: 0, originY: 1 }} {...palmSway(3, 7, 0)}>
+          <img
+            src="/palm-frond.webp"
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="w-full [mask-image:linear-gradient(to_top,transparent,black_22%)]"
+          />
+        </motion.div>
+      </motion.div>
+      <motion.div
+        style={{ y: "-100%" }}
+        initial={{ opacity: 0, x: 40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
+        className="absolute right-0 top-[100vh] z-[5] w-[34vw] md:w-[26vw] max-w-[520px] pointer-events-none select-none"
+      >
+        <motion.div style={{ originX: 1, originY: 1 }} {...palmSway(-3.5, 8.5, 1.2)}>
+          <img
+            src="/palm-frond.webp"
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            className="w-full translate-x-[6%] -scale-x-100 rotate-[8deg] [mask-image:linear-gradient(to_top,transparent,black_22%)]"
+          />
+        </motion.div>
+      </motion.div>
 
       <SEO
         title="The Agency | Clifford Sharpe — We Build Killer Landing Pages"
@@ -432,18 +556,68 @@ export default function AIAgency() {
             <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter">Our.Work</h2>
           </motion.div>
 
-          {/* 3×2 grid — all 6 visible at once */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {PROJECTS.map((project, i) => {
-              const lit = focusedProject === project.id;
+          {/* Filters — industry and type work independently */}
+          <div className="flex flex-col items-center gap-4">
+            <FilterRow label="Industry">
+              <FilterChip active={industryFilter === "all"} count={PROJECTS.filter(matchesKind).length} onClick={() => setIndustryFilter("all")}>
+                All
+              </FilterChip>
+              {INDUSTRIES.map((ind) => (
+                <FilterChip
+                  key={ind}
+                  active={industryFilter === ind}
+                  count={PROJECTS.filter((p) => matchesKind(p) && p.industry === ind).length}
+                  onClick={() => setIndustryFilter(ind)}
+                >
+                  {ind}
+                </FilterChip>
+              ))}
+            </FilterRow>
+            <FilterRow label="Type">
+              <FilterChip active={kindFilter === "all"} count={PROJECTS.filter(matchesIndustry).length} onClick={() => setKindFilter("all")}>
+                All
+              </FilterChip>
+              <FilterChip
+                active={kindFilter === "client"}
+                count={PROJECTS.filter((p) => matchesIndustry(p) && p.kind === "client").length}
+                onClick={() => setKindFilter("client")}
+              >
+                <Crown size={10} strokeWidth={2.5} /> Client Work
+              </FilterChip>
+              <FilterChip
+                active={kindFilter === "template"}
+                count={PROJECTS.filter((p) => matchesIndustry(p) && p.kind === "template").length}
+                onClick={() => setKindFilter("template")}
+              >
+                <LayoutTemplate size={10} strokeWidth={2.5} /> Templates
+              </FilterChip>
+            </FilterRow>
+          </div>
+
+          {visibleProjects.length === 0 && (
+            <div className="flex flex-col items-center gap-4 py-16 text-center">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-white/40">No projects match both filters yet</p>
+              <button
+                onClick={() => { setIndustryFilter("all"); setKindFilter("all"); }}
+                className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#00ff00] border border-[#00ff00]/30 px-4 py-2 hover:bg-[#00ff00] hover:text-black transition-all"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
+
+          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {visibleProjects.map((project, i) => {
+              const lit = !GRAYSCALE_CARDS || focusedProject === project.id;
               return (
               <motion.div
                 key={project.id}
+                layout
                 data-project-id={project.id}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.07 }}
+                transition={{ duration: 0.5, delay: Math.min(i, 8) * 0.05 }}
                 className="flex flex-col gap-3 cursor-pointer group"
                 onClick={() => { setModalAspect(16 / 9); setSelectedProject(project); }}
               >
@@ -486,7 +660,7 @@ export default function AIAgency() {
               </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </section>
 
         {/* ── TESTIMONIALS SLIDESHOW ── */}
@@ -657,8 +831,9 @@ export default function AIAgency() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: 24 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="relative w-full max-w-3xl bg-black border border-white/10 flex flex-col overflow-y-auto overscroll-contain"
-              style={{ maxHeight: "92vh" }}
+              className="relative w-full bg-black border border-white/10 flex flex-col overflow-y-auto overscroll-contain"
+              // As wide as the video can be at 74vh tall (no letterboxing), never narrower than 44rem or wider than 80rem
+              style={{ maxHeight: "94vh", maxWidth: `min(80rem, max(44rem, calc(74vh * ${modalAspect})))` }}
             >
               {/* Corner accents */}
               <div className="absolute top-0 left-0 w-5 h-5 border-t border-l border-[#00ff00]/60 z-10 pointer-events-none" />
@@ -676,7 +851,7 @@ export default function AIAgency() {
               {/* Video — aspect ratio auto-detected from the file; iframes fall back to 16/9 */}
               <div
                 className="relative w-full bg-black flex-shrink-0"
-                style={{ aspectRatio: modalAspect, maxHeight: "60vh" }}
+                style={{ aspectRatio: modalAspect, maxHeight: "74vh" }}
               >
                 {selectedProject.localSrc ? (
                   <video
