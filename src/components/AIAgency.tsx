@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, type ReactNode, type Key } from "react";
 import { motion, AnimatePresence, useScroll, useReducedMotion } from "motion/react";
+import { useNavigate } from "react-router-dom";
 import { ChevronRight, ChevronLeft, Quote, Monitor, X, Crown, LayoutTemplate } from "lucide-react";
 import SEO from "./SEO";
 import ContactForm from "./ContactForm";
-import PromoForm from "./PromoForm";
 import PromoBanner from "./PromoBanner";
 import AgencyNavbar from "./AgencyNavbar";
 import GlowButton from "./GlowButton";
@@ -318,7 +318,7 @@ export default function AIAgency() {
   const [selectedProject, setSelectedProject] = useState<typeof PROJECTS[0] | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [contactTemplate, setContactTemplate] = useState<string | undefined>();
-  const [isPromoFormOpen, setIsPromoFormOpen] = useState(false);
+  const navigate = useNavigate();
   const [isBannerVisible, setIsBannerVisible] = useState(true);
   // Aspect ratio detected from the video's natural dimensions; falls back to 16/9 for iframes
   const [modalAspect, setModalAspect] = useState<number>(16 / 9);
@@ -398,7 +398,7 @@ export default function AIAgency() {
   return (
     <div ref={containerRef} className="relative min-h-screen bg-black text-white overflow-x-hidden font-mono selection:bg-[#00ff00] selection:text-black">
       {/* Promo Banner */}
-      <PromoBanner onCtaClick={() => setIsPromoFormOpen(true)} onClose={() => setIsBannerVisible(false)} />
+      <PromoBanner onCtaClick={() => navigate("/promo")} onClose={() => setIsBannerVisible(false)} />
       <AgencyNavbar top={isBannerVisible ? 70 : 20} onContactClick={() => setIsContactOpen(true)} />
 
       {/* Background Grid */}
@@ -945,21 +945,6 @@ export default function AIAgency() {
         )}
       </AnimatePresence>
 
-      {/* Promo Form Modal */}
-      <AnimatePresence>
-        {isPromoFormOpen && (
-          <div className="fixed inset-0 z-[300] flex items-center justify-center p-6">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsPromoFormOpen(false)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            />
-            <PromoForm onClose={() => setIsPromoFormOpen(false)} />
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

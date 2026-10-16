@@ -12,11 +12,14 @@ import Footer from "./components/Footer";
 // Code-split heavy pages — only load when user navigates there
 const AIAgency = lazy(() => import("./components/AIAgency"));
 const Archive  = lazy(() => import("./components/Archive"));
+const Promo    = lazy(() => import("./components/Promo"));
 
 function AppContent() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isDesktop, setIsDesktop] = useState(false);
   const location = useLocation();
+  // The ad landing page skips the intro loader so it opens fast on mobile data
+  const isPromo = location.pathname === "/promo";
+  const [isLoading, setIsLoading] = useState(!isPromo);
+  const [isDesktop, setIsDesktop] = useState(false);
   const navigate = useNavigate();
 
   const mouseX = useMotionValue(0);
@@ -76,6 +79,7 @@ function AppContent() {
   }, [isDesktop, mouseX, mouseY]);
 
   const isAIAgency = location.pathname === "/agency";
+  const hideSiteChrome = isAIAgency || isPromo;
 
   return (
     <>
@@ -101,7 +105,7 @@ function AppContent() {
         }}
         className="relative z-10"
       >
-        {!isAIAgency && <Navbar />}
+        {!hideSiteChrome && <Navbar />}
 
         <Routes>
           {/* Home — all three sections on one scrollable page */}
@@ -132,9 +136,19 @@ function AppContent() {
               </Suspense>
             }
           />
+
+          {/* 48-hour promo — ad landing page, code-split */}
+          <Route
+            path="/promo"
+            element={
+              <Suspense fallback={<div className="min-h-screen bg-black" />}>
+                <Promo />
+              </Suspense>
+            }
+          />
         </Routes>
 
-        {!isAIAgency && <Footer />}
+        {!hideSiteChrome && <Footer />}
       </div>
     </>
   );

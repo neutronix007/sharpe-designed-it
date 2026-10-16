@@ -36,6 +36,13 @@ const pages = [
     image: "https://cliffordsharpe.com/og/agency.jpg",
     url: "https://cliffordsharpe.com/agency",
   },
+  {
+    file: "promo.html",
+    title: "48-Hour Website Promo | Sharpe Designed It — GH₵1,200",
+    description: "A professional website for your business in 48 hours. 3 pages, your own .com domain and hosting for a year, WhatsApp and Google Maps. GH₵1,200.",
+    image: "https://cliffordsharpe.com/og/agency.jpg",
+    url: "https://cliffordsharpe.com/promo",
+  },
 ];
 
 function swap(html, page) {
