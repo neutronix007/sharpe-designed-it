@@ -6,7 +6,7 @@ import SEO from "./SEO";
 import GlowButton from "./GlowButton";
 import { track } from "../pixel";
 
-// Ad landing page for the 48-hour promo. Kept light for mobile data: no intro loader, posters first,
+// Ad landing page for the 2-day website promo. Kept light for mobile data: no intro loader, posters first,
 // and each clip only loads once it scrolls into view.
 
 const WHATSAPP_NUMBER = "233509605932";
@@ -20,27 +20,27 @@ const WORK = [
 ] as const;
 
 const INCLUDED = [
-  "3 pages that look great on phones",
-  "Your own .com domain + hosting for 1 year",
+  "3 pages that work on any phone or computer",
+  "Your own web address (.com) and hosting, free for the first year",
   "WhatsApp button and Google Maps",
   "Contact form that sends to your email",
   "Basic Google setup so people can find you",
-  "Email forwarding on your domain",
+  "Emails to your web address land in your inbox",
   "1 round of changes before launch",
 ];
 
 const STEPS = [
   { title: "Send your request", body: "Fill in the short form below. It takes about a minute." },
   { title: "Book your slot", body: "We confirm on WhatsApp and you pay a GH₵600 deposit by MoMo." },
-  { title: "Send your content", body: "Your logo, photos and a few lines about your business. The 48 hours start here." },
+  { title: "Send your content", body: "Your logo, photos and a few lines about your business. The 2 days start here." },
   { title: "Review and go live", body: "You check the site, we make your changes, you pay the GH₵600 balance and it goes live." },
 ];
 
 const FAQ = [
   { q: "What do I need to provide?", a: "Your logo, some photos and a few lines about what you do. Missing something? Tell us in the form and we'll help." },
-  { q: "Who owns the website and domain?", a: "You do. The domain is registered in your name." },
-  { q: "What happens after the first year?", a: "Hosting stays free. The domain renews at about GH₵200 a year from year two." },
-  { q: "When do the 48 hours start?", a: "Once we have your deposit and your content." },
+  { q: "Who owns the website and web address?", a: "You do. The web address is registered in your name." },
+  { q: "What happens after the first year?", a: "Hosting stays free. Your web address renews at about GH₵200 a year from year two." },
+  { q: "When do the 2 days start?", a: "Once we have your deposit and your content." },
   { q: "I need something bigger", a: "Online stores, booking systems, extra pages and apps are priced separately. Mention it in the form and we'll send a quote." },
 ];
 
@@ -128,7 +128,7 @@ export default function Promo() {
   const [state, handleSubmit] = useForm("xdayaoyz");
   // One Lead per successful request; this is the event the ads optimise for
   useEffect(() => {
-    if (state.succeeded) track("Lead", { content_name: "48-hour promo" });
+    if (state.succeeded) track("Lead", { content_name: "2-day website promo" });
   }, [state.succeeded]);
   const [lead, setLead] = useState<{ name: string; business: string; type: string }>({ name: "", business: "", type: "" });
 
@@ -151,8 +151,8 @@ export default function Promo() {
   return (
     <div className="relative min-h-screen bg-black text-white font-mono overflow-x-hidden selection:bg-[#00ff00] selection:text-black">
       <SEO
-        title="48-Hour Website Promo | Sharpe Designed It — GH₵1,200"
-        description="A professional website for your business in 48 hours. 3 pages, your own .com domain and hosting for a year, WhatsApp and Google Maps. GH₵1,200."
+        title="2-Day Website Promo | Sharpe Designed It — GH₵1,200"
+        description="Your business website in 2 days for GH₵1,200. 3 pages that work on any phone or computer, your own web address free for the first year, WhatsApp and Google Maps."
         image="/og/agency.jpg"
         path="/promo"
       />
@@ -175,7 +175,7 @@ export default function Promo() {
         <section className="relative mx-5 md:mx-12 mt-6 md:mt-10 px-6 md:px-16 py-14 md:py-24 flex flex-col items-center text-center gap-7">
           <Corners size="w-8 h-8" />
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <SectionLabel>48-Hour Website Promo</SectionLabel>
+            <SectionLabel>2-Day Website Promo</SectionLabel>
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -183,7 +183,7 @@ export default function Promo() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-tech font-bold uppercase leading-[1.15] tracking-tight text-[7.5vw] md:text-[3.4vw] max-w-4xl"
           >
-            Get your business online in 48 hours
+            Your business website <span className="whitespace-nowrap">in 2 days</span>
           </motion.h1>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }} className="flex flex-col items-center gap-1">
             <div className="font-display font-bold text-5xl md:text-7xl tracking-tight" style={{ color: GREEN }}>GH₵1,200</div>
@@ -197,7 +197,7 @@ export default function Promo() {
             transition={{ duration: 0.7, delay: 0.4 }}
             className="flex flex-wrap justify-center gap-2 max-w-xl"
           >
-            {["Domain + hosting for 1 year", "Built for phones", "Ready in 48 hours"].map((t) => (
+            {["Your own web address", "Works on any phone or computer", "Ready in 2 days"].map((t) => (
               <li key={t} className="flex items-center gap-2 border border-white/10 px-3 py-2 text-[10px] uppercase tracking-[0.15em] text-white/70">
                 <Check size={12} style={{ color: GREEN }} /> {t}
               </li>

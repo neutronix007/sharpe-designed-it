@@ -38,8 +38,8 @@ const pages = [
   },
   {
     file: "promo.html",
-    title: "48-Hour Website Promo | Sharpe Designed It — GH₵1,200",
-    description: "A professional website for your business in 48 hours. 3 pages, your own .com domain and hosting for a year, WhatsApp and Google Maps. GH₵1,200.",
+    title: "2-Day Website Promo | Sharpe Designed It — GH₵1,200",
+    description: "Your business website in 2 days for GH₵1,200. 3 pages that work on any phone or computer, your own web address free for the first year, WhatsApp and Google Maps.",
     image: "https://cliffordsharpe.com/og/agency.jpg",
     url: "https://cliffordsharpe.com/promo",
   },
