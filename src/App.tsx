@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useEffect } from "react";
+import { lazy, Suspense, useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion, useSpring, useMotionValue } from "motion/react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
@@ -8,6 +8,7 @@ import HomePage from "./components/HomePage";
 import LoadingScreen from "./components/LoadingScreen";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./components/Footer";
+import { track } from "./pixel";
 
 // Code-split heavy pages — only load when user navigates there
 const AIAgency = lazy(() => import("./components/AIAgency"));
@@ -44,6 +45,13 @@ function AppContent() {
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, []);
+
+  // Meta Pixel: index.html sends the first PageView; send one for each in-app page change after that
+  const firstPage = useRef(true);
+  useEffect(() => {
+    if (firstPage.current) { firstPage.current = false; return; }
+    track("PageView");
+  }, [location.pathname]);
 
   // Reset scroll on route change — skip for section-based routes (they scroll to a section instead)
   useEffect(() => {

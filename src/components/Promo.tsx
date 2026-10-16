@@ -4,6 +4,7 @@ import { useForm, ValidationError } from "@formspree/react";
 import { Check, ChevronRight, Crown, LayoutTemplate, Plus } from "lucide-react";
 import SEO from "./SEO";
 import GlowButton from "./GlowButton";
+import { track } from "../pixel";
 
 // Ad landing page for the 48-hour promo. Kept light for mobile data: no intro loader, posters first,
 // and each clip only loads once it scrolls into view.
@@ -125,6 +126,10 @@ function ChoiceGroup({ name, options }: { name: string; options: string[] }) {
 
 export default function Promo() {
   const [state, handleSubmit] = useForm("xdayaoyz");
+  // One Lead per successful request; this is the event the ads optimise for
+  useEffect(() => {
+    if (state.succeeded) track("Lead", { content_name: "48-hour promo" });
+  }, [state.succeeded]);
   const [lead, setLead] = useState<{ name: string; business: string; type: string }>({ name: "", business: "", type: "" });
 
   const scrollToForm = () => document.getElementById("request")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -285,6 +290,7 @@ export default function Promo() {
                 </p>
                 <a
                   href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
+                  onClick={() => track("Contact")}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 bg-[#00ff00] text-black px-7 py-4 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-white transition-colors"
