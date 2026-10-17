@@ -124,6 +124,16 @@ function ChoiceGroup({ name, options }: { name: string; options: string[] }) {
   );
 }
 
+// Ghana mobile number (024 123 4567, 0541234567, +233 24 123 4567) as 233XXXXXXXXX, or null if it isn't one
+function ghanaWhatsApp(raw: string) {
+  const digits = raw.replace(/\D/g, "");
+  if (/^0[25]\d{8}$/.test(digits)) return "233" + digits.slice(1);
+  if (/^233[25]\d{8}$/.test(digits)) return digits;
+  return null;
+}
+
+const PHONE_HINT = "Enter your Ghana number, like 024 123 4567";
+
 export default function Promo() {
   const [state, handleSubmit] = useForm("xdayaoyz");
   // One Lead per successful request; this is the event the ads optimise for
@@ -141,6 +151,10 @@ export default function Promo() {
       business: String(data.get("business") ?? ""),
       type: String(data.get("business_type") ?? ""),
     });
+    const intl = ghanaWhatsApp(String(data.get("whatsapp") ?? ""));
+    const link = e.currentTarget.elements.namedItem("whatsapp_link") as HTMLInputElement | null;
+    // Tap-to-chat link in the request email, so the number never needs retyping
+    if (link) link.value = intl ? `https://wa.me/${intl}` : "";
     return handleSubmit(e);
   };
 
@@ -308,16 +322,34 @@ export default function Promo() {
                 <form onSubmit={onSubmit} className="flex flex-col gap-6">
                   <input type="hidden" name="_subject" value="🚀 PROMO PAGE — New website request" />
                   <input type="hidden" name="source" value="promo-page" />
+                  <input type="hidden" name="whatsapp_link" value="" />
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Field label="Your name">
                       <input name="name" required autoComplete="name" placeholder="Ama Mensah" className={inputClass} />
                     </Field>
                     <Field label="WhatsApp number">
-                      <input name="whatsapp" type="tel" required autoComplete="tel" inputMode="tel" placeholder="024 123 4567" pattern="[0-9+ ]{9,16}" className={inputClass} />
+                      <input
+                        name="whatsapp"
+                        type="tel"
+                        required
+                        autoComplete="tel"
+                        inputMode="tel"
+                        placeholder="024 123 4567"
+                        pattern="(\+?233|0)\s?[25][0-9](\s?[0-9]){7}"
+                        title={PHONE_HINT}
+                        onInvalid={(e) => e.currentTarget.setCustomValidity(PHONE_HINT)}
+                        onInput={(e) => e.currentTarget.setCustomValidity("")}
+                        className={inputClass}
+                      />
                     </Field>
                   </div>
                   <ValidationError field="whatsapp" errors={state.errors} className="text-xs text-red-400" />
+
+                  <Field label="Email">
+                    <input name="email" type="email" autoComplete="email" placeholder="ama@example.com" className={inputClass} />
+                  </Field>
+                  <ValidationError field="email" errors={state.errors} className="text-xs text-red-400" />
 
                   <Field label="Business name">
                     <input name="business" required placeholder="e.g. Ama's Kitchen" className={inputClass} />
