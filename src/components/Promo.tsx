@@ -10,6 +10,8 @@ import { track } from "../pixel";
 // and each clip only loads once it scrolls into view.
 
 const WHATSAPP_NUMBER = "233509605932";
+const WHATSAPP_DISPLAY = "050 960 5932";
+const CALL_DISPLAY = "059 197 4504";
 const GREEN = "#00ff00";
 
 const WORK = [
@@ -27,6 +29,7 @@ const INCLUDED = [
   "Basic Google setup so people can find you",
   "Emails to your web address land in your inbox",
   "1 round of changes before launch",
+  "Customers order on WhatsApp (online stores with card or MoMo payment are quoted separately)",
 ];
 
 const STEPS = [
@@ -44,7 +47,7 @@ const FAQ = [
   { q: "I need something bigger", a: "Online stores, booking systems, extra pages and apps are priced separately. Mention it in the form and we'll send a quote." },
 ];
 
-const BUSINESS_TYPES = ["Food & drink", "Beauty & salon", "Shop / online store", "Services", "Property & construction", "Health", "Other"];
+const BUSINESS_TYPES = ["Food & drink", "Beauty & salon", "Shop / sell products", "Services", "Property & construction", "Health", "Other"];
 
 function Corners({ size = "w-6 h-6", tone = "border-[#00ff00]/40" }: { size?: string; tone?: string }) {
   return (
@@ -109,13 +112,17 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
 const inputClass =
   "w-full bg-white/[0.04] border border-white/10 px-4 py-3.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-[#00ff00]/60 transition-colors font-sans";
 
-function ChoiceGroup({ name, options }: { name: string; options: string[] }) {
+function ChoiceGroup({ name, options, stacked = false }: { name: string; options: string[]; stacked?: boolean }) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className={stacked ? "flex flex-col gap-2" : "flex flex-wrap gap-2"}>
       {options.map((opt, i) => (
         <label key={opt} className="cursor-pointer">
           <input type="radio" name={name} value={opt} required={i === 0} className="peer sr-only" />
-          <span className="block px-3.5 py-2.5 border border-white/10 text-[10px] font-bold uppercase tracking-[0.15em] text-white/60 peer-checked:bg-[#00ff00] peer-checked:border-[#00ff00] peer-checked:text-black peer-focus-visible:border-[#00ff00] transition-colors">
+          <span
+            className={`block px-3.5 py-2.5 border border-white/10 text-white/60 peer-checked:bg-[#00ff00] peer-checked:border-[#00ff00] peer-checked:text-black peer-focus-visible:border-[#00ff00] transition-colors ${
+              stacked ? "text-[12px] font-sans leading-snug" : "text-[10px] font-bold uppercase tracking-[0.15em]"
+            }`}
+          >
             {opt}
           </span>
         </label>
@@ -300,8 +307,14 @@ export default function Promo() {
                 </div>
                 <h2 className="font-tech text-xl md:text-2xl font-bold uppercase">Request received</h2>
                 <p className="text-[12px] text-white/60 leading-relaxed max-w-md font-sans">
-                  Thanks{lead.name ? `, ${lead.name.split(" ")[0]}` : ""}! We'll message you on WhatsApp between 8am and 6pm. Want to move faster? Send us a message now and we'll pick it up from there.
+                  Thanks{lead.name ? `, ${lead.name.split(" ")[0]}` : ""}! We'll get in touch between 8am and 6pm. Want to move faster? Send us a message now and we'll pick it up from there.
                 </p>
+                {/* Leads often ignore unknown numbers, so tell them which numbers we'll use */}
+                <div className="w-full max-w-sm border border-white/10 px-5 py-4 text-left space-y-2">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">Save our numbers</div>
+                  <div className="flex justify-between gap-4 text-[12px] font-sans"><span className="text-white/60">WhatsApp</span><span className="font-bold">{WHATSAPP_DISPLAY}</span></div>
+                  <div className="flex justify-between gap-4 text-[12px] font-sans"><span className="text-white/60">Calls</span><span className="font-bold">{CALL_DISPLAY}</span></div>
+                </div>
                 <a
                   href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
                   onClick={() => track("Contact")}
@@ -362,6 +375,23 @@ export default function Promo() {
                     </select>
                   </Field>
 
+                  <Field label="What do you sell or do?">
+                    <input name="sells" required placeholder="e.g. phones and accessories" className={inputClass} />
+                  </Field>
+
+                  <div className="flex flex-col gap-3">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">What should customers do on your website?</span>
+                    <ChoiceGroup
+                      name="site_goal"
+                      stacked
+                      options={[
+                        "See my work and contact me (GH₵1,200 promo)",
+                        "See my products and order on WhatsApp (GH₵1,200 promo)",
+                        "Buy and pay on the website (online store, priced separately)",
+                      ]}
+                    />
+                  </div>
+
                   <div className="flex flex-col gap-3">
                     <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">Do you have your logo, photos and text ready?</span>
                     <ChoiceGroup name="content_ready" options={["Yes", "Some of it", "No, I need help"]} />
@@ -370,6 +400,11 @@ export default function Promo() {
                   <div className="flex flex-col gap-3">
                     <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">When do you want to start?</span>
                     <ChoiceGroup name="start" options={["This week", "This month", "Just looking"]} />
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">How should we reach you?</span>
+                    <ChoiceGroup name="contact_pref" options={["WhatsApp", "Call"]} />
                   </div>
 
                   <label className="flex items-start gap-3 cursor-pointer border border-white/10 p-4">
