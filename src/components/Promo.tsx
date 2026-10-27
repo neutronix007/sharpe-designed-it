@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { useForm, ValidationError } from "@formspree/react";
 import { Check, ChevronRight, Crown, LayoutTemplate, Plus } from "lucide-react";
 import SEO from "./SEO";
@@ -17,8 +17,12 @@ const GREEN = "#00ff00";
 const WORK = [
   { slug: "patery", title: "PatEry Luxe", what: "Food gifting, Accra", kind: "client" },
   { slug: "graceworld", title: "Graceworld Ventures", what: "Online shop, Ghana", kind: "client" },
-  { slug: "lueur", title: "Lueur Skincare", what: "Beauty brand", kind: "sample" },
+  { slug: "okwan", title: "Ɔkwan Motors", what: "Car sales & rental", kind: "sample" },
+  { slug: "ahenfie", title: "Ahenfie Events", what: "Event décor", kind: "sample" },
+  { slug: "ahoden", title: "Ahoɔden One Rep", what: "Gym & fitness", kind: "sample" },
   { slug: "laterite", title: "Laterite Build", what: "Builders & contractors", kind: "sample" },
+  { slug: "lueur", title: "Lueur Skincare", what: "Beauty brand", kind: "sample" },
+  { slug: "kivo", title: "Kivo Pepper", what: "Food product", kind: "sample" },
 ] as const;
 
 const INCLUDED = [
@@ -89,7 +93,7 @@ function LazyClip({ slug, title }: { slug: string; title: string }) {
   return (
     <video
       ref={ref}
-      poster={`/promo/${slug}.webp`}
+      poster={`/posters/${slug}.webp`}
       muted
       loop
       playsInline
@@ -143,6 +147,15 @@ const PHONE_HINT = "Enter your Ghana number, like 024 123 4567";
 
 export default function Promo() {
   const [state, handleSubmit] = useForm("xdayaoyz");
+  // Same palm fronds as the agency hero, swaying from the stem. Off for reduced-motion users.
+  const reduceMotion = useReducedMotion();
+  const palmSway = (deg: number, duration: number, delay: number) =>
+    reduceMotion
+      ? {}
+      : {
+          animate: { rotate: [0, deg, -deg * 0.4, deg * 0.7, 0], skewX: [0, deg * 0.35, 0, -deg * 0.25, 0] },
+          transition: { duration, delay, repeat: Infinity, ease: "easeInOut" as const },
+        };
   // One Lead per successful request; this is the event the ads optimise for
   useEffect(() => {
     if (state.succeeded) track("Lead", { content_name: "2-day website promo" });
@@ -195,18 +208,41 @@ export default function Promo() {
         {/* ── HERO ── */}
         <section className="relative mx-5 md:mx-12 mt-6 md:mt-10 px-6 md:px-16 py-14 md:py-24 flex flex-col items-center text-center gap-7">
           <Corners size="w-8 h-8" />
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          {/* Palm fronds framing the hero: top-left, and the same frond mirrored at bottom-right */}
+          <motion.div
+            initial={{ opacity: 0, x: "-14%" }}
+            animate={{ opacity: 1, x: "-30%" }}
+            transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
+            className="absolute -left-5 md:-left-12 -top-6 z-0 w-[34vw] md:w-[22vw] max-w-[420px] pointer-events-none select-none"
+            aria-hidden="true"
+          >
+            <motion.div style={{ originX: 0, originY: 1 }} {...palmSway(3, 7, 0)}>
+              <img src="/palm-frond.webp" alt="" draggable={false} className="w-full [mask-image:linear-gradient(to_top,transparent,black_22%)]" />
+            </motion.div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
+            className="absolute -right-5 md:-right-12 bottom-0 z-0 w-[30vw] md:w-[19vw] max-w-[380px] pointer-events-none select-none"
+            aria-hidden="true"
+          >
+            <motion.div style={{ originX: 1, originY: 1 }} {...palmSway(-3.5, 8.5, 1.2)}>
+              <img src="/palm-frond.webp" alt="" draggable={false} className="w-full translate-x-[6%] -scale-x-100 rotate-[8deg] [mask-image:linear-gradient(to_top,transparent,black_22%)]" />
+            </motion.div>
+          </motion.div>
+          <motion.div className="relative z-10" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <SectionLabel>2-Day Website Promo</SectionLabel>
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-tech font-bold uppercase leading-[1.15] tracking-tight text-[7.5vw] md:text-[3.4vw] max-w-4xl"
+            className="relative z-10 font-tech font-bold uppercase leading-[1.15] tracking-tight text-[7.5vw] md:text-[3.4vw] max-w-4xl"
           >
             Your business website <span className="whitespace-nowrap">in 2 days</span>
           </motion.h1>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }} className="flex flex-col items-center gap-1">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }} className="relative z-10 flex flex-col items-center gap-1">
             <div className="font-display font-bold text-5xl md:text-7xl tracking-tight" style={{ color: GREEN }}>GH₵1,200</div>
             <div className="text-[11px] uppercase tracking-[0.25em] text-white/40">
               Usually <span className="line-through">GH₵2,700</span>
@@ -216,7 +252,7 @@ export default function Promo() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-2 max-w-xl"
+            className="relative z-10 flex flex-wrap justify-center gap-2 max-w-xl"
           >
             {["Your own web address", "Works on any phone or computer", "Ready in 2 days"].map((t) => (
               <li key={t} className="flex items-center gap-2 border border-white/10 px-3 py-2 text-[10px] uppercase tracking-[0.15em] text-white/70">
@@ -224,7 +260,7 @@ export default function Promo() {
               </li>
             ))}
           </motion.ul>
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.55 }}>
+          <motion.div className="relative z-10" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.55 }}>
             <GlowButton onClick={scrollToForm}>Request your website</GlowButton>
           </motion.div>
         </section>

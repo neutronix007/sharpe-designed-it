@@ -19,6 +19,7 @@ const INDUSTRIES = [
   "Tech & SaaS",
   "Hospitality & Travel",
   "Creative & Media",
+  "Cars & Transport",
 ] as const;
 type Industry = typeof INDUSTRIES[number];
 
@@ -51,66 +52,6 @@ const PROJECTS: {
   },
   {
     id: "02",
-    title: "LATERITE.BUILD",
-    category: "CONSTRUCTION",
-    industry: "Property",
-    kind: "template",
-    localSrc: "/laterite-web.mp4",
-    thumbSrc: "/thumbs/laterite.mp4",
-    video: "",
-    liveUrl: "https://laterite.cliffordsharpe.com",
-    description: "Site for house builders and contractors. The signature section follows one house from bare plot to handover, stage by stage, with the money released at each step, plus a GH₵ build estimator that sends the quote straight to WhatsApp.",
-  },
-  {
-    id: "03",
-    title: "CORVANE.FINANCE",
-    category: "PAYMENT PLATFORM",
-    industry: "Finance",
-    kind: "template",
-    localSrc: "/selix.mp4",
-    thumbSrc: "/thumbs/selix.mp4",
-    video: "",
-    liveUrl: "https://corvane.cliffordsharpe.com",
-    description: "Cross-border payments site for fintech brands. Covers crypto and fiat on/off-ramping, custody and global payouts, with pricing, developer and resources pages ready to go.",
-  },
-  {
-    id: "04",
-    title: "KIVO.PEPPER",
-    category: "E-COMMERCE",
-    industry: "Food & Drink",
-    kind: "template",
-    localSrc: "/kivo-web.mp4",
-    thumbSrc: "/thumbs/kivo.mp4",
-    video: "",
-    liveUrl: "https://scorch.cliffordsharpe.com",
-    description: "Bold product launch site for a food or spice brand. Immersive product showcase, scroll animations and storytelling built to turn visitors into buyers. The live demo runs under a sample brand, Scorch.",
-  },
-  {
-    id: "05",
-    title: "NEXORA.AI",
-    category: "AI AUTOMATION",
-    industry: "Tech & SaaS",
-    kind: "template",
-    localSrc: "/nexora-web.mp4",
-    thumbSrc: "/thumbs/nexora.mp4",
-    video: "",
-    liveUrl: "https://nexora.cliffordsharpe.com",
-    description: "SaaS landing page for AI and automation products. Dashboard preview, how-it-works, metrics, testimonials and pricing sections built to drive demo bookings.",
-  },
-  {
-    id: "06",
-    title: "LUEUR.SKINCARE",
-    category: "BEAUTY BRAND",
-    industry: "Health & Beauty",
-    kind: "template",
-    localSrc: "/lueur-web.mp4",
-    thumbSrc: "/thumbs/lueur.mp4",
-    video: "",
-    liveUrl: "https://lueur.cliffordsharpe.com",
-    description: "Elegant site for skincare and beauty brands. Soft video backgrounds, results-driven storytelling and social proof that make premium products feel worth it.",
-  },
-  {
-    id: "07",
     title: "GRACEWORLD.VENTURES",
     category: "E-COMMERCE",
     industry: "Health & Beauty",
@@ -122,7 +63,7 @@ const PROJECTS: {
     description: "Website for Graceworld Ventures, delivering Kinoki foot pads across Ghana. Real customer chats and video, pay-on-delivery trust and an order form that sends the full request straight to WhatsApp.",
   },
   {
-    id: "08",
+    id: "03",
     title: "CFAP.UK",
     category: "TAX ADVISORY",
     industry: "Finance",
@@ -134,43 +75,7 @@ const PROJECTS: {
     description: "Website for an independent UK tax practice specialising in HMRC enquiries, compliance checks, tax disputes and appeals. Clear, credible and built to turn worried visitors into booked consultations.",
   },
   {
-    id: "09",
-    title: "EDEN.RETREAT",
-    category: "HOSPITALITY",
-    industry: "Hospitality & Travel",
-    kind: "template",
-    localSrc: "/eden-web.mp4",
-    thumbSrc: "/thumbs/eden.mp4",
-    video: "",
-    liveUrl: "https://eden.cliffordsharpe.com",
-    description: "Calm, editorial site for boutique hotels and retreats. Restrained design, rich imagery and a waitlist that builds demand before opening day.",
-  },
-  {
-    id: "10",
-    title: "DENTAL.HEALTH",
-    category: "HEALTHCARE",
-    industry: "Health & Beauty",
-    kind: "template",
-    localSrc: "/dental-web.mp4",
-    thumbSrc: "/thumbs/dental.mp4",
-    video: "",
-    liveUrl: "https://dental.cliffordsharpe.com",
-    description: "Modern website for dental clinics and healthcare practices. Showcases services, cosmetic work and equipment, and builds trust so patients book with confidence.",
-  },
-  {
-    id: "11",
-    title: "PRISMA.STUDIO",
-    category: "CREATIVE STUDIO",
-    industry: "Creative & Media",
-    kind: "template",
-    localSrc: "/prism-web.mp4",
-    thumbSrc: "/thumbs/prism.mp4",
-    video: "",
-    liveUrl: "https://prisma.cliffordsharpe.com",
-    description: "Portfolio site for filmmakers, visual artists and creative studios. Animated typography, work showcase and process sections that let the craft speak first.",
-  },
-  {
-    id: "12",
+    id: "04",
     title: "TEXTZEME.AI",
     category: "RENTAL PLATFORM",
     industry: "Property",
@@ -182,19 +87,7 @@ const PROJECTS: {
     description: "AI-powered rental discovery platform that lives in iMessage. Text Zeme once and get matching New York apartments in real time, the moment they hit the market.",
   },
   {
-    id: "13",
-    title: "ARTERY.HEALTH",
-    category: "HEALTH ANALYTICS",
-    industry: "Health & Beauty",
-    kind: "template",
-    localSrc: "/artery-web.mp4",
-    thumbSrc: "/thumbs/artery.mp4",
-    video: "",
-    liveUrl: "https://artery.cliffordsharpe.com",
-    description: "Dark landing page for health and wellness apps. Clear insight dashboards, feature sections and pricing that make complex health data feel simple.",
-  },
-  {
-    id: "14",
+    id: "05",
     title: "ONYIN.TECH",
     category: "RETAIL TECHNOLOGY",
     industry: "Tech & SaaS",
@@ -204,6 +97,114 @@ const PROJECTS: {
     video: "",
     liveUrl: "",
     description: "Website for Onyin Technologies and NOS POS, their point-of-sale app for businesses, retailers and shoppers. Built around their promise of solution, speed and security.",
+  },
+  {
+    id: "06",
+    title: "REPYOURNATION.WC26",
+    category: "FAN EXPERIENCE",
+    industry: "Creative & Media",
+    kind: "client",
+    localSrc: "/rep-your-nation-web.mp4",
+    thumbSrc: "/thumbs/rep-your-nation.mp4",
+    video: "",
+    liveUrl: "https://wc2026-fancard.vercel.app/",
+    description: "World Cup 2026 fan card generator. Fans pick their country, add their photo and name, and get a shareable card to rep their nation on social media.",
+  },
+  {
+    id: "07",
+    title: "OKWAN.MOTORS",
+    category: "CAR SALES & RENTAL",
+    industry: "Cars & Transport",
+    kind: "template",
+    localSrc: "/okwan-web.mp4",
+    thumbSrc: "/thumbs/okwan.mp4",
+    video: "",
+    liveUrl: "https://okwan.cliffordsharpe.com",
+    description: "Site for car dealers and rental companies. An orange scan checks the car's papers as you scroll, a car drives the road from Kotoka to Cape Coast with a price at every stop, and every car for sale opens its own file: duty receipt, DVLA, inspection and a finance estimate.",
+  },
+  {
+    id: "08",
+    title: "AHODEN.FIT",
+    category: "FITNESS CLUB",
+    industry: "Health & Beauty",
+    kind: "template",
+    localSrc: "/ahoden-web.mp4",
+    thumbSrc: "/thumbs/ahoden.mp4",
+    video: "",
+    liveUrl: "https://ahoden.cliffordsharpe.com",
+    description: "Site for gyms and fitness clubs, built as one set of 12 reps. A live heart rate climbs as you scroll, a goal picker builds each visitor's plan and price, and the free week books straight on WhatsApp.",
+  },
+  {
+    id: "09",
+    title: "AHENFIE.EVENTS",
+    category: "EVENT DÉCOR",
+    industry: "Hospitality & Travel",
+    kind: "template",
+    localSrc: "/ahenfie-web.mp4",
+    thumbSrc: "/thumbs/ahenfie.mp4",
+    video: "",
+    liveUrl: "https://ahenfie.cliffordsharpe.com",
+    description: "Black-and-gold site for event decorators. Curtains close over a bare hall and open on the finished palace, the hall dresses itself from 9am to 6pm, clients design their look and book a consultation slot, and a rentals catalogue sends their list straight to WhatsApp.",
+  },
+  {
+    id: "10",
+    title: "LATERITE.BUILD",
+    category: "CONSTRUCTION",
+    industry: "Property",
+    kind: "template",
+    localSrc: "/laterite-web.mp4",
+    thumbSrc: "/thumbs/laterite.mp4",
+    video: "",
+    liveUrl: "https://laterite.cliffordsharpe.com",
+    description: "Site for house builders and contractors. The signature section follows one house from bare plot to handover, stage by stage, with the money released at each step, plus a GH₵ build estimator that sends the quote straight to WhatsApp.",
+  },
+  {
+    id: "11",
+    title: "KIVO.PEPPER",
+    category: "E-COMMERCE",
+    industry: "Food & Drink",
+    kind: "template",
+    localSrc: "/kivo-web.mp4",
+    thumbSrc: "/thumbs/kivo.mp4",
+    video: "",
+    liveUrl: "https://scorch.cliffordsharpe.com",
+    description: "Bold product launch site for a food or spice brand. Immersive product showcase, scroll animations and storytelling built to turn visitors into buyers. The live demo runs under a sample brand, Scorch.",
+  },
+  {
+    id: "12",
+    title: "EDEN.RETREAT",
+    category: "HOSPITALITY",
+    industry: "Hospitality & Travel",
+    kind: "template",
+    localSrc: "/eden-web.mp4",
+    thumbSrc: "/thumbs/eden.mp4",
+    video: "",
+    liveUrl: "https://eden.cliffordsharpe.com",
+    description: "Calm, editorial site for boutique hotels and retreats. Restrained design, rich imagery and a waitlist that builds demand before opening day.",
+  },
+  {
+    id: "13",
+    title: "LUEUR.SKINCARE",
+    category: "BEAUTY BRAND",
+    industry: "Health & Beauty",
+    kind: "template",
+    localSrc: "/lueur-web.mp4",
+    thumbSrc: "/thumbs/lueur.mp4",
+    video: "",
+    liveUrl: "https://lueur.cliffordsharpe.com",
+    description: "Elegant site for skincare and beauty brands. Soft video backgrounds, results-driven storytelling and social proof that make premium products feel worth it.",
+  },
+  {
+    id: "14",
+    title: "PRISMA.STUDIO",
+    category: "CREATIVE STUDIO",
+    industry: "Creative & Media",
+    kind: "template",
+    localSrc: "/prism-web.mp4",
+    thumbSrc: "/thumbs/prism.mp4",
+    video: "",
+    liveUrl: "https://prisma.cliffordsharpe.com",
+    description: "Portfolio site for filmmakers, visual artists and creative studios. Animated typography, work showcase and process sections that let the craft speak first.",
   },
   {
     id: "15",
@@ -219,15 +220,51 @@ const PROJECTS: {
   },
   {
     id: "16",
-    title: "REPYOURNATION.WC26",
-    category: "FAN EXPERIENCE",
-    industry: "Creative & Media",
-    kind: "client",
-    localSrc: "/rep-your-nation-web.mp4",
-    thumbSrc: "/thumbs/rep-your-nation.mp4",
+    title: "DENTAL.HEALTH",
+    category: "HEALTHCARE",
+    industry: "Health & Beauty",
+    kind: "template",
+    localSrc: "/dental-web.mp4",
+    thumbSrc: "/thumbs/dental.mp4",
     video: "",
-    liveUrl: "https://wc2026-fancard.vercel.app/",
-    description: "World Cup 2026 fan card generator. Fans pick their country, add their photo and name, and get a shareable card to rep their nation on social media.",
+    liveUrl: "https://dental.cliffordsharpe.com",
+    description: "Modern website for dental clinics and healthcare practices. Showcases services, cosmetic work and equipment, and builds trust so patients book with confidence.",
+  },
+  {
+    id: "17",
+    title: "CORVANE.FINANCE",
+    category: "PAYMENT PLATFORM",
+    industry: "Finance",
+    kind: "template",
+    localSrc: "/selix.mp4",
+    thumbSrc: "/thumbs/selix.mp4",
+    video: "",
+    liveUrl: "https://corvane.cliffordsharpe.com",
+    description: "Cross-border payments site for fintech brands. Covers crypto and fiat on/off-ramping, custody and global payouts, with pricing, developer and resources pages ready to go.",
+  },
+  {
+    id: "18",
+    title: "NEXORA.AI",
+    category: "AI AUTOMATION",
+    industry: "Tech & SaaS",
+    kind: "template",
+    localSrc: "/nexora-web.mp4",
+    thumbSrc: "/thumbs/nexora.mp4",
+    video: "",
+    liveUrl: "https://nexora.cliffordsharpe.com",
+    description: "SaaS landing page for AI and automation products. Dashboard preview, how-it-works, metrics, testimonials and pricing sections built to drive demo bookings.",
+  },
+  {
+    id: "19",
+    title: "ARTERY.HEALTH",
+    category: "HEALTH ANALYTICS",
+    industry: "Health & Beauty",
+    kind: "template",
+    localSrc: "/artery-web.mp4",
+    thumbSrc: "/thumbs/artery.mp4",
+    video: "",
+    liveUrl: "https://artery.cliffordsharpe.com",
+    description: "Dark landing page for health and wellness apps. Clear insight dashboards, feature sections and pricing that make complex health data feel simple.",
   },
 ];
 
@@ -277,6 +314,33 @@ const forceMutedAutoplay =(el: HTMLVideoElement | null) => {
   el.defaultMuted = true;
   el.setAttribute("muted", "");
 };
+
+// Still poster for a project, made from its preview clip (public/posters/<slug>.webp).
+const posterFor = (thumbSrc: string) => `/posters/${thumbSrc.split("/").pop()!.replace(/\.mp4$/, "")}.webp`;
+
+// Work-card preview: the poster shows straight away; the small fast-forward clip only downloads
+// when the card comes near the screen, and only plays while it's on screen. With 19 cards this is
+// the difference between 20+ MB of video decoding at once and two or three small clips.
+function LazyThumb({ src, className }: { src: string; className: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    forceMutedAutoplay(v);
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!v.getAttribute("src")) v.src = src;
+          v.play().catch(() => {});
+        } else v.pause();
+      },
+      { rootMargin: "200px 0px" }
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, [src]);
+  return <video ref={ref} poster={posterFor(src)} muted loop playsInline preload="none" className={className} />;
+}
 
 const TESTIMONIALS = [
   {
@@ -503,6 +567,7 @@ export default function AIAgency() {
           >
             <video
               src="/kinetic-forge-video.mp4"
+              poster="/posters/kinetic-forge.webp"
               autoPlay
               muted
               loop
@@ -623,16 +688,8 @@ export default function AIAgency() {
               >
                 <div className="relative aspect-video overflow-hidden border border-white/10 bg-white/5">
                   {project.localSrc ? (
-                    <video
+                    <LazyThumb
                       src={project.thumbSrc}
-                      ref={forceMutedAutoplay}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="auto"
-                      onCanPlay={(e) => e.currentTarget.play().catch(() => {})}
-                      onPause={(e) => { if (!document.hidden) e.currentTarget.play().catch(() => {}); }}
                       className={`w-full h-full object-cover pointer-events-none transition-all duration-700 ${lit ? "grayscale-0" : "grayscale group-hover:grayscale-0"}`}
                     />
                   ) : (
@@ -856,6 +913,7 @@ export default function AIAgency() {
                 {selectedProject.localSrc ? (
                   <video
                     src={selectedProject.localSrc}
+                    poster={posterFor(selectedProject.thumbSrc)}
                     ref={forceMutedAutoplay}
                     autoPlay
                     muted
