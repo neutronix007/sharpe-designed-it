@@ -14,9 +14,9 @@ import { track } from "../pixel";
 const LANDED_HERE = typeof document !== "undefined" && !!document.querySelector("#root > *");
 const heroIntro = <T,>(from: T): T | false => (LANDED_HERE ? false : from);
 
-const WHATSAPP_NUMBER = "233509605932";
-const WHATSAPP_DISPLAY = "050 960 5932";
-const CALL_DISPLAY = "059 197 4504";
+// One number for WhatsApp and calls
+const WHATSAPP_NUMBER = "233591974504";
+const PHONE_DISPLAY = "059 197 4504";
 const GREEN = "#00ff00";
 
 const WORK = [
@@ -384,11 +384,10 @@ export default function Promo() {
                 <p className="text-[12px] text-white/60 leading-relaxed max-w-md font-sans">
                   Thanks{lead.name ? `, ${lead.name.split(" ")[0]}` : ""}! We'll get in touch between 8am and 6pm. Want to move faster? Send us a message now and we'll pick it up from there.
                 </p>
-                {/* Leads often ignore unknown numbers, so tell them which numbers we'll use */}
+                {/* Leads often ignore unknown numbers, so tell them which number we'll use */}
                 <div className="w-full max-w-sm border border-white/10 px-5 py-4 text-left space-y-2">
-                  <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">Save our numbers</div>
-                  <div className="flex justify-between gap-4 text-[12px] font-sans"><span className="text-white/60">WhatsApp</span><span className="font-bold">{WHATSAPP_DISPLAY}</span></div>
-                  <div className="flex justify-between gap-4 text-[12px] font-sans"><span className="text-white/60">Calls</span><span className="font-bold">{CALL_DISPLAY}</span></div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">Save our number</div>
+                  <div className="flex justify-between gap-4 text-[12px] font-sans"><span className="text-white/60">WhatsApp &amp; calls</span><span className="font-bold">{PHONE_DISPLAY}</span></div>
                 </div>
                 <a
                   href={`https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`}
