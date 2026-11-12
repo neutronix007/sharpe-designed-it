@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { useForm, ValidationError } from "@formspree/react";
-import { Check, ChevronRight, Crown, LayoutTemplate, Plus } from "lucide-react";
+import { Check, ChevronDown, ChevronRight, Crown, LayoutTemplate, Plus } from "lucide-react";
 import SEO from "./SEO";
 import GlowButton from "./GlowButton";
 import { track } from "../pixel";
@@ -33,7 +33,7 @@ const INCLUDED = [
   "Basic Google setup so people can find you",
   "Emails to your web address land in your inbox",
   "1 round of changes before launch",
-  "Customers order on WhatsApp (online stores with card or MoMo payment are quoted separately)",
+  "Customers order on WhatsApp (shops with online payment, bookings and platforms start from GH₵10,000)",
 ];
 
 const STEPS = [
@@ -48,7 +48,7 @@ const FAQ = [
   { q: "Who owns the website and web address?", a: "You do. The web address is registered in your name." },
   { q: "What happens after the first year?", a: "Hosting stays free. Your web address renews at about GH₵200 a year from year two." },
   { q: "When do the 2 days start?", a: "Once we have your deposit and your content." },
-  { q: "I need something bigger", a: "Online stores, booking systems, extra pages and apps are priced separately. Mention it in the form and we'll send a quote." },
+  { q: "I need something bigger", a: "Online shops with MoMo or card payment, booking systems, data and airtime platforms, and software (SaaS) websites start from GH₵10,000. Pick \"Something bigger\" in the form and we'll send you a quote." },
 ];
 
 
@@ -115,12 +115,12 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
 const inputClass =
   "w-full bg-white/[0.04] border border-white/10 px-4 py-3.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-[#00ff00]/60 transition-colors font-sans";
 
-function ChoiceGroup({ name, options, stacked = false }: { name: string; options: string[]; stacked?: boolean }) {
+function ChoiceGroup({ name, options, stacked = false, onPick }: { name: string; options: string[]; stacked?: boolean; onPick?: (v: string) => void }) {
   return (
     <div className={stacked ? "flex flex-col gap-2" : "flex flex-wrap gap-2"}>
       {options.map((opt, i) => (
         <label key={opt} className="cursor-pointer">
-          <input type="radio" name={name} value={opt} required={i === 0} className="peer sr-only" />
+          <input type="radio" name={name} value={opt} required={i === 0} onChange={() => onPick?.(opt)} className="peer sr-only" />
           <span
             className={`block px-3.5 py-2.5 border border-white/10 text-white/60 peer-checked:bg-[#00ff00] peer-checked:border-[#00ff00] peer-checked:text-black peer-focus-visible:border-[#00ff00] transition-colors ${
               stacked ? "text-[12px] font-sans leading-snug" : "text-[10px] font-bold uppercase tracking-[0.15em]"
@@ -142,6 +142,28 @@ function ghanaWhatsApp(raw: string) {
   return null;
 }
 
+// Kind of business: tells us which of our designs to start from
+const BUSINESS_TYPES = [
+  "Food & drinks",
+  "Fashion & beauty",
+  "Shop or online sales",
+  "Cars & transport",
+  "Building & property",
+  "Health & fitness",
+  "Events & hotels",
+  "Professional services (law, tax, consulting)",
+  "Tech, software or data",
+  "Church, school or NGO",
+  "Other",
+];
+
+const BIGGER = "Something bigger (from GH₵10,000)";
+const GOALS = [
+  "Show my work and get people to contact me (GH₵1,200)",
+  "Show my products and take orders on WhatsApp (GH₵1,200)",
+  BIGGER,
+];
+
 const PHONE_HINT = "Enter your Ghana number, like 024 123 4567";
 
 export default function Promo() {
@@ -160,6 +182,9 @@ export default function Promo() {
     if (state.succeeded) track("Lead", { content_name: "2-day website promo" });
   }, [state.succeeded]);
   const [lead, setLead] = useState<{ name: string; business: string; type: string }>({ name: "", business: "", type: "" });
+  const [businessType, setBusinessType] = useState("");
+  const [goal, setGoal] = useState("");
+  const bigger = goal === BIGGER;
 
   const scrollToForm = () => document.getElementById("request")?.scrollIntoView({ behavior: "smooth", block: "start" });
 
@@ -168,7 +193,7 @@ export default function Promo() {
     setLead({
       name: String(data.get("name") ?? ""),
       business: String(data.get("business") ?? ""),
-      type: String(data.get("business_type") ?? ""),
+      type: String((data.get("business_type") === "Other" ? data.get("business_type_other") : data.get("business_type")) ?? ""),
     });
     const intl = ghanaWhatsApp(String(data.get("whatsapp") ?? ""));
     const link = e.currentTarget.elements.namedItem("whatsapp_link") as HTMLInputElement | null;
@@ -178,7 +203,7 @@ export default function Promo() {
   };
 
   const waText = encodeURIComponent(
-    `Hi! I just sent a request on your website for the GH₵1,200 promo.\nName: ${lead.name}\nBusiness: ${lead.business}${lead.type ? ` (${lead.type})` : ""}`
+    `Hi! I just sent a request on your website ${bigger ? "for a bigger project" : "for the GH₵1,200 promo"}.\nName: ${lead.name}\nBusiness: ${lead.business}${lead.type ? ` (${lead.type})` : ""}`
   );
 
   return (
@@ -369,13 +394,16 @@ export default function Promo() {
                 </div>
                 {/* Says plainly what this form is for, so people who want a course, an app or a full shop know before they fill it */}
                 <div className="mb-8 border border-[#00ff00]/30 bg-[#00ff00]/[0.04] p-5 space-y-3">
-                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00ff00]">What you're asking for</div>
-                  <ul className="space-y-2 text-[12px] text-white/80 leading-relaxed font-sans">
-                    <li>A 3-page website for your business: GH₵1,200 in total.</li>
-                    <li>Ready 2 days after you send us your logo, photos and a few lines about your business.</li>
-                    <li>Customers can contact you or order on WhatsApp from it.</li>
-                    <li className="text-white/50">This is not a course, an app, or a shop where customers pay online (we quote those separately).</li>
-                  </ul>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00ff00]">What this form is for</div>
+                  <div className="space-y-1 text-[12px] text-white/80 leading-relaxed font-sans">
+                    <div className="font-bold text-white">The promo: GH₵1,200 in total</div>
+                    <p>A 3-page website for your business, ready 2 days after you send your logo, photos and a few lines about what you do. Customers contact you or order on WhatsApp.</p>
+                  </div>
+                  <div className="space-y-1 text-[12px] text-white/80 leading-relaxed font-sans pt-3 border-t border-white/10">
+                    <div className="font-bold text-white">Something bigger: from GH₵10,000</div>
+                    <p>A shop where customers pay online by MoMo or card, a booking system, a data or airtime platform, or a website for your software (SaaS). We chat first, then send you a quote.</p>
+                  </div>
+                  <p className="text-[11px] text-white/45 font-sans">We don't sell courses or training.</p>
                 </div>
                 <form onSubmit={onSubmit} className="flex flex-col gap-6">
                   <input type="hidden" name="_subject" value="🚀 PROMO PAGE — New website request" />
@@ -413,22 +441,53 @@ export default function Promo() {
                     <input name="business" required placeholder="e.g. Ama's Kitchen" className={inputClass} />
                   </Field>
 
+                  <Field label="What kind of business is it?">
+                    <div className="relative">
+                      <select
+                        name="business_type"
+                        required
+                        value={businessType}
+                        onChange={(e) => setBusinessType(e.target.value)}
+                        className={`${inputClass} appearance-none pr-10 ${businessType ? "" : "text-white/25"}`}
+                      >
+                        <option value="" disabled>Pick one</option>
+                        {BUSINESS_TYPES.map((t) => (
+                          <option key={t} value={t} className="bg-black text-white">{t}</option>
+                        ))}
+                      </select>
+                      <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
+                    </div>
+                  </Field>
+                  {businessType === "Other" && (
+                    <Field label="Type your kind of business">
+                      <input name="business_type_other" required placeholder="e.g. printing press" className={inputClass} />
+                    </Field>
+                  )}
+
                   <Field label="What do you sell or do?">
                     <input name="sells" required placeholder="e.g. phones and accessories" className={inputClass} />
                   </Field>
 
                   <div className="flex flex-col gap-3">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">What should customers do on your website?</span>
-                    <ChoiceGroup
-                      name="site_goal"
-                      stacked
-                      options={[
-                        "See my work and contact me (GH₵1,200 promo)",
-                        "See my products and order on WhatsApp (GH₵1,200 promo)",
-                        "Buy and pay on the website (online store, priced separately)",
-                      ]}
-                    />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">What do you need?</span>
+                    <ChoiceGroup name="site_goal" stacked options={GOALS} onPick={setGoal} />
+                    {!bigger && (
+                      <span className="text-[11px] text-white/40 font-sans">
+                        Something bigger means a shop with online payment, bookings, a data or airtime platform, a SaaS website, and similar.
+                      </span>
+                    )}
                   </div>
+                  {bigger && (
+                    <Field label="Tell us briefly what you want it to do">
+                      <textarea
+                        name="project_details"
+                        required
+                        rows={3}
+                        placeholder="e.g. a site where people buy data bundles and pay with MoMo"
+                        className={`${inputClass} resize-y`}
+                      />
+                    </Field>
+                  )}
 
                   <div className="flex flex-col gap-3">
                     <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">Do you have a logo, photos of your business, and a few lines about what you do?</span>
@@ -437,15 +496,21 @@ export default function Promo() {
                   </div>
 
                   <div className="flex flex-col gap-3">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">When do you want your website?</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">When do you want to start?</span>
                     <ChoiceGroup name="start" stacked options={["This week", "This month", "I'm only asking for now"]} />
                   </div>
 
                   <label className="flex items-start gap-3 cursor-pointer border border-white/10 p-4">
                     <input type="checkbox" name="price_agreed" value="yes" required className="mt-0.5 w-4 h-4 accent-[#00ff00] flex-shrink-0" />
-                    <span className="text-[11px] text-white/70 leading-relaxed font-sans">
-                      I understand the promo is <strong className="text-white">GH₵1,200</strong>, with a <strong className="text-white">GH₵600 deposit</strong> to start.
-                    </span>
+                    {bigger ? (
+                      <span className="text-[11px] text-white/70 leading-relaxed font-sans">
+                        I understand bigger projects start from <strong className="text-white">GH₵10,000</strong>, and I'll get a quote before paying anything.
+                      </span>
+                    ) : (
+                      <span className="text-[11px] text-white/70 leading-relaxed font-sans">
+                        I understand the promo is <strong className="text-white">GH₵1,200</strong>, with a <strong className="text-white">GH₵600 deposit</strong> to start.
+                      </span>
+                    )}
                   </label>
 
                   <ValidationError errors={state.errors} className="text-xs text-red-400" />
@@ -454,8 +519,17 @@ export default function Promo() {
                     <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">What happens next</div>
                     <ol className="space-y-1.5 text-[12px] text-white/70 font-sans leading-relaxed list-decimal pl-5">
                       <li>We message you on WhatsApp, usually the same day.</li>
-                      <li>You pay GH₵600 by MoMo to book your slot.</li>
-                      <li>You send your logo, photos and text, and we build your site in 2 days.</li>
+                      {bigger ? (
+                        <>
+                          <li>We ask a few questions about what you need.</li>
+                          <li>We send you a quote and a timeline. You only pay if you agree.</li>
+                        </>
+                      ) : (
+                        <>
+                          <li>You pay GH₵600 by MoMo to book your slot.</li>
+                          <li>You send your logo, photos and text, and we build your site in 2 days.</li>
+                        </>
+                      )}
                     </ol>
                   </div>
 
