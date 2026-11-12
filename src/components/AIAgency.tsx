@@ -52,6 +52,18 @@ const PROJECTS: {
   },
   {
     id: "02",
+    title: "GRAYLINE.LOGISTICS",
+    category: "DELIVERY & LOGISTICS",
+    industry: "Cars & Transport",
+    kind: "client",
+    localSrc: "/grayline-web.mp4",
+    thumbSrc: "/thumbs/grayline.mp4",
+    video: "",
+    liveUrl: "https://graylinelogisticsgh.com",
+    description: "Website for Grayline Logistics, who deliver parcels to any of their 16 offices across Ghana for one flat GH₵70, any size. The hero is a real waybill taped to cardboard, a map shows the distance changing while the price never does, and pickups book straight on WhatsApp.",
+  },
+  {
+    id: "03",
     title: "PATERY.LUXE",
     category: "FOOD GIFTING",
     industry: "Food & Drink",
@@ -63,7 +75,7 @@ const PROJECTS: {
     description: "Website for PatEry Luxe, an Accra food box service. A scroll-driven unboxing hero, a ribbon colour picker and WhatsApp ordering make their ribbon-sealed boxes feel like a premium gift.",
   },
   {
-    id: "03",
+    id: "04",
     title: "GRACEWORLD.VENTURES",
     category: "E-COMMERCE",
     industry: "Health & Beauty",
@@ -75,7 +87,7 @@ const PROJECTS: {
     description: "Website for Graceworld Ventures, delivering Kinoki foot pads across Ghana. Real customer chats and video, pay-on-delivery trust and an order form that sends the full request straight to WhatsApp.",
   },
   {
-    id: "04",
+    id: "05",
     title: "CFAP.UK",
     category: "TAX ADVISORY",
     industry: "Finance",
@@ -87,7 +99,7 @@ const PROJECTS: {
     description: "Website for an independent UK tax practice specialising in HMRC enquiries, compliance checks, tax disputes and appeals. Clear, credible and built to turn worried visitors into booked consultations.",
   },
   {
-    id: "05",
+    id: "06",
     title: "TEXTZEME.AI",
     category: "RENTAL PLATFORM",
     industry: "Property",
@@ -99,7 +111,7 @@ const PROJECTS: {
     description: "AI-powered rental discovery platform that lives in iMessage. Text Zeme once and get matching New York apartments in real time, the moment they hit the market.",
   },
   {
-    id: "06",
+    id: "07",
     title: "ONYIN.TECH",
     category: "RETAIL TECHNOLOGY",
     industry: "Tech & SaaS",
@@ -111,7 +123,7 @@ const PROJECTS: {
     description: "Website for Onyin Technologies and NOS POS, their point-of-sale app for businesses, retailers and shoppers. Built around their promise of solution, speed and security.",
   },
   {
-    id: "07",
+    id: "08",
     title: "REPYOURNATION.WC26",
     category: "FAN EXPERIENCE",
     industry: "Creative & Media",
@@ -123,7 +135,7 @@ const PROJECTS: {
     description: "World Cup 2026 fan card generator. Fans pick their country, add their photo and name, and get a shareable card to rep their nation on social media.",
   },
   {
-    id: "08",
+    id: "09",
     title: "OKWAN.MOTORS",
     category: "CAR SALES & RENTAL",
     industry: "Cars & Transport",
@@ -135,7 +147,7 @@ const PROJECTS: {
     description: "Site for car dealers and rental companies. An orange scan checks the car's papers as you scroll, a car drives the road from Kotoka to Cape Coast with a price at every stop, and every car for sale opens its own file: duty receipt, DVLA, inspection and a finance estimate.",
   },
   {
-    id: "09",
+    id: "10",
     title: "AHODEN.FIT",
     category: "FITNESS CLUB",
     industry: "Health & Beauty",
@@ -147,7 +159,7 @@ const PROJECTS: {
     description: "Site for gyms and fitness clubs, built as one set of 12 reps. A live heart rate climbs as you scroll, a goal picker builds each visitor's plan and price, and the free week books straight on WhatsApp.",
   },
   {
-    id: "10",
+    id: "11",
     title: "AHENFIE.EVENTS",
     category: "EVENT DÉCOR",
     industry: "Hospitality & Travel",
@@ -159,7 +171,7 @@ const PROJECTS: {
     description: "Black-and-gold site for event decorators. Curtains close over a bare hall and open on the finished palace, the hall dresses itself from 9am to 6pm, clients design their look and book a consultation slot, and a rentals catalogue sends their list straight to WhatsApp.",
   },
   {
-    id: "11",
+    id: "12",
     title: "LATERITE.BUILD",
     category: "CONSTRUCTION",
     industry: "Property",
@@ -171,7 +183,7 @@ const PROJECTS: {
     description: "Site for house builders and contractors. The signature section follows one house from bare plot to handover, stage by stage, with the money released at each step, plus a GH₵ build estimator that sends the quote straight to WhatsApp.",
   },
   {
-    id: "12",
+    id: "13",
     title: "KIVO.PEPPER",
     category: "E-COMMERCE",
     industry: "Food & Drink",
@@ -183,7 +195,7 @@ const PROJECTS: {
     description: "Bold product launch site for a food or spice brand. Immersive product showcase, scroll animations and storytelling built to turn visitors into buyers. The live demo runs under a sample brand, Scorch.",
   },
   {
-    id: "13",
+    id: "14",
     title: "EDEN.RETREAT",
     category: "HOSPITALITY",
     industry: "Hospitality & Travel",
@@ -195,7 +207,7 @@ const PROJECTS: {
     description: "Calm, editorial site for boutique hotels and retreats. Restrained design, rich imagery and a waitlist that builds demand before opening day.",
   },
   {
-    id: "14",
+    id: "15",
     title: "LUEUR.SKINCARE",
     category: "BEAUTY BRAND",
     industry: "Health & Beauty",
@@ -207,7 +219,7 @@ const PROJECTS: {
     description: "Elegant site for skincare and beauty brands. Soft video backgrounds, results-driven storytelling and social proof that make premium products feel worth it.",
   },
   {
-    id: "15",
+    id: "16",
     title: "PRISMA.STUDIO",
     category: "CREATIVE STUDIO",
     industry: "Creative & Media",
@@ -219,7 +231,7 @@ const PROJECTS: {
     description: "Portfolio site for filmmakers, visual artists and creative studios. Animated typography, work showcase and process sections that let the craft speak first.",
   },
   {
-    id: "16",
+    id: "17",
     title: "OCEAN.ODYSSEY",
     category: "INTERACTIVE EXPERIENCE",
     industry: "Hospitality & Travel",
@@ -231,7 +243,7 @@ const PROJECTS: {
     description: "Immersive, cinematic site for adventure, travel and experience brands. Bold visuals and smooth animations that make visitors want to be there.",
   },
   {
-    id: "17",
+    id: "18",
     title: "DENTAL.HEALTH",
     category: "HEALTHCARE",
     industry: "Health & Beauty",
@@ -243,7 +255,7 @@ const PROJECTS: {
     description: "Modern website for dental clinics and healthcare practices. Showcases services, cosmetic work and equipment, and builds trust so patients book with confidence.",
   },
   {
-    id: "18",
+    id: "19",
     title: "CORVANE.FINANCE",
     category: "PAYMENT PLATFORM",
     industry: "Finance",
@@ -255,7 +267,7 @@ const PROJECTS: {
     description: "Cross-border payments site for fintech brands. Covers crypto and fiat on/off-ramping, custody and global payouts, with pricing, developer and resources pages ready to go.",
   },
   {
-    id: "19",
+    id: "20",
     title: "NEXORA.AI",
     category: "AI AUTOMATION",
     industry: "Tech & SaaS",
@@ -267,7 +279,7 @@ const PROJECTS: {
     description: "SaaS landing page for AI and automation products. Dashboard preview, how-it-works, metrics, testimonials and pricing sections built to drive demo bookings.",
   },
   {
-    id: "20",
+    id: "21",
     title: "ARTERY.HEALTH",
     category: "HEALTH ANALYTICS",
     industry: "Health & Beauty",
