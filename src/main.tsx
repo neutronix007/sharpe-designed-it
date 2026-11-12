@@ -1,4 +1,4 @@
-import {StrictMode} from 'react';
+import {StrictMode, type ComponentType} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
@@ -12,8 +12,18 @@ window.addEventListener('vite:preloadError', (event) => {
   window.location.reload();
 });
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+const root = createRoot(document.getElementById('root')!);
+const start = (promoPage?: ComponentType) =>
+  root.render(
+    <StrictMode>
+      <App promoPage={promoPage} />
+    </StrictMode>,
+  );
+
+// Ad visitors land on /promo: load that page's code before the first render (promo.html already started
+// downloading it), so the quick-look version in promo.html is replaced by the real page in one step.
+if (window.location.pathname.replace(/\/$/, '') === '/promo') {
+  import('./components/Promo').then((m) => start(m.default), () => start());
+} else {
+  start();
+}

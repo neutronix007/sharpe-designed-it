@@ -188,6 +188,13 @@ export default function Promo() {
 
   const scrollToForm = () => document.getElementById("request")?.scrollIntoView({ behavior: "smooth", block: "start" });
 
+  const formBoxRef = useRef<HTMLDivElement>(null);
+
+  // The thank-you is much shorter than the form, so bring it into view instead of leaving people below it
+  useEffect(() => {
+    if (state.succeeded) formBoxRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [state.succeeded]);
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     const data = new FormData(e.currentTarget);
     setLead({
@@ -358,7 +365,10 @@ export default function Promo() {
 
         {/* ── REQUEST FORM ── */}
         <section id="request" className="px-5 md:px-12 mt-24 md:mt-32 scroll-mt-6">
-          <div className="relative max-w-2xl mx-auto p-6 md:p-12 border border-white/10 bg-white/[0.02]">
+          <div
+            ref={formBoxRef}
+            className="relative max-w-2xl mx-auto p-6 md:p-12 border border-white/10 bg-white/[0.02]"
+          >
             <Corners size="w-6 h-6" tone="border-[#00ff00]/60" />
             {state.succeeded ? (
               <div className="flex flex-col items-center text-center gap-6 py-6">

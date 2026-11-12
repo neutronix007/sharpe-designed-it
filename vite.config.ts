@@ -7,6 +7,8 @@ export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [react(), tailwindcss()],
+    // scripts/generate-og-pages.js reads the manifest to preload the promo page's code from promo.html
+    build: { manifest: true },
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },

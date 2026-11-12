@@ -1,21 +1,23 @@
-import { lazy, Suspense, useState, useEffect, useRef } from "react";
+import { lazy, Suspense, useState, useEffect, useRef, type ComponentType } from "react";
 import { AnimatePresence, motion, useSpring, useMotionValue } from "motion/react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import HomePage from "./components/HomePage";
 import LoadingScreen from "./components/LoadingScreen";
 import CustomCursor from "./components/CustomCursor";
-import Footer from "./components/Footer";
 import { track } from "./pixel";
 
-// Code-split heavy pages — only load when user navigates there
+// Code-split every page, so the ad landing page (/promo) doesn't download the home page's code first.
+// The home page hides behind its intro loader while its code arrives.
+const HomePage = lazy(() => import("./components/HomePage"));
+const Navbar   = lazy(() => import("./components/Navbar"));
+const Footer   = lazy(() => import("./components/Footer"));
 const AIAgency = lazy(() => import("./components/AIAgency"));
 const Archive  = lazy(() => import("./components/Archive"));
 const Promo    = lazy(() => import("./components/Promo"));
 
-function AppContent() {
+// main.tsx loads the promo page before the first render when someone lands on /promo, and passes it in
+// here, so it renders straight away instead of flashing an empty screen while the code downloads.
+function AppContent({ promoPage: PromoPage }: { promoPage?: ComponentType }) {
   const location = useLocation();
   // The ad landing page skips the intro loader so it opens fast on mobile data
   const isPromo = location.pathname === "/promo";
@@ -113,17 +115,17 @@ function AppContent() {
         }}
         className="relative z-10"
       >
-        {!hideSiteChrome && <Navbar />}
+        {!hideSiteChrome && <Suspense fallback={null}><Navbar /></Suspense>}
 
         <Routes>
           {/* Home — all three sections on one scrollable page */}
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={homePage} />
           <Route path="/home" element={<Navigate to="/" replace />} />
           <Route path="/ai-agency" element={<Navigate to="/agency" replace />} />
 
           {/* These routes render the same full page and auto-scroll to the relevant section */}
-          <Route path="/projects" element={<HomePage />} />
-          <Route path="/experience" element={<HomePage />} />
+          <Route path="/projects" element={homePage} />
+          <Route path="/experience" element={homePage} />
 
           {/* Archive — full project library with filter pills */}
           <Route
@@ -149,25 +151,35 @@ function AppContent() {
           <Route
             path="/promo"
             element={
-              <Suspense fallback={<div className="min-h-screen bg-black" />}>
-                <Promo />
-              </Suspense>
+              PromoPage ? (
+                <PromoPage />
+              ) : (
+                <Suspense fallback={<div className="min-h-screen bg-black" />}>
+                  <Promo />
+                </Suspense>
+              )
             }
           />
         </Routes>
 
-        {!hideSiteChrome && <Footer />}
+        {!hideSiteChrome && <Suspense fallback={null}><Footer /></Suspense>}
       </div>
     </>
   );
 }
 
-export default function App() {
+const homePage = (
+  <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}>
+    <HomePage />
+  </Suspense>
+);
+
+export default function App({ promoPage }: { promoPage?: ComponentType }) {
   return (
     <HelmetProvider>
       <Router>
         <main className="relative min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black">
-          <AppContent />
+          <AppContent promoPage={promoPage} />
         </main>
       </Router>
     </HelmetProvider>

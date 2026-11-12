@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, rmSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -91,10 +91,49 @@ function swap(html, page) {
     );
 }
 
+// ── /promo: show something on the first paint, and fetch its code in parallel ──
+// Ad visitors are mostly on Ghana mobile data. Without this they stare at a black screen until the
+// main script AND the promo script have downloaded one after the other. This gives them the headline
+// and price straight away (React replaces it with the real page), and starts both downloads at once.
+const manifestPath = `${distDir}/.vite/manifest.json`;
+function promoPreloads() {
+  if (!existsSync(manifestPath)) return "";
+  const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
+  const files = new Set();
+  const walk = (key) => {
+    const entry = manifest[key];
+    if (!entry || files.has(entry.file)) return;
+    files.add(entry.file);
+    (entry.imports || []).forEach(walk);
+  };
+  walk("src/components/Promo.tsx");
+  return [...files].map((f) => `<link rel="modulepreload" crossorigin href="/${f}" />`).join("\n    ");
+}
+
+const PROMO_QUICK_LOOK = `<div style="min-height:100vh;background:#000;color:#fff;font-family:'Space Mono',ui-monospace,monospace">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px;font-weight:700;letter-spacing:.4em"><span>THE<span style="color:#00ff00">.</span>AGENCY</span></div>
+      <div style="margin:24px 20px 0;padding:56px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.5em;color:#00ff00;text-transform:uppercase">2-Day Website Promo</div>
+        <h1 style="margin:0;font-family:Syncopate,'Space Grotesk',system-ui,sans-serif;font-weight:700;text-transform:uppercase;line-height:1.15;font-size:clamp(24px,7.5vw,52px);max-width:56rem">Your business website in 2 days</h1>
+        <div style="font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;font-size:clamp(48px,12vw,72px);color:#00ff00">GH₵1,200</div>
+        <div style="font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:-24px">Usually <s>GH₵2,700</s></div>
+      </div>
+    </div>`;
+
+function promoExtras(html) {
+  return html
+    .replace("</head>", `    ${promoPreloads()}\n  </head>`)
+    .replace('<div id="root"></div>', `<div id="root">${PROMO_QUICK_LOOK}</div>`);
+}
+
 for (const page of pages) {
-  const html = swap(base, page);
+  let html = swap(base, page);
+  if (page.file === "promo.html") html = promoExtras(html);
   writeFileSync(`${distDir}/${page.file}`, html, "utf-8");
   console.log(`✓ Generated dist/${page.file}`);
 }
+
+// The build manifest is only needed here; don't publish it with the site
+rmSync(`${distDir}/.vite`, { recursive: true, force: true });
 
 console.log("OG pages generated successfully.");
