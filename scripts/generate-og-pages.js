@@ -111,7 +111,7 @@ function promoPreloads() {
 }
 
 const PROMO_QUICK_LOOK = `<div style="min-height:100vh;background:#000;color:#fff;font-family:'Space Mono',ui-monospace,monospace">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px;font-weight:700;letter-spacing:.4em"><span>THE<span style="color:#00ff00">.</span>AGENCY</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px;font-weight:700;letter-spacing:.4em"><span>THE<span style="color:#00ff00">.</span>AGENCY</span><span style="font-size:10px;letter-spacing:.2em;color:#00ff00;border:1px solid rgba(0,255,0,.3);padding:8px 16px;text-transform:uppercase">Request</span></div>
       <div style="margin:24px 20px 0;padding:56px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px">
         <div style="font-size:10px;font-weight:700;letter-spacing:.5em;color:#00ff00;text-transform:uppercase">2-Day Website Promo</div>
         <h1 style="margin:0;font-family:Syncopate,'Space Grotesk',system-ui,sans-serif;font-weight:700;text-transform:uppercase;line-height:1.15;font-size:clamp(24px,7.5vw,52px);max-width:56rem">Your business website in 2 days</h1>

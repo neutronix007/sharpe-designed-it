@@ -9,6 +9,11 @@ import { track } from "../pixel";
 // Ad landing page for the 2-day website promo. Kept light for mobile data: no intro loader, posters first,
 // and each clip only loads once it scrolls into view.
 
+// Someone who lands on /promo has already seen the quick-look headline and price from promo.html (it's still
+// inside #root when this file loads). Show the real ones in place instead of blinking them out and fading back.
+const LANDED_HERE = typeof document !== "undefined" && !!document.querySelector("#root > *");
+const heroIntro = <T,>(from: T): T | false => (LANDED_HERE ? false : from);
+
 const WHATSAPP_NUMBER = "233509605932";
 const WHATSAPP_DISPLAY = "050 960 5932";
 const CALL_DISPLAY = "059 197 4504";
@@ -262,25 +267,25 @@ export default function Promo() {
               <img src="/palm-frond.webp" alt="" draggable={false} className="w-full translate-x-[6%] -scale-x-100 rotate-[8deg] [mask-image:linear-gradient(to_top,transparent,black_22%)]" />
             </motion.div>
           </motion.div>
-          <motion.div className="relative z-10" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <motion.div className="relative z-10" initial={heroIntro({ opacity: 0, y: 16 })} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <SectionLabel>2-Day Website Promo</SectionLabel>
           </motion.div>
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={heroIntro({ opacity: 0, y: 20 })}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="relative z-10 font-tech font-bold uppercase leading-[1.15] tracking-tight text-[7.5vw] md:text-[3.4vw] max-w-4xl"
           >
             Your business website <span className="whitespace-nowrap">in 2 days</span>
           </motion.h1>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }} className="relative z-10 flex flex-col items-center gap-1">
+          <motion.div initial={heroIntro({ opacity: 0, y: 20 })} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }} className="relative z-10 flex flex-col items-center gap-1">
             <div className="font-display font-bold text-5xl md:text-7xl tracking-tight" style={{ color: GREEN }}>GH₵1,200</div>
             <div className="text-[11px] uppercase tracking-[0.25em] text-white/40">
               Usually <span className="line-through">GH₵2,700</span>
             </div>
           </motion.div>
           <motion.ul
-            initial={{ opacity: 0 }}
+            initial={heroIntro({ opacity: 0 })}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.4 }}
             className="relative z-10 flex flex-wrap justify-center gap-2 max-w-xl"
@@ -291,7 +296,7 @@ export default function Promo() {
               </li>
             ))}
           </motion.ul>
-          <motion.div className="relative z-10" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.55 }}>
+          <motion.div className="relative z-10" initial={heroIntro({ opacity: 0, y: 16 })} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.55 }}>
             <GlowButton onClick={scrollToForm}>Request your website</GlowButton>
           </motion.div>
         </section>
