@@ -51,7 +51,6 @@ const FAQ = [
   { q: "I need something bigger", a: "Online stores, booking systems, extra pages and apps are priced separately. Mention it in the form and we'll send a quote." },
 ];
 
-const BUSINESS_TYPES = ["Food & drink", "Beauty & salon", "Shop / sell products", "Services", "Property & construction", "Health", "Other"];
 
 function Corners({ size = "w-6 h-6", tone = "border-[#00ff00]/40" }: { size?: string; tone?: string }) {
   return (
@@ -366,7 +365,17 @@ export default function Promo() {
                 <div className="flex flex-col gap-3 mb-9">
                   <SectionLabel>Request.Form</SectionLabel>
                   <h2 className="font-tech text-xl md:text-3xl font-bold uppercase leading-tight">Request your website</h2>
-                  <p className="text-[12px] text-white/50 leading-relaxed font-sans">About a minute. We'll reply on WhatsApp.</p>
+                  <p className="text-[12px] text-white/50 leading-relaxed font-sans">About a minute. No payment today.</p>
+                </div>
+                {/* Says plainly what this form is for, so people who want a course, an app or a full shop know before they fill it */}
+                <div className="mb-8 border border-[#00ff00]/30 bg-[#00ff00]/[0.04] p-5 space-y-3">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00ff00]">What you're asking for</div>
+                  <ul className="space-y-2 text-[12px] text-white/80 leading-relaxed font-sans">
+                    <li>A 3-page website for your business: GH₵1,200 in total.</li>
+                    <li>Ready 2 days after you send us your logo, photos and a few lines about your business.</li>
+                    <li>Customers can contact you or order on WhatsApp from it.</li>
+                    <li className="text-white/50">This is not a course, an app, or a shop where customers pay online (we quote those separately).</li>
+                  </ul>
                 </div>
                 <form onSubmit={onSubmit} className="flex flex-col gap-6">
                   <input type="hidden" name="_subject" value="🚀 PROMO PAGE — New website request" />
@@ -404,13 +413,6 @@ export default function Promo() {
                     <input name="business" required placeholder="e.g. Ama's Kitchen" className={inputClass} />
                   </Field>
 
-                  <Field label="What does your business do?">
-                    <select name="business_type" required defaultValue="" className={`${inputClass} appearance-none invalid:text-white/25`}>
-                      <option value="" disabled>Choose one</option>
-                      {BUSINESS_TYPES.map((t) => <option key={t} value={t} className="bg-black">{t}</option>)}
-                    </select>
-                  </Field>
-
                   <Field label="What do you sell or do?">
                     <input name="sells" required placeholder="e.g. phones and accessories" className={inputClass} />
                   </Field>
@@ -429,18 +431,14 @@ export default function Promo() {
                   </div>
 
                   <div className="flex flex-col gap-3">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">Do you have your logo, photos and text ready?</span>
-                    <ChoiceGroup name="content_ready" options={["Yes", "Some of it", "No, I need help"]} />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">Do you have a logo, photos of your business, and a few lines about what you do?</span>
+                    <ChoiceGroup name="content_ready" stacked options={["Yes, I have them", "I have some of them", "No, I need help with them"]} />
+                    <span className="text-[11px] text-white/40 font-sans">That's fine if not, we can help you put them together.</span>
                   </div>
 
                   <div className="flex flex-col gap-3">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">When do you want to start?</span>
-                    <ChoiceGroup name="start" options={["This week", "This month", "Just looking"]} />
-                  </div>
-
-                  <div className="flex flex-col gap-3">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">How should we reach you?</span>
-                    <ChoiceGroup name="contact_pref" options={["WhatsApp", "Call"]} />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">When do you want your website?</span>
+                    <ChoiceGroup name="start" stacked options={["This week", "This month", "I'm only asking for now"]} />
                   </div>
 
                   <label className="flex items-start gap-3 cursor-pointer border border-white/10 p-4">
@@ -452,12 +450,21 @@ export default function Promo() {
 
                   <ValidationError errors={state.errors} className="text-xs text-red-400" />
 
+                  <div className="space-y-2">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">What happens next</div>
+                    <ol className="space-y-1.5 text-[12px] text-white/70 font-sans leading-relaxed list-decimal pl-5">
+                      <li>We message you on WhatsApp, usually the same day.</li>
+                      <li>You pay GH₵600 by MoMo to book your slot.</li>
+                      <li>You send your logo, photos and text, and we build your site in 2 days.</li>
+                    </ol>
+                  </div>
+
                   <button
                     type="submit"
                     disabled={state.submitting}
                     className="w-full bg-[#00ff00] text-black py-4 text-[11px] font-bold uppercase tracking-[0.25em] hover:bg-white transition-colors disabled:opacity-60"
                   >
-                    {state.submitting ? "Sending…" : "Send request"}
+                    {state.submitting ? "Sending…" : "Send my request (no payment now)"}
                   </button>
                 </form>
               </>
