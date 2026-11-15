@@ -40,7 +40,7 @@ export default function Navbar() {
             to="/agency"
             className="text-white font-bold tracking-widest uppercase text-[10px] border border-white/20 px-3 py-1 hover:bg-white hover:text-black transition-all"
           >
-            Agency
+            Websites
           </Link>
           <button onClick={() => goToSection("projects")} className="hover:text-white transition-colors">
             Projects
@@ -113,7 +113,7 @@ export default function Navbar() {
             className="fixed inset-0 z-[55] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
           >
             <Link to="/agency" onClick={() => setIsOpen(false)} className="text-3xl font-display font-bold hover:text-white/60 transition-colors">
-              Agency
+              Websites
             </Link>
             <button onClick={() => goToSection("projects")} className="text-3xl font-display font-bold hover:text-white/60 transition-colors">
               Projects

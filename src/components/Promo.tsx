@@ -233,7 +233,7 @@ export default function Promo() {
       {/* Header */}
       <header className="relative z-20 flex items-center justify-between px-5 md:px-12 py-5 border-b border-white/5">
         <a href="/agency" className="text-[11px] font-bold uppercase tracking-[0.4em]">
-          THE<span style={{ color: GREEN }}>.</span>AGENCY
+          SHARPE<span style={{ color: GREEN }}>.</span>DESIGNED<span style={{ color: GREEN }}>.</span>IT
         </a>
         <button onClick={scrollToForm} className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#00ff00] border border-[#00ff00]/30 px-4 py-2 hover:bg-[#00ff00] hover:text-black transition-colors">
           Request

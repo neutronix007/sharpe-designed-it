@@ -39,7 +39,7 @@ export default function AgencyNavbar({ top, onContactClick }: AgencyNavbarProps)
           onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}
           className="text-[12px] font-bold uppercase tracking-[0.3em] hover:text-[#00ff00] transition-colors"
         >
-          The<span className="text-[#00ff00]">.</span>Agency
+          Sharpe<span className="text-[#00ff00]">.</span>Designed<span className="text-[#00ff00]">.</span>It
         </a>
 
         <div className="hidden md:flex items-center gap-8">

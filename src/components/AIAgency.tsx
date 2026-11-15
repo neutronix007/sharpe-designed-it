@@ -531,7 +531,7 @@ export default function AIAgency() {
       </motion.div>
 
       <SEO
-        title="The Agency | Clifford Sharpe — We Build Killer Landing Pages"
+        title="Sharpe Designed It | Websites & Landing Pages, Accra"
         description="Custom landing pages and websites built to convert. Beautiful design, smooth animations, and fast performance. We help brands stand out online."
         image="/og/agency.jpg"
         path="/agency"
@@ -829,7 +829,7 @@ export default function AIAgency() {
 
             {/* Brand */}
             <div className="space-y-4">
-              <div className="text-[10px] font-bold text-[#00ff00] uppercase tracking-[0.4em]">THE.AGENCY</div>
+              <div className="text-[10px] font-bold text-[#00ff00] uppercase tracking-[0.4em]">SHARPE.DESIGNED.IT</div>
               <p className="text-[9px] text-white/30 uppercase leading-relaxed tracking-widest">
                 Clifford Sharpe — Designer. We build landing pages and websites that drive real results for startups and brands.
               </p>
@@ -879,7 +879,7 @@ export default function AIAgency() {
           </div>
 
           <div className="flex justify-between items-center py-8 text-[8px] uppercase tracking-[0.5em] text-white/10 border-t border-white/5">
-            <div>© 2026 CLIFFORD SHARPE // THE AGENCY // ALL RIGHTS RESERVED</div>
+            <div>© 2026 SHARPE DESIGNED IT // CLIFFORD SHARPE // ALL RIGHTS RESERVED</div>
             <div className="hidden md:flex items-center gap-4">
               <span>info@cliffordsharpe.com</span>
               <div className="w-4 h-[1px] bg-white/5" />
