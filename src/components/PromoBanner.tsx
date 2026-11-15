@@ -28,8 +28,8 @@ export default function PromoBanner({ onCtaClick, onClose }: PromoBannerProps) {
               <p className="truncate text-[10px] md:text-[11px] text-white/70 uppercase tracking-wide">
                 <span className="font-bold tracking-widest text-[#00ff00]">Limited Offer</span>
                 <span className="mx-2 text-white/30">•</span>
-                <span className="sm:hidden"><span className="text-[#00ff00] font-bold">48-hour</span> website</span>
-                <span className="hidden sm:inline">Website built in <span className="text-[#00ff00] font-bold">48 hours</span></span>
+                <span className="sm:hidden">Website in <span className="text-[#00ff00] font-bold">2 days</span></span>
+                <span className="hidden sm:inline">Your website in <span className="text-[#00ff00] font-bold">2 days</span> for GH₵1,200</span>
                 <span className="hidden lg:inline"> — perfect for startups & launches</span>
               </p>
             </div>
