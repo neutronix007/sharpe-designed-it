@@ -511,7 +511,20 @@ export default function Promo() {
 
                   <div className="flex flex-col gap-3">
                     <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/50">When do you want to start?</span>
-                    <ChoiceGroup name="start" stacked options={["This week", "This month", "I'm only asking for now"]} />
+                    <ChoiceGroup name="start" stacked options={["This week", "Within the next 2 weeks", "This month"]} />
+                    {/* No "just asking" option: people with a question go straight to a chat instead of filling the form */}
+                    <span className="text-[11px] text-white/40 font-sans">
+                      Just have a question first?{" "}
+                      <a
+                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi! I have a question about the GH₵1,200 website promo.")}`}
+                        onClick={() => track("Contact")}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#00ff00] underline underline-offset-2"
+                      >
+                        Ask us on WhatsApp
+                      </a>
+                    </span>
                   </div>
 
                   <label className="flex items-start gap-3 cursor-pointer border border-white/10 p-4">
