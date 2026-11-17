@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Zap } from "lucide-react";
+import { useBlackFridayCountdown } from "../blackFriday";
 
 interface PromoBannerProps {
   onCtaClick: () => void;
@@ -9,6 +10,8 @@ interface PromoBannerProps {
 
 export default function PromoBanner({ onCtaClick, onClose }: PromoBannerProps) {
   const [isVisible, setIsVisible] = useState(true);
+  const countdown = useBlackFridayCountdown();
+  const bf = !!countdown;
 
   if (!isVisible) return null;
 
@@ -26,11 +29,21 @@ export default function PromoBanner({ onCtaClick, onClose }: PromoBannerProps) {
             <div className="flex items-center gap-2 min-w-0 flex-1">
               <Zap size={14} className="text-[#00ff00] flex-shrink-0" />
               <p className="truncate text-[10px] md:text-[11px] text-white/70 uppercase tracking-wide">
-                <span className="font-bold tracking-widest text-[#00ff00]">Limited Offer</span>
+                <span className="font-bold tracking-widest text-[#00ff00]">{bf ? "Black Friday" : "Limited Offer"}</span>
                 <span className="mx-2 text-white/30">•</span>
-                <span className="sm:hidden">Website in <span className="text-[#00ff00] font-bold">2 days</span></span>
-                <span className="hidden sm:inline">Your website in <span className="text-[#00ff00] font-bold">2 days</span> for GH₵1,200</span>
-                <span className="hidden lg:inline"> — perfect for startups & launches</span>
+                {bf ? (
+                  <>
+                    <span className="sm:hidden">Free bonuses · ends <span className="text-[#00ff00] font-bold">30 Nov</span></span>
+                    <span className="hidden sm:inline">Website in 2 days for GH₵1,200 <span className="text-[#00ff00] font-bold">+ free extra page &amp; logo touch-up</span></span>
+                    <span className="hidden lg:inline"> · ends in {countdown!.label}</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="sm:hidden">Website in <span className="text-[#00ff00] font-bold">2 days</span></span>
+                    <span className="hidden sm:inline">Your website in <span className="text-[#00ff00] font-bold">2 days</span> for GH₵1,200</span>
+                    <span className="hidden lg:inline"> — perfect for startups & launches</span>
+                  </>
+                )}
               </p>
             </div>
 

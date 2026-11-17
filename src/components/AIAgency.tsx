@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, type ReactNode, type Key } from "react";
 import { motion, AnimatePresence, useScroll, useReducedMotion } from "motion/react";
 import { useNavigate } from "react-router-dom";
-import { ChevronRight, ChevronLeft, Quote, Monitor, X, Crown, LayoutTemplate } from "lucide-react";
+import { ChevronRight, ChevronLeft, Quote, Monitor, X, Crown, LayoutTemplate, Play } from "lucide-react";
+import { videoFor } from "../blackFriday";
 import SEO from "./SEO";
 import ContactForm from "./ContactForm";
 import PromoBanner from "./PromoBanner";
@@ -342,28 +343,10 @@ const forceMutedAutoplay =(el: HTMLVideoElement | null) => {
 // Still poster for a project, made from its preview clip (public/posters/<slug>.webp).
 const posterFor = (thumbSrc: string) => `/posters/${thumbSrc.split("/").pop()!.replace(/\.mp4$/, "")}.webp`;
 
-// Work-card preview: the poster shows straight away; the small fast-forward clip only downloads
-// when the card comes near the screen, and only plays while it's on screen. With 19 cards this is
-// the difference between 20+ MB of video decoding at once and two or three small clips.
-function LazyThumb({ src, className }: { src: string; className: string }) {
-  const ref = useRef<HTMLVideoElement>(null);
-  useEffect(() => {
-    const v = ref.current;
-    if (!v) return;
-    forceMutedAutoplay(v);
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          if (!v.getAttribute("src")) v.src = src;
-          v.play().catch(() => {});
-        } else v.pause();
-      },
-      { rootMargin: "200px 0px" }
-    );
-    io.observe(v);
-    return () => io.disconnect();
-  }, [src]);
-  return <video ref={ref} poster={posterFor(src)} muted loop playsInline preload="none" className={className} />;
+// Work-card picture: just the still poster. The video only downloads when someone taps the card,
+// so a phone scrolling past 21 projects loads 21 small pictures instead of 21 clips.
+function PosterThumb({ src, className }: { src: string; className: string }) {
+  return <img src={posterFor(src)} alt="" loading="lazy" decoding="async" className={className} />;
 }
 
 const TESTIMONIALS = [
@@ -695,7 +678,9 @@ export default function AIAgency() {
             </div>
           )}
 
-          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {/* 2 per row on phones, 3 on tablets, 5 on computers */}
+          <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-3 gap-y-5 md:gap-x-4">
+
             {visibleProjects.map((project, i) => {
               const lit = !GRAYSCALE_CARDS || focusedProject === project.id;
               return (
@@ -707,14 +692,14 @@ export default function AIAgency() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: Math.min(i, 8) * 0.05 }}
-                className="flex flex-col gap-3 cursor-pointer group"
+                className="flex flex-col gap-2 cursor-pointer group"
                 onClick={() => { setModalAspect(16 / 9); setSelectedProject(project); }}
               >
                 <div className="relative aspect-video overflow-hidden border border-white/10 bg-white/5">
                   {project.localSrc ? (
-                    <LazyThumb
+                    <PosterThumb
                       src={project.thumbSrc}
-                      className={`w-full h-full object-cover pointer-events-none transition-all duration-700 ${lit ? "grayscale-0" : "grayscale group-hover:grayscale-0"}`}
+                      className={`w-full h-full object-cover pointer-events-none transition-all duration-700 group-hover:scale-105 ${lit ? "grayscale-0" : "grayscale group-hover:grayscale-0"}`}
                     />
                   ) : (
                     <iframe
@@ -724,19 +709,18 @@ export default function AIAgency() {
                     />
                   )}
                   <div className={`absolute inset-0 transition-colors duration-500 ${lit ? "bg-transparent" : "bg-black/20 group-hover:bg-transparent"}`} />
-                  <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
-                  <div className="absolute top-3 left-3 text-[10px] font-bold text-[#00ff00]">{project.id}</div>
-                  <div className="absolute top-3 right-3"><KindBadge kind={project.kind} /></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="text-[9px] text-white/40 uppercase tracking-widest mb-1">{project.category}</div>
-                    <div className="text-base font-bold uppercase tracking-tight">{project.title}</div>
+                  <div className="absolute top-2 left-2 text-[9px] font-bold text-[#00ff00] bg-black/60 px-1">{project.id}</div>
+                  <div className="absolute top-2 right-2 scale-90 origin-top-right"><KindBadge kind={project.kind} /></div>
+                  {/* Tap to watch */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 transition-colors">
+                    <span className="w-9 h-9 rounded-full bg-black/60 border border-[#00ff00]/50 flex items-center justify-center opacity-80 group-hover:opacity-100">
+                      <Play size={14} className="text-[#00ff00] ml-0.5" fill="currentColor" />
+                    </span>
                   </div>
-                  {/* Expand hint */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="border border-[#00ff00]/40 text-[#00ff00] text-[9px] uppercase tracking-widest px-3 py-1.5">
-                      View Details
-                    </div>
-                  </div>
+                </div>
+                <div className="flex flex-col gap-0.5 min-w-0">
+                  <div className="text-[11px] font-bold uppercase tracking-tight truncate">{project.title}</div>
+                  <div className="text-[8px] text-white/40 uppercase tracking-widest truncate">{project.category}</div>
                 </div>
               </motion.div>
               );
@@ -936,7 +920,7 @@ export default function AIAgency() {
               >
                 {selectedProject.localSrc ? (
                   <video
-                    src={selectedProject.localSrc}
+                    src={videoFor(selectedProject.localSrc)}
                     poster={posterFor(selectedProject.thumbSrc)}
                     ref={forceMutedAutoplay}
                     autoPlay

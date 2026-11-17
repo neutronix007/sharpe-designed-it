@@ -110,13 +110,19 @@ function promoPreloads() {
   return [...files].map((f) => `<link rel="modulepreload" crossorigin href="/${f}" />`).join("\n    ");
 }
 
+// The Black Friday bar is time-based (src/blackFriday.ts), so the quick look decides in the browser too,
+// otherwise the page would jump down when the real bar appears.
+const BF_BAR = `<div id="bf-ql" style="display:none;padding:10px 16px;background:#00ff00;color:#000;text-align:center;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase">Black Friday deal · Free bonuses if you book by 30 Nov</div>
+      <script>(function(){var n=Date.now();if(n>=Date.UTC(2026,10,17)&&n<Date.UTC(2026,11,1))document.getElementById("bf-ql").style.display="block"})()</script>`;
+
 const PROMO_QUICK_LOOK = `<div style="min-height:100vh;background:#000;color:#fff;font-family:'Space Mono',ui-monospace,monospace">
       <div style="display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid rgba(255,255,255,.05);font-size:11px;font-weight:700;letter-spacing:.4em"><span>SHARPE<span style="color:#00ff00">.</span>DESIGNED<span style="color:#00ff00">.</span>IT</span><span style="font-size:10px;letter-spacing:.2em;color:#00ff00;border:1px solid rgba(0,255,0,.3);padding:8px 16px;text-transform:uppercase">Request</span></div>
-      <div style="margin:24px 20px 0;padding:56px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px">
+      ${BF_BAR}
+      <div style="margin:16px 20px 0;padding:36px 20px 32px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px">
         <div style="font-size:10px;font-weight:700;letter-spacing:.5em;color:#00ff00;text-transform:uppercase">2-Day Website Promo</div>
         <h1 style="margin:0;font-family:Syncopate,'Space Grotesk',system-ui,sans-serif;font-weight:700;text-transform:uppercase;line-height:1.15;font-size:clamp(24px,7.5vw,52px);max-width:56rem">Your business website in 2 days</h1>
         <div style="font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;font-size:clamp(48px,12vw,72px);color:#00ff00">GH₵1,200</div>
-        <div style="font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:-24px">Usually <s>GH₵2,700</s></div>
+        <div style="font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-top:-16px">Usually <s>GH₵2,700</s></div>
       </div>
     </div>`;
 
