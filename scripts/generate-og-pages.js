@@ -37,6 +37,13 @@ const pages = [
     url: "https://cliffordsharpe.com/agency",
   },
   {
+    file: "company.html",
+    title: "Company Websites | Sharpe Designed It — from GH₵3,500",
+    description: "Professional websites for companies in Ghana: up to 6 pages, quote form, business email on your domain and Google setup. From GH₵3,500, ready in 7–10 days.",
+    image: "https://cliffordsharpe.com/og/agency.jpg",
+    url: "https://cliffordsharpe.com/company",
+  },
+  {
     file: "promo.html",
     title: "2-Day Website Promo | Sharpe Designed It — GH₵1,200",
     description: "Your business website in 2 days for GH₵1,200. 3 pages that work on any phone or computer, your own web address free for the first year, WhatsApp and Google Maps.",

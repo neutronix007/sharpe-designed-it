@@ -14,13 +14,15 @@ const Footer   = lazy(() => import("./components/Footer"));
 const AIAgency = lazy(() => import("./components/AIAgency"));
 const Archive  = lazy(() => import("./components/Archive"));
 const Promo    = lazy(() => import("./components/Promo"));
+const Company  = lazy(() => import("./components/Company"));
 
 // main.tsx loads the promo page before the first render when someone lands on /promo, and passes it in
 // here, so it renders straight away instead of flashing an empty screen while the code downloads.
 function AppContent({ promoPage: PromoPage }: { promoPage?: ComponentType }) {
   const location = useLocation();
   // The ad landing page skips the intro loader so it opens fast on mobile data
-  const isPromo = location.pathname === "/promo";
+  // Ad landing pages (/promo, /company) skip the intro loader and the site's navbar/footer
+  const isPromo = location.pathname === "/promo" || location.pathname === "/company";
   const [isLoading, setIsLoading] = useState(!isPromo);
   const [isDesktop, setIsDesktop] = useState(false);
   const navigate = useNavigate();
@@ -158,6 +160,16 @@ function AppContent({ promoPage: PromoPage }: { promoPage?: ComponentType }) {
                   <Promo />
                 </Suspense>
               )
+            }
+          />
+
+          {/* Company websites (from GH₵3,500) — ad landing page, code-split */}
+          <Route
+            path="/company"
+            element={
+              <Suspense fallback={<div className="min-h-screen bg-black" />}>
+                <Company />
+              </Suspense>
             }
           />
         </Routes>
