@@ -35,7 +35,7 @@ const INDUSTRIES = [
 const INCLUDED = [
   "Up to 6 pages: Home, About, Services, Projects or Clients, Team, Contact",
   "Quote / enquiry form that sends straight to your email",
-  "Professional email on your own domain (e.g. info@yourcompany.com)",
+  "Professional email address on your own domain (e.g. info@yourcompany.com), free, into your existing inbox",
   "Google Business Profile and basic Google setup, so clients can find you",
   "Works on any phone or computer, and loads fast on mobile data",
   "WhatsApp button, Google Maps and your social media links",
@@ -58,7 +58,8 @@ const FAQ = [
   { q: "Can you redesign our current website?", a: "Yes. Tell us your current web address in the form and we'll suggest what to keep and what to change." },
   { q: "Who owns the website and domain?", a: "Your company does. The domain is registered in your name, and once fully paid you own the website and its code." },
   { q: "What do you need from us?", a: "Your logo, photos of your team, work or premises, and the details of your services. Missing something? We can help put it together." },
-  { q: "What happens after the first year?", a: "Hosting stays free. Your domain renews at about GH₵200 a year, and your business email depends on the plan you choose." },
+  { q: "Does the business email cost extra?", a: "No. Your address (like info@yourcompany.com) forwards to an inbox you already use, such as Gmail, and you can reply from it, free of charge. If you'd rather have separate full mailboxes, Google Workspace or Microsoft 365 charge about $7 per person per month, paid to them directly. We can set that up for you." },
+  { q: "What happens after the first year?", a: "Hosting stays free. Your domain renews at about GH₵200 a year." },
 ];
 
 const ROLES = ["Owner / CEO / MD", "Manager", "Marketing / communications", "Other"];
